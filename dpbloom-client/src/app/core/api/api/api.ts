@@ -1,0 +1,17 @@
+export * from './attempts.service';
+import { AttemptsService } from './attempts.service';
+export * from './auth.service';
+import { AuthService } from './auth.service';
+export * from './course.service';
+import { CourseService } from './course.service';
+export * from './exams.service';
+import { ExamsService } from './exams.service';
+export * from './lecture.service';
+import { LectureService } from './lecture.service';
+export * from './recommendationsTemplate.service';
+import { RecommendationsTemplateService } from './recommendationsTemplate.service';
+export * from './topic.service';
+import { TopicService } from './topic.service';
+export * from './user.service';
+import { UserService } from './user.service';
+export const APIS = [AttemptsService, AuthService, CourseService, ExamsService, LectureService, RecommendationsTemplateService, TopicService, UserService];
