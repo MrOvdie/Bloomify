@@ -1,1 +1,17 @@
-/* You can add global styles to this file, and also import other style files */
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+app-root {
+  display: block;
+  min-height: 100vh;
+}
+
+:root {
+  --forms-bg: #FFD9D9; //25% for bg
+  --button-bg: #FFA1A1;
+
+  --border-color: #FFA9A9;
+}

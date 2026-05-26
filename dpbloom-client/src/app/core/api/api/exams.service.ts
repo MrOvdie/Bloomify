@@ -19,6 +19,10 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 // @ts-ignore
 import { CreateExamDto } from '../model/createExamDto';
 // @ts-ignore
+import { ExamDetailsDto } from '../model/examDetailsDto';
+// @ts-ignore
+import { ExamRecordDto } from '../model/examRecordDto';
+// @ts-ignore
 import { UpdateExamDto } from '../model/updateExamDto';
 
 // @ts-ignore
@@ -43,10 +47,10 @@ export class ExamsService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiExamsAllGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiExamsAllGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiExamsAllGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiExamsAllGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiExamsAllGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ExamRecordDto>>;
+    public apiExamsAllGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ExamRecordDto>>>;
+    public apiExamsAllGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ExamRecordDto>>>;
+    public apiExamsAllGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -54,6 +58,9 @@ export class ExamsService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -77,7 +84,7 @@ export class ExamsService extends BaseService {
 
         let localVarPath = `/api/Exams/all`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<Array<ExamRecordDto>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -97,10 +104,10 @@ export class ExamsService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiExamsCourseCourseIdGet(courseId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiExamsCourseCourseIdGet(courseId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiExamsCourseCourseIdGet(courseId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiExamsCourseCourseIdGet(courseId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiExamsCourseCourseIdGet(courseId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<ExamRecordDto>>;
+    public apiExamsCourseCourseIdGet(courseId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<ExamRecordDto>>>;
+    public apiExamsCourseCourseIdGet(courseId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<ExamRecordDto>>>;
+    public apiExamsCourseCourseIdGet(courseId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (courseId === null || courseId === undefined) {
             throw new Error('Required parameter courseId was null or undefined when calling apiExamsCourseCourseIdGet.');
         }
@@ -111,6 +118,9 @@ export class ExamsService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -134,7 +144,7 @@ export class ExamsService extends BaseService {
 
         let localVarPath = `/api/Exams/course/${this.configuration.encodeParam({name: "courseId", value: courseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<Array<ExamRecordDto>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -155,10 +165,10 @@ export class ExamsService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiExamsCourseIdPost(courseId: string, createExamDto: CreateExamDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiExamsCourseIdPost(courseId: string, createExamDto: CreateExamDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiExamsCourseIdPost(courseId: string, createExamDto: CreateExamDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiExamsCourseIdPost(courseId: string, createExamDto: CreateExamDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiExamsCourseIdPost(courseId: string, createExamDto: CreateExamDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<ExamDetailsDto>;
+    public apiExamsCourseIdPost(courseId: string, createExamDto: CreateExamDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExamDetailsDto>>;
+    public apiExamsCourseIdPost(courseId: string, createExamDto: CreateExamDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExamDetailsDto>>;
+    public apiExamsCourseIdPost(courseId: string, createExamDto: CreateExamDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (courseId === null || courseId === undefined) {
             throw new Error('Required parameter courseId was null or undefined when calling apiExamsCourseIdPost.');
         }
@@ -172,6 +182,9 @@ export class ExamsService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -206,7 +219,7 @@ export class ExamsService extends BaseService {
 
         let localVarPath = `/api/Exams/${this.configuration.encodeParam({name: "courseId", value: courseId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ExamDetailsDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: createExamDto,
@@ -227,10 +240,10 @@ export class ExamsService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiExamsIdDelete(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiExamsIdDelete(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiExamsIdDelete(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiExamsIdDelete(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiExamsIdDelete(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<ExamDetailsDto>;
+    public apiExamsIdDelete(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExamDetailsDto>>;
+    public apiExamsIdDelete(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExamDetailsDto>>;
+    public apiExamsIdDelete(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiExamsIdDelete.');
         }
@@ -241,6 +254,9 @@ export class ExamsService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -264,7 +280,7 @@ export class ExamsService extends BaseService {
 
         let localVarPath = `/api/Exams/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ExamDetailsDto>('delete', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -284,10 +300,10 @@ export class ExamsService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiExamsIdGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiExamsIdGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiExamsIdGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiExamsIdGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiExamsIdGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<ExamDetailsDto>;
+    public apiExamsIdGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExamDetailsDto>>;
+    public apiExamsIdGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExamDetailsDto>>;
+    public apiExamsIdGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiExamsIdGet.');
         }
@@ -298,6 +314,9 @@ export class ExamsService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -321,7 +340,7 @@ export class ExamsService extends BaseService {
 
         let localVarPath = `/api/Exams/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ExamDetailsDto>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -414,10 +433,10 @@ export class ExamsService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiExamsIdRestorePatch(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiExamsIdRestorePatch(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiExamsIdRestorePatch(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiExamsIdRestorePatch(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiExamsIdRestorePatch(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<ExamDetailsDto>;
+    public apiExamsIdRestorePatch(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ExamDetailsDto>>;
+    public apiExamsIdRestorePatch(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ExamDetailsDto>>;
+    public apiExamsIdRestorePatch(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiExamsIdRestorePatch.');
         }
@@ -428,6 +447,9 @@ export class ExamsService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -451,7 +473,7 @@ export class ExamsService extends BaseService {
 
         let localVarPath = `/api/Exams/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/restore`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('patch', `${basePath}${localVarPath}`,
+        return this.httpClient.request<ExamDetailsDto>('patch', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

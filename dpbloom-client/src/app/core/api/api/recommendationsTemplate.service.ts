@@ -19,6 +19,8 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 // @ts-ignore
 import { CreateRecommendationTemplate } from '../model/createRecommendationTemplate';
 // @ts-ignore
+import { RecommendationTemplateDto } from '../model/recommendationTemplateDto';
+// @ts-ignore
 import { UpdateRecommendationTemplate } from '../model/updateRecommendationTemplate';
 
 // @ts-ignore
@@ -43,10 +45,10 @@ export class RecommendationsTemplateService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiRecommendationsTemplateGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiRecommendationsTemplateGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiRecommendationsTemplateGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiRecommendationsTemplateGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiRecommendationsTemplateGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplateGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<RecommendationTemplateDto>>>;
+    public apiRecommendationsTemplateGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<RecommendationTemplateDto>>>;
+    public apiRecommendationsTemplateGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -54,6 +56,9 @@ export class RecommendationsTemplateService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -77,7 +82,7 @@ export class RecommendationsTemplateService extends BaseService {
 
         let localVarPath = `/api/RecommendationsTemplate`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<Array<RecommendationTemplateDto>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -97,10 +102,10 @@ export class RecommendationsTemplateService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiRecommendationsTemplateIdDelete(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiRecommendationsTemplateIdDelete(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiRecommendationsTemplateIdDelete(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiRecommendationsTemplateIdDelete(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiRecommendationsTemplateIdDelete(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<RecommendationTemplateDto>;
+    public apiRecommendationsTemplateIdDelete(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplateIdDelete(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplateIdDelete(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiRecommendationsTemplateIdDelete.');
         }
@@ -111,6 +116,9 @@ export class RecommendationsTemplateService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -134,7 +142,7 @@ export class RecommendationsTemplateService extends BaseService {
 
         let localVarPath = `/api/RecommendationsTemplate/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('delete', `${basePath}${localVarPath}`,
+        return this.httpClient.request<RecommendationTemplateDto>('delete', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -154,10 +162,10 @@ export class RecommendationsTemplateService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiRecommendationsTemplateIdGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiRecommendationsTemplateIdGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiRecommendationsTemplateIdGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiRecommendationsTemplateIdGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiRecommendationsTemplateIdGet(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<RecommendationTemplateDto>;
+    public apiRecommendationsTemplateIdGet(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplateIdGet(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplateIdGet(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiRecommendationsTemplateIdGet.');
         }
@@ -168,6 +176,9 @@ export class RecommendationsTemplateService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -191,7 +202,7 @@ export class RecommendationsTemplateService extends BaseService {
 
         let localVarPath = `/api/RecommendationsTemplate/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<RecommendationTemplateDto>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -211,10 +222,10 @@ export class RecommendationsTemplateService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiRecommendationsTemplateIdPatch(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiRecommendationsTemplateIdPatch(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiRecommendationsTemplateIdPatch(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiRecommendationsTemplateIdPatch(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiRecommendationsTemplateIdPatch(id: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<RecommendationTemplateDto>;
+    public apiRecommendationsTemplateIdPatch(id: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplateIdPatch(id: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplateIdPatch(id: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiRecommendationsTemplateIdPatch.');
         }
@@ -225,6 +236,9 @@ export class RecommendationsTemplateService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -248,7 +262,7 @@ export class RecommendationsTemplateService extends BaseService {
 
         let localVarPath = `/api/RecommendationsTemplate/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('patch', `${basePath}${localVarPath}`,
+        return this.httpClient.request<RecommendationTemplateDto>('patch', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -269,10 +283,10 @@ export class RecommendationsTemplateService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<RecommendationTemplateDto>;
+    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiRecommendationsTemplateIdPut.');
         }
@@ -286,6 +300,9 @@ export class RecommendationsTemplateService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -320,7 +337,7 @@ export class RecommendationsTemplateService extends BaseService {
 
         let localVarPath = `/api/RecommendationsTemplate/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('put', `${basePath}${localVarPath}`,
+        return this.httpClient.request<RecommendationTemplateDto>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: updateRecommendationTemplate,
@@ -341,10 +358,10 @@ export class RecommendationsTemplateService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<RecommendationTemplateDto>;
+    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (createRecommendationTemplate === null || createRecommendationTemplate === undefined) {
             throw new Error('Required parameter createRecommendationTemplate was null or undefined when calling apiRecommendationsTemplatePost.');
         }
@@ -355,6 +372,9 @@ export class RecommendationsTemplateService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -389,7 +409,7 @@ export class RecommendationsTemplateService extends BaseService {
 
         let localVarPath = `/api/RecommendationsTemplate`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<RecommendationTemplateDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: createRecommendationTemplate,

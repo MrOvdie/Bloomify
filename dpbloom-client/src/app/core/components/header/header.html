@@ -1,0 +1,19 @@
+<header class="main-header">
+  <div class="header-container">
+
+    <div class="avatar-container" routerLink="/courses">
+      <div class="avatar-placeholder">
+        <img [ngSrc]="'/Icons/default-user-avatar.png'" alt="Avatar Icon" fill priority>
+      </div>
+    </div>
+
+    <div class="username-wrapper">
+      <span class="username" (click)="goToUserProfile()">{{ userName || 'Username' }}</span>
+    </div>
+
+    <div class="header-icon-box">
+      <img [ngSrc]="'/Icons/blooms-flower.png'" (click)="goToCourses()" alt="Flower Icon" fill>
+    </div>
+
+  </div>
+</header>

@@ -1,0 +1,49 @@
+<div class="courses-page">
+  <h1 class="page-title">My courses</h1>
+
+  @if (isLoading) {
+    <div class="loader">Loading...</div>
+  } @else {
+    <div class="courses-list">
+      @for (course of coursesList; track course.id) {
+
+        <div class="course-card" (click)="goToCourse(course.id)">
+          <div class="course-icon">
+            <img ngSrc="/Icons/default-course-avatar.png" alt="Course Icon" class="cap-image" height="298"
+                 width="298">
+          </div>
+
+          <div class="course-details">
+            <h2 class="course-title">{{ course.title }}</h2>
+
+            <div class="progress-section">
+              <div class="bars-container">
+
+                <span class="progress-label top">Score %</span>
+
+                <div class="tracks-group">
+                  <div class="progress-track score">
+                    <div class="progress-fill" [style.width.%]="course.courseCompletion"></div>
+                  </div>
+                  <div class="progress-track test">
+                    <div class="progress-fill" [style.width.%]="course.examCompletion"></div>
+                  </div>
+                </div>
+
+                <span class="progress-label bottom">Test %</span>
+
+              </div>
+
+              <div class="score-display">
+                {{ course.score }}/100
+              </div>
+            </div>
+          </div>
+        </div>
+
+      } @empty {
+        <div class="empty-state">You don't have active courses for now.</div>
+      }
+    </div>
+  }
+</div>

@@ -17,6 +17,8 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { AuthResponseDto } from '../model/authResponseDto';
+// @ts-ignore
 import { ChangePasswordDto } from '../model/changePasswordDto';
 // @ts-ignore
 import { LoginRequestDto } from '../model/loginRequestDto';
@@ -24,6 +26,8 @@ import { LoginRequestDto } from '../model/loginRequestDto';
 import { RegisterUserDto } from '../model/registerUserDto';
 // @ts-ignore
 import { UpdateUserProfileDto } from '../model/updateUserProfileDto';
+// @ts-ignore
+import { UserProfileDto } from '../model/userProfileDto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -121,10 +125,10 @@ export class AuthService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiAuthLoginPost(loginRequestDto: LoginRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiAuthLoginPost(loginRequestDto: LoginRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiAuthLoginPost(loginRequestDto: LoginRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiAuthLoginPost(loginRequestDto: LoginRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiAuthLoginPost(loginRequestDto: LoginRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<AuthResponseDto>;
+    public apiAuthLoginPost(loginRequestDto: LoginRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AuthResponseDto>>;
+    public apiAuthLoginPost(loginRequestDto: LoginRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AuthResponseDto>>;
+    public apiAuthLoginPost(loginRequestDto: LoginRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (loginRequestDto === null || loginRequestDto === undefined) {
             throw new Error('Required parameter loginRequestDto was null or undefined when calling apiAuthLoginPost.');
         }
@@ -135,6 +139,9 @@ export class AuthService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -169,7 +176,7 @@ export class AuthService extends BaseService {
 
         let localVarPath = `/api/Auth/login`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<AuthResponseDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: loginRequestDto,
@@ -260,10 +267,10 @@ export class AuthService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiAuthUpdateProfileUserIdPut(userId: string, updateUserProfileDto: UpdateUserProfileDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiAuthUpdateProfileUserIdPut(userId: string, updateUserProfileDto: UpdateUserProfileDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiAuthUpdateProfileUserIdPut(userId: string, updateUserProfileDto: UpdateUserProfileDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiAuthUpdateProfileUserIdPut(userId: string, updateUserProfileDto: UpdateUserProfileDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiAuthUpdateProfileUserIdPut(userId: string, updateUserProfileDto: UpdateUserProfileDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<UserProfileDto>;
+    public apiAuthUpdateProfileUserIdPut(userId: string, updateUserProfileDto: UpdateUserProfileDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UserProfileDto>>;
+    public apiAuthUpdateProfileUserIdPut(userId: string, updateUserProfileDto: UpdateUserProfileDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UserProfileDto>>;
+    public apiAuthUpdateProfileUserIdPut(userId: string, updateUserProfileDto: UpdateUserProfileDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (userId === null || userId === undefined) {
             throw new Error('Required parameter userId was null or undefined when calling apiAuthUpdateProfileUserIdPut.');
         }
@@ -277,6 +284,9 @@ export class AuthService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -311,7 +321,7 @@ export class AuthService extends BaseService {
 
         let localVarPath = `/api/Auth/update-profile/${this.configuration.encodeParam({name: "userId", value: userId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('put', `${basePath}${localVarPath}`,
+        return this.httpClient.request<UserProfileDto>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 body: updateUserProfileDto,

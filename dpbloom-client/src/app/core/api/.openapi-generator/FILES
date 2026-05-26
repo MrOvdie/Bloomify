@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.base.service.ts
 api.module.ts
@@ -16,8 +15,13 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/aggregatedCourseStatsDto.ts
 model/attemptResultDto.ts
+model/attemptResultRecordDto.ts
+model/authResponseDto.ts
 model/changePasswordDto.ts
+model/courseAggregateDto.ts
+model/courseDto.ts
 model/createCourse.ts
 model/createExamDto.ts
 model/createLecture.ts
@@ -25,12 +29,19 @@ model/createOptionDto.ts
 model/createQuestionDto.ts
 model/createRecommendationTemplate.ts
 model/createTopic.ts
+model/examDetailsDto.ts
+model/examRecordDto.ts
+model/lectureDto.ts
 model/loginRequestDto.ts
 model/models.ts
+model/optionDto.ts
+model/questionDto.ts
 model/questionResultDto.ts
+model/recommendationTemplateDto.ts
 model/registerUserDto.ts
 model/submitAnswerDto.ts
 model/teacherEvaluationDto.ts
+model/topicDto.ts
 model/updateCourse.ts
 model/updateExamDto.ts
 model/updateLecture.ts
@@ -39,6 +50,7 @@ model/updateQuestionDto.ts
 model/updateRecommendationTemplate.ts
 model/updateTopic.ts
 model/updateUserProfileDto.ts
+model/userProfileDto.ts
 param.ts
 provide-api.ts
 query.params.ts

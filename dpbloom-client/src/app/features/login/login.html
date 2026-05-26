@@ -1,0 +1,24 @@
+<div class="login-wrapper">
+  <div class="form-body">
+    <h1 class="header-text">Bloomify</h1>
+    <p class="service-text">Please, log in to the system!</p>
+
+    <input
+      id="username"
+      type="text"
+      [(ngModel)]="username"
+      class="custom-input"
+      placeholder="Enter your username"
+    >
+
+    <input
+      id="password"
+      type="password"
+      [(ngModel)]="password"
+      class="custom-input"
+      placeholder="Enter your password"
+    >
+
+    <button class="login-button" (click)="onLogin()">Login</button>
+  </div>
+</div>

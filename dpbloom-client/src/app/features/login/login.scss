@@ -1,0 +1,75 @@
+.form-body {
+  background-color: #FFEEEE;
+  border-radius: 47px;
+  padding: 40px;
+
+  /* тінь з макета */
+  box-shadow: -10px 10px 10px rgba(170, 170, 170, 0.25);
+  position: relative;
+  z-index: 10;
+}
+
+.custom-input {
+  background-color: var(--forms-bg);
+  border-radius: 30px;
+  border: none;
+  height: 60px;
+  width: 100%;
+  padding: 0 20px;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: #A0AEC0;
+    font-style: italic;
+    opacity: 1;
+  }
+}
+
+.header-text {
+  font-size: 96px;
+  font-family: 'jsMath-cmti10', serif;
+  font-style: italic;
+  color: #FF7E7E;
+  margin-bottom: 5px;
+  align-self: center;
+}
+
+.service-text {
+  font-size: 36px;
+  font-family: 'Judson', serif;
+  color: #000000;
+  align-self: center;
+}
+
+.login-button {
+  background-color: #FFA1A1;
+  border-radius: 30px;
+  border: none;
+  height: 60px;
+  width: 100%;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.login-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; // На всю висоту екрана
+
+  background-image: url('/backgrounds/login.background.png');
+  background-size: cover;      // щоб картинка покривала весь екран
+  background-position: center; // щоб картинка була по центру
+  background-repeat: no-repeat;
+}
+
+.form-body {
+  width: 100%;
+  max-width: 600px; // Обмежуємо ширину, як у макеті
+  padding: 40px;
+  background-color: #FFEEEE;
+  border-radius: 47px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px; // Відступи між елементами
+}

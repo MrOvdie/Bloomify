@@ -1,0 +1,47 @@
+.main-header {
+  background-color: #fff0f2;
+  border-bottom: 2px solid #2d2d2d;
+  padding: 0.5rem 1.5rem;
+}
+
+.header-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 50px;
+}
+
+.avatar-placeholder {
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid #ccc;
+  position: relative;
+}
+
+.username-wrapper {
+  flex-grow: 1;
+  text-align: center;
+}
+
+.username {
+  color: #2d2d2d !important;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: 1.25rem;
+  font-weight: bolder;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    color: #ff8b94;
+  }
+}
+
+.header-icon-box {
+  width: 32px;
+  height: 32px;
+  position: relative;
+}
