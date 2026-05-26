@@ -9,13 +9,17 @@
  */
 
 
-export interface LectureDto { 
+export interface LectureDetailsDto { 
     title?: string;
     description?: string | null;
+    content?: string;
     targetBloomLevel?: number | null;
     courseId?: string;
     topicId?: string | null;
     authorId?: string;
+    lastUpdaterId?: string;
+    contentLinks?: Array<string> | null;
+    filePaths?: Array<string> | null;
     id?: string;
     createdOn?: string | null;
     updatedOn?: string | null;

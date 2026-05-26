@@ -9,15 +9,13 @@
 
     <div class="header-center">
       <div class="profile-title-group">
-        <span class="username-static">{{ userName || 'Username' }}</span>
-        <span class="divider">|</span>
-        <span class="header-page-title">Profile information</span>
+        <span class="username-wrapper">{{ userName || 'Username' }}</span>
       </div>
     </div>
 
     <div class="header-right">
       <div class="header-icon-box">
-        <img [ngSrc]="'/Icons/blooms-flower.png'" alt="Flower Icon" fill>
+        <img [ngSrc]="'/Icons/blooms-flower.png'" (click)="goToCourses()" alt="Flower Icon" fill>
       </div>
     </div>
 

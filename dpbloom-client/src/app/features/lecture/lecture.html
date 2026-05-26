@@ -1,1 +1,16 @@
-<p>lecture works!</p>
+@if (!isLoading && lecture) {
+  <div class="lecture-page">
+
+    <h1 class="lecture-title">{{ lecture.title }}</h1>
+
+    <div class="lecture-card description-card">
+      <p class="description-text">{{ lecture.description }}</p>
+    </div>
+
+    <div class="lecture-card content-card" [innerHTML]="lecture.content">
+    </div>
+
+  </div>
+} @else if (isLoading) {
+  <div class="loading-placeholder">Завантаження лекції...</div>
+}

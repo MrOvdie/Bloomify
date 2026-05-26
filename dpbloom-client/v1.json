@@ -1693,17 +1693,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/LectureDto"
+                  "$ref": "#/components/schemas/LectureDetailsDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LectureDto"
+                  "$ref": "#/components/schemas/LectureDetailsDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LectureDto"
+                  "$ref": "#/components/schemas/LectureDetailsDto"
                 }
               }
             }
@@ -1751,17 +1751,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/LectureDto"
+                  "$ref": "#/components/schemas/LectureDetailsDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LectureDto"
+                  "$ref": "#/components/schemas/LectureDetailsDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LectureDto"
+                  "$ref": "#/components/schemas/LectureDetailsDto"
                 }
               }
             }
@@ -2044,17 +2044,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/LectureDto"
+                  "$ref": "#/components/schemas/LectureDetailsDto"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LectureDto"
+                  "$ref": "#/components/schemas/LectureDetailsDto"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/LectureDto"
+                  "$ref": "#/components/schemas/LectureDetailsDto"
                 }
               }
             }
@@ -2821,6 +2821,46 @@
           }
         }
       }
+    },
+    "/api/User/profile-statistics/{userId}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlobalUserDashboardDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlobalUserDashboardDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/GlobalUserDashboardDto"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -2968,6 +3008,21 @@
       },
       "BloomLevel": {
         "type": "integer"
+      },
+      "BloomLevelPerformanceDto": {
+        "type": "object",
+        "properties": {
+          "level": {
+            "$ref": "#/components/schemas/BloomLevel"
+          },
+          "scorePercentage": {
+            "type": "number",
+            "format": "double"
+          },
+          "isWeakPoint": {
+            "type": "boolean"
+          }
+        }
       },
       "ChangePasswordDto": {
         "type": "object",
@@ -3342,7 +3397,26 @@
           }
         }
       },
-      "LectureDto": {
+      "GlobalUserDashboardDto": {
+        "type": "object",
+        "properties": {
+          "averageCourseScore": {
+            "type": "number",
+            "format": "double"
+          },
+          "averageExamCompletion": {
+            "type": "number",
+            "format": "double"
+          },
+          "bloomPerformance": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BloomLevelPerformanceDto"
+            }
+          }
+        }
+      },
+      "LectureDetailsDto": {
         "type": "object",
         "properties": {
           "title": {
@@ -3388,6 +3462,48 @@
               "type": "string"
             },
             "nullable": true
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "LectureDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "targetBloomLevel": {
+            "$ref": "#/components/schemas/NullableOfBloomLevel"
+          },
+          "courseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "topicId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "authorId": {
+            "type": "string",
+            "format": "uuid"
           },
           "id": {
             "type": "string",

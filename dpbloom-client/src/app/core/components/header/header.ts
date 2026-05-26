@@ -11,6 +11,7 @@ import {NgOptimizedImage} from "@angular/common";
 })
 export class Header implements OnInit {
   private router = inject(Router);
+
   userName: string | null = null;
 
   ngOnInit() {

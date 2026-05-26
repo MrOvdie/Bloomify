@@ -19,6 +19,7 @@ model/aggregatedCourseStatsDto.ts
 model/attemptResultDto.ts
 model/attemptResultRecordDto.ts
 model/authResponseDto.ts
+model/bloomLevelPerformanceDto.ts
 model/changePasswordDto.ts
 model/courseAggregateDto.ts
 model/courseDto.ts
@@ -31,6 +32,8 @@ model/createRecommendationTemplate.ts
 model/createTopic.ts
 model/examDetailsDto.ts
 model/examRecordDto.ts
+model/globalUserDashboardDto.ts
+model/lectureDetailsDto.ts
 model/lectureDto.ts
 model/loginRequestDto.ts
 model/models.ts

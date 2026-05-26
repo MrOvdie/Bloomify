@@ -1,5 +1,5 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { CourseDetailsService } from './course-details.service';
 import { CourseAggregateDto } from '../../core/api';
 
@@ -12,6 +12,7 @@ import { CourseAggregateDto } from '../../core/api';
 export class CourseDetails implements OnInit {
   private route = inject(ActivatedRoute);
   private courseDetailsService = inject(CourseDetailsService);
+  private router = inject(Router);
 
   course: CourseAggregateDto | null = null;
   isLoading = true;
@@ -64,5 +65,18 @@ export class CourseDetails implements OnInit {
   getGeneralExams() {
     if (!this.course?.exams) return [];
     return this.course.exams.filter(e => !e.topicId);
+  }
+
+  async goToLecture(lectureId: string|undefined) {
+    if (!lectureId) {
+      console.error('Id of lecture is not provided.');
+      return;
+    }
+
+    let success = await this.router.navigate(['/lecture-details', lectureId]);
+
+    if (!success) {
+      console.error('Cannot navigate to course details.');
+    }
   }
 }

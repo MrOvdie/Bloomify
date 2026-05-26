@@ -1,1 +1,61 @@
-<p>profile works!</p>
+@if (!isLoading && userProfile && userStats) {
+  <div class="profile-page">
+
+    <div class="profile-left">
+      <div class="profile-header">
+        <div class="avatar-large">
+          <img ngSrc="/Icons/default-user-avatar.png" alt="User Avatar" fill priority>
+        </div>
+        <h1 class="full-name">{{ userProfile.fullName || (userProfile.firstName + ' ' + userProfile.lastName) }}</h1>
+      </div>
+
+      <div class="info-cards-container">
+        <div class="info-card">
+          <h2 class="card-title">Details</h2>
+          <div class="info-block"><span class="info-label">Email:</span><span class="info-value">{{ userProfile.email }}</span></div>
+          <div class="info-block"><span class="info-label">Phone:</span><span class="info-value">+380(xx)-xxx-xx-xx</span></div>
+          <div class="info-block"><span class="info-label">Group:</span><span class="info-value">{{ userProfile.group || 'N/A' }}</span></div>
+          <div class="info-block"><span class="info-label">Faculty:</span><span class="info-value">{{ userProfile.faculty || 'N/A' }}</span></div>
+          <button class="edit-btn" (click)="editProfile()">Edit</button>
+        </div>
+
+        <div class="info-card">
+          <h2 class="card-title">Session</h2>
+          <div class="info-block"><span class="info-label">Registration date:</span><span class="info-value">{{ userProfile.createdOn | date:'dd.MM.yyyy hh:mm a' }}</span></div>
+          <div class="info-block"><span class="info-label">First login date:</span><span class="info-value">{{ userProfile.firstLogin | date:'dd.MM.yyyy hh:mm a' }}</span></div>
+          <div class="info-block"><span class="info-label">Last login date:</span><span class="info-value">{{ userProfile.lastLogin | date:'dd.MM.yyyy hh:mm a' }}</span></div>
+          <div class="info-block"><span class="info-label">Entering date:</span><span class="info-value">{{ userProfile.enteringDate ? (userProfile.enteringDate | date:'dd.MM.yyyy') : 'N/A' }}</span></div>
+          <div class="info-block"><span class="info-label">Graduation date:</span><span class="info-value">{{ userProfile.graduationDate ? (userProfile.graduationDate | date:'dd.MM.yyyy') : 'N/A' }}</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="profile-right">
+
+      <div class="progress-charts">
+        <div class="circle-chart-wrapper">
+          <canvas #scoreCanvas></canvas>
+          <div class="chart-text">
+            <span class="chart-label">AVERAGE SCORE</span>
+            <span class="chart-value">{{ userStats.averageCourseScore ?? 0 }}</span>
+          </div>
+        </div>
+
+        <div class="circle-chart-wrapper">
+          <canvas #completionCanvas></canvas>
+          <div class="chart-text">
+            <span class="chart-label">AVERAGE EXAM<br>COMPLETION</span>
+            <span class="chart-value">{{ userStats.averageExamCompletion ?? 0 }}%</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="radar-chart-container">
+        <canvas #radarCanvas></canvas>
+      </div>
+
+    </div>
+  </div>
+} @else if (isLoading) {
+  <div class="loading-placeholder">Завантаження профілю студента...</div>
+}

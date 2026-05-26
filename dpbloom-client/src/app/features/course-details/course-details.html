@@ -23,7 +23,7 @@
         @if (expandedTopics['general']) {
           <div class="topic-content">
             @for (lecture of getGeneralLectures(); track lecture.id) {
-              <div class="item-row">
+              <div class="item-row" (click)="goToLecture(lecture.id)">
                 <div class="icon-box">T</div>
                 <span class="item-text">{{ lecture.title }}</span>
               </div>

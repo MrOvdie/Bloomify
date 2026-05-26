@@ -13,6 +13,33 @@
   height: 50px;
 }
 
+.header-left {
+  flex: 0 0 60px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.header-center {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-right {
+  flex: 0 0 60px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.profile-title-group {
+  display: flex;
+  align-items: center;
+}
+
+
 .avatar-placeholder {
   width: 42px;
   height: 42px;
@@ -22,26 +49,21 @@
   position: relative;
 }
 
-.username-wrapper {
-  flex-grow: 1;
-  text-align: center;
+.header-icon-box {
+  width: 32px;
+  height: 32px;
+  overflow: hidden;
+  position: relative;
 }
 
-.username {
+.username-wrapper {
   color: #2d2d2d !important;
   font-family: 'Georgia', 'Times New Roman', serif;
   font-size: 1.25rem;
   font-weight: bolder;
-  cursor: pointer;
   user-select: none;
 
   &:hover {
     color: #ff8b94;
   }
-}
-
-.header-icon-box {
-  width: 32px;
-  height: 32px;
-  position: relative;
 }
