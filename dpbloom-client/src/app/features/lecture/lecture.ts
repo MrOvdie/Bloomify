@@ -18,7 +18,7 @@ export class LectureDetails implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
-      const id = params.get('id');
+      const id = params.get('lectureId');
       if (id) {
         this.loadData(id);
       }

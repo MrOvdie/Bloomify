@@ -11,6 +11,7 @@ import { QuestionResultDto } from './questionResultDto';
 
 
 export interface AttemptResultDto { 
+    id?: string;
     attemptId?: string;
     examId?: string;
     courseId?: string;
@@ -19,6 +20,9 @@ export interface AttemptResultDto {
     score?: number;
     maxScore?: number;
     scorePercentage?: number;
+    startedAt?: string;
+    finishedAt?: string | null;
+    evaluatedOn?: string;
     passed?: boolean;
     details?: Array<QuestionResultDto>;
 }

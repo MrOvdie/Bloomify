@@ -7,8 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { ExamDetailsDto } from './examDetailsDto';
 import { LectureDto } from './lectureDto';
+import { ExamRecordDto } from './examRecordDto';
 import { TopicDto } from './topicDto';
 
 
@@ -19,6 +19,6 @@ export interface CourseAggregateDto {
     isFinished?: boolean;
     topics?: Array<TopicDto> | null;
     lectures?: Array<LectureDto> | null;
-    exams?: Array<ExamDetailsDto> | null;
+    exams?: Array<ExamRecordDto> | null;
 }
 

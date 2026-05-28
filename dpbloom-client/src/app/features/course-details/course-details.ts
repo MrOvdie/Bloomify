@@ -23,7 +23,7 @@ export class CourseDetails implements OnInit {
   ngOnInit() {
     this.expandedTopics['general'] = true;
 
-    const id = this.route.snapshot.paramMap.get('id');
+    const id = this.route.snapshot.paramMap.get('courseId');
     if (id) {
       this.courseDetailsService.getCourseDetails(id).subscribe(data => {
         // Отримуємо один об'єкт агрегату і повністю віддаємо його в шаблон
@@ -76,7 +76,20 @@ export class CourseDetails implements OnInit {
     let success = await this.router.navigate(['/lecture-details', lectureId]);
 
     if (!success) {
-      console.error('Cannot navigate to course details.');
+      console.error('Cannot navigate to lecture details.');
+    }
+  }
+
+  async goToExamDashboard(examId: string|undefined) {
+    if (!examId) {
+      console.error('Id of exam is not provided.');
+      return;
+    }
+
+    let success = await this.router.navigate(['/exam-dashboard', examId]);
+
+    if (!success) {
+      console.error('Cannot navigate to exam dashboard.');
     }
   }
 }

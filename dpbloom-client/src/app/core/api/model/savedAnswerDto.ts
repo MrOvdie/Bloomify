@@ -9,9 +9,9 @@
  */
 
 
-export interface UpdateOptionDto { 
-    id?: string | null;
-    text?: string;
-    isCorrect?: boolean;
+export interface SavedAnswerDto { 
+    questionId?: string;
+    selectedOptionIds?: Array<string>;
+    freeTextAnswer?: string | null;
 }
 

@@ -5,7 +5,7 @@ import { NgOptimizedImage } from '@angular/common';
 @Component({
   selector: 'app-profile-header',
   standalone: true,
-  imports: [RouterLink, NgOptimizedImage],
+  imports: [NgOptimizedImage],
   templateUrl: '/profile-header.html',
   styleUrls: ['../header/header.scss']
 })

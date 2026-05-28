@@ -10,7 +10,7 @@
 
 
 export interface AttemptResultRecordDto { 
-    resultId?: string;
+    id?: string;
     attemptId?: string;
     examId?: string;
     courseId?: string;
@@ -19,6 +19,7 @@ export interface AttemptResultRecordDto {
     score?: number | null;
     maxScore?: number;
     scorePercentage?: number | null;
+    evaluatedOn?: string;
     passed?: boolean | null;
 }
 

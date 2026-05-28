@@ -1,1 +1,77 @@
-<p>exam-attemp works!</p>
+@if (!isLoading) {
+  <div class="test-attempt-page">
+
+    <header class="page-header">
+      <h1 class="exam-title">Test 2 - Lorem ipsum dolor</h1>
+    </header>
+
+    <div class="attempt-info-bar">
+      <span class="attempt-number">Attempt 1</span>
+      <span class="attempt-timer">{{ formattedTime }} left</span>
+    </div>
+
+    <div class="questions-container">
+      @for (q of questions; track q.id; let i = $index) {
+        <div class="academic-card question-card">
+
+          <div class="question-header">
+            <h2 class="question-title">{{ i + 1 }}. {{ q.text }}</h2>
+            <span class="question-points">{{ q.scoreWeight }} p.</span>
+          </div>
+
+          <div class="question-meta">
+            <span class="question-type">
+              {{ q.type === 'SingleChoice' ? 'Single choice:' : (q.type === 'MultipleChoice' ? 'MultipleChoice:' : 'Open answer:') }}
+            </span>
+            <span class="bloom-level">{{ q.level }}</span>
+          </div>
+
+          <div class="answers-container">
+
+            @if (q.type === 'SingleChoice') {
+              @for (opt of q.options; track opt.id) {
+                <label class="custom-radio-label">
+                  <input type="radio"
+                         [name]="'question_' + q.id"
+                         [value]="opt.id"
+                         [(ngModel)]="answers[q.id!]">
+                  <span class="radio-mark"></span>
+                  <span class="option-text">{{ opt.text }}</span>
+                </label>
+              }
+            }
+
+            @if (q.type === 'MultipleChoice') {
+              @for (opt of q.options; track opt.id) {
+                <label class="custom-checkbox-label">
+                  <input type="checkbox"
+                         [checked]="isOptionChecked(q.id!, opt.id!)"
+                         (change)="toggleMultiChoice(q.id!, opt.id!, $any($event.target).checked)">
+                  <span class="checkbox-mark"></span>
+                  <span class="option-text">{{ opt.text }}</span>
+                </label>
+              }
+            }
+
+            @if (q.type === 'OpenAnswer') {
+              <textarea class="custom-textarea"
+                        placeholder="Enter your answer here..."
+                        [(ngModel)]="answers[q.id!]">
+              </textarea>
+            }
+
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="submit-action-container">
+      <button class="submit-btn" [disabled]="isSubmitting" (click)="submitAndFinish()">
+        {{ isSubmitting ? 'Submitting...' : 'Save all and submit' }}
+      </button>
+    </div>
+
+  </div>
+} @else {
+  <div class="loading-placeholder">Initializing your attempt...</div>
+}

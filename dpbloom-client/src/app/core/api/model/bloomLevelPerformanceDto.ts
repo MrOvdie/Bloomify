@@ -7,11 +7,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { BloomLevel } from './bloomLevel';
 
 
 export interface BloomLevelPerformanceDto { 
-    level?: number;
+    level?: BloomLevel;
     scorePercentage?: number;
     isWeakPoint?: boolean;
 }
+export namespace BloomLevelPerformanceDto {
+}
+
 

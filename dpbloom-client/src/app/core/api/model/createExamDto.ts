@@ -18,8 +18,10 @@ export interface CreateExamDto {
     startsAt?: string;
     finishesAt?: string;
     minimalPassScore?: number | null;
+    attemptsCount?: number;
     canSkip?: boolean;
     showResults?: boolean;
+    canCheckAttempts?: boolean;
     isRandomOrder?: boolean;
     questions?: Array<CreateQuestionDto>;
 }

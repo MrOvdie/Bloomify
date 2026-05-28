@@ -10,7 +10,6 @@
 
 
 export interface ExamRecordDto { 
-    examId?: string;
     title?: string;
     description?: string | null;
     courseId?: string;
@@ -20,5 +19,11 @@ export interface ExamRecordDto {
     duration?: string;
     startsAt?: string;
     finishesAt?: string;
+    minimalPassScore?: number;
+    attemptsCount?: number;
+    canCheckAttempts?: boolean;
+    id?: string;
+    createdOn?: string | null;
+    updatedOn?: string | null;
 }
 

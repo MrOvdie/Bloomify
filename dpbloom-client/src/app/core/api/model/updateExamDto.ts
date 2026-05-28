@@ -19,8 +19,10 @@ export interface UpdateExamDto {
     startsAt?: string | null;
     finishesAt?: string | null;
     minimalPassScore?: number | null;
+    attemptsCount?: number;
     canSkip?: boolean | null;
     showResults?: boolean | null;
+    canCheckAttempts?: boolean | null;
     isRandomOrder?: boolean | null;
     questions?: Array<UpdateQuestionDto> | null;
     id?: string;

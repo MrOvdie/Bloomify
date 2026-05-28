@@ -47,7 +47,7 @@ export class Profile implements OnInit, OnDestroy {
     });
   }
 
-  private getBloomScore(levelId: number): number {
+  private getBloomScore(levelId: string): number {
     if (!this.userStats?.bloomPerformance) return 0;
 
     const metric = this.userStats.bloomPerformance.find(b => b.level === levelId);
@@ -101,12 +101,12 @@ export class Profile implements OnInit, OnDestroy {
           labels: ['KNOWING', 'UNDERSTANDING', 'APPLYING', 'ANALYSING', 'CREATING', 'EVALUATING'],
           datasets: [{
             data: [
-              this.getBloomScore(1),
-              this.getBloomScore(2),
-              this.getBloomScore(3),
-              this.getBloomScore(4),
-              this.getBloomScore(5),
-              this.getBloomScore(6)
+              this.getBloomScore('1'),
+              this.getBloomScore('2'),
+              this.getBloomScore('3'),
+              this.getBloomScore('4'),
+              this.getBloomScore('5'),
+              this.getBloomScore('6')
             ],
             backgroundColor: 'rgba(162, 217, 206, 0.6)',
             borderColor: '#5b9b8e',

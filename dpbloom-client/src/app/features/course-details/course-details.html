@@ -30,7 +30,7 @@
             }
 
             @for (exam of getGeneralExams(); track exam.id) {
-              <div class="item-row">
+              <div class="item-row" (click)="goToExamDashboard(exam.id)">
                 <div class="icon-box test-icon">✓</div>
                 <span class="item-text">{{ exam.title }}</span>
               </div>

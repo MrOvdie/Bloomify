@@ -1,0 +1,135 @@
+@if (!isLoading && data) {
+  <div class="test-dashboard-page">
+
+    <header class="page-header">
+      <h1 class="exam-title">{{ data.exam.title || 'Untitled Exam' }}</h1>
+    </header>
+
+    <div class="academic-card description-card">
+      <div class="description-content" [innerHTML]="data.exam.description || 'No description provided.'"></div>
+    </div>
+
+    <div class="test-sections-grid">
+
+      <div class="academic-card details-card">
+        <h2 class="card-title">Test details</h2>
+
+        <div class="info-block">
+          <span class="info-label">Attempts used:</span>
+          <span class="info-value">{{ data.attempts.length }} / {{ data.exam.attemptsCount ?? 'Unlimited' }}</span>
+        </div>
+
+        <div class="info-block">
+          <span class="info-label">Start date:</span>
+          <span class="info-value">{{ data.exam.startsAt ? (data.exam.startsAt | date:'dd.MM.yyyy hh:mm a') : 'N/A' }}</span>
+        </div>
+
+        <div class="info-block">
+          <span class="info-label">Finish date:</span>
+          <span class="info-value">{{ data.exam.finishesAt ? (data.exam.finishesAt | date:'dd.MM.yyyy hh:mm a') : 'N/A' }}</span>
+        </div>
+
+        <div class="info-block">
+          <span class="info-label">Duration:</span>
+          <span class="info-value">{{ data.exam.duration ?? 'Not set' }}</span>
+        </div>
+
+        @if (canStartNewAttempt()) {
+          <button class="start-test-btn" (click)="startTest()">Start your attempt</button>
+        } @else {
+          <div class="exam-unavailable-message">
+            <span>You cannot start a new attempt at this time.</span>
+          </div>
+        }
+      </div>
+
+      <div class="academic-card recommendations-card">
+        <h2 class="card-title">Recommendations:</h2>
+        <div class="recommendations-list">
+          @for (rec of getRecommendations(); track rec.materialId) {
+            <div class="rec-item">{{ rec.title }}</div>
+          }
+          @if (!getRecommendations().length) {
+            <div class="rec-item">Recommendations will appear after the first evaluated attempt.</div>
+          }
+        </div>
+      </div>
+
+    </div>
+
+    <div class="attempts-section">
+      <h2 class="section-title">Attempts</h2>
+
+      <div class="attempts-scroll-list">
+        @for (item of data.attempts; track item.stats.examAttempt?.id; let i = $index) {
+          <div class="attempt-card academic-card">
+            <h3 class="attempt-number">
+              Attempt {{ data.attempts.length - i }} -
+              <span class="status-finished">{{ item.stats.examAttempt?.status ?? 'Unknown' }}</span>
+            </h3>
+
+            <div class="info-block-inline">
+              <span class="info-label">Start date:</span>
+              <span class="info-value">{{ item.stats.examAttempt?.startedAt | date:'dd.MM.yyyy hh:mm:ss a' }}</span>
+            </div>
+            <div class="info-block-inline">
+              <span class="info-label">Finish date:</span>
+              <span class="info-value">{{ item.stats.examAttempt?.finishedAt ? (item.stats.examAttempt?.finishedAt | date:'dd.MM.yyyy hh:mm:ss a') : 'N/A' }}</span>
+            </div>
+            <div class="info-block-inline">
+              <span class="info-label">Duration:</span>
+              <span class="info-value">{{ formatDuration(item.durationInSeconds) }}</span>
+            </div>
+
+            <div class="info-block-inline">
+              <span class="info-label">Score:</span>
+              @if (item.stats.attemptResult) {
+                <span class="info-value">
+                  {{ item.stats.attemptResult.correctAnswers ?? 0 }}/{{ item.stats.attemptResult.totalQuestions ?? 0 }}
+                  ({{ item.stats.attemptResult.scorePercentage ?? 0 }}%)
+                </span>
+              } @else {
+                <span class="info-value pending-score">Pending manual review</span>
+              }
+            </div>
+
+            <div class="bloom-radar-wrapper">
+              <svg viewBox="0 0 400 400" class="bloom-radar">
+                <g stroke="#ff9eb5" stroke-width="1.5" fill="none">
+                  <circle cx="200" cy="200" r="140" />
+                  <circle cx="200" cy="200" r="105" />
+                  <circle cx="200" cy="200" r="70" />
+                  <circle cx="200" cy="200" r="35" />
+                  <line x1="200" y1="200" x2="200" y2="60" />
+                  <line x1="200" y1="200" x2="321" y2="130" />
+                  <line x1="200" y1="200" x2="321" y2="270" />
+                  <line x1="200" y1="200" x2="200" y2="340" />
+                  <line x1="200" y1="200" x2="79" y2="270" />
+                  <line x1="200" y1="200" x2="79" y2="130" />
+                </g>
+                <polygon [attr.points]="getRadarPoints(item.stats)" fill="#a2d9ce" opacity="0.6" stroke="#5b9b8e" stroke-width="2" />
+                <g font-family="Georgia, serif" font-size="12" fill="#111" text-anchor="middle">
+                  <text x="200" y="45">KNOWING</text>
+                  <text x="355" y="125">UNDERSTANDING</text>
+                  <text x="350" y="285">APPLYING</text>
+                  <text x="200" y="360">ANALYSING</text>
+                  <text x="50" y="285">CREATING</text>
+                  <text x="45" y="125">EVALUATING</text>
+                </g>
+              </svg>
+            </div>
+
+            @if (data.exam.canCheckAttempts && item.stats.attemptResult?.id) {
+              <button class="check-attempt-btn" (click)="checkAttemptResult(item.stats.attemptResult!.id!)">
+                Check attempt
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </div>
+
+  </div>
+} @else if (isLoading) {
+  <div class="loading-placeholder">Loading exam dashboard...</div>
+}

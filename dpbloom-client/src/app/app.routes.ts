@@ -6,6 +6,8 @@ import {MainLayout} from "./core/layouts/main-layout/main-layout";
 import {Profile} from "./features/profile/profile";
 import {ProfileLayout} from "./core/layouts/profile-layout/profile-layout";
 import {LectureDetails} from "./features/lecture/lecture";
+import {ExamDashboard} from "./features/exam-dashboard/exam-dashboard";
+import {ExamAttemptComponent} from "./features/exam-attempt/exam-attempt";
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -16,8 +18,10 @@ export const routes: Routes = [
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'courses', component: Courses},
-      { path: 'course-details/:id', component: CourseDetails},
-      { path: 'lecture-details/:id', component: LectureDetails},
+      { path: 'course-details/:courseId', component: CourseDetails},
+      { path: 'lecture-details/:lectureId', component: LectureDetails},
+      { path: 'exam-dashboard/:examId', component: ExamDashboard},
+      { path: 'exam-attempt/:examId', component: ExamAttemptComponent}
     ]
   },
 

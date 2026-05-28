@@ -7,11 +7,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { BloomLevel } from './bloomLevel';
 
 
 export interface CreateRecommendationTemplate { 
-    targetLevel?: number;
+    targetLevel?: BloomLevel;
     adviceText?: string;
     courseId?: string | null;
 }
+export namespace CreateRecommendationTemplate {
+}
+
 

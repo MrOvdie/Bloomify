@@ -7,13 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { NullableOfBloomLevel } from './nullableOfBloomLevel';
 
 
 export interface LectureDetailsDto { 
     title?: string;
     description?: string | null;
     content?: string;
-    targetBloomLevel?: number | null;
+    targetBloomLevel?: NullableOfBloomLevel | null;
     courseId?: string;
     topicId?: string | null;
     authorId?: string;
@@ -24,4 +25,7 @@ export interface LectureDetailsDto {
     createdOn?: string | null;
     updatedOn?: string | null;
 }
+export namespace LectureDetailsDto {
+}
+
 

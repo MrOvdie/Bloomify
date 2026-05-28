@@ -7,11 +7,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { NullableOfBloomLevel } from './nullableOfBloomLevel';
 
 
 export interface UpdateRecommendationTemplate { 
-    targetLevel?: number | null;
+    targetLevel?: NullableOfBloomLevel | null;
     adviceText?: string | null;
     courseId?: string | null;
 }
+export namespace UpdateRecommendationTemplate {
+}
+
 

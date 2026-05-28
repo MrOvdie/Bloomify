@@ -7,18 +7,22 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { NullableOfBloomLevel } from './nullableOfBloomLevel';
+import { NullableOfCheckingType } from './nullableOfCheckingType';
+import { NullableOfQuestionType } from './nullableOfQuestionType';
 import { UpdateOptionDto } from './updateOptionDto';
 
 
 export interface UpdateQuestionDto { 
+    id?: string | null;
     text?: string | null;
-    type?: number | null;
+    type?: NullableOfQuestionType | null;
     scoreWeight?: number | null;
-    checkingType?: number | null;
-    level?: number | null;
+    checkingType?: NullableOfCheckingType | null;
+    level?: NullableOfBloomLevel | null;
     options?: Array<UpdateOptionDto> | null;
-    id?: string;
-    createdOn?: string | null;
-    updatedOn?: string | null;
 }
+export namespace UpdateQuestionDto {
+}
+
 

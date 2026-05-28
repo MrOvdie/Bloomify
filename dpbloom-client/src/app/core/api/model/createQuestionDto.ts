@@ -7,15 +7,21 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { BloomLevel } from './bloomLevel';
 import { CreateOptionDto } from './createOptionDto';
+import { CheckingType } from './checkingType';
+import { QuestionType } from './questionType';
 
 
 export interface CreateQuestionDto { 
     text?: string;
-    type?: number;
+    type?: QuestionType;
     scoreWeight?: number;
-    checkingType?: number;
-    level?: number;
+    checkingType?: CheckingType;
+    level?: BloomLevel;
     options?: Array<CreateOptionDto>;
 }
+export namespace CreateQuestionDto {
+}
+
 

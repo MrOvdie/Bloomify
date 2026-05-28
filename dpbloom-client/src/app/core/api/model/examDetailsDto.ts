@@ -20,8 +20,11 @@ export interface ExamDetailsDto {
     duration?: string;
     startsAt?: string;
     finishesAt?: string;
+    minimalPassScore?: number;
+    attemptsCount?: number;
     canSkip?: boolean;
     showResults?: boolean;
+    canCheckAttempts?: boolean;
     isRandomOrder?: boolean;
     questions?: Array<QuestionDto>;
     id?: string;

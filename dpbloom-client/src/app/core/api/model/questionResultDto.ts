@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { AttemptStatus } from './attemptStatus';
 
 
 export interface QuestionResultDto { 
@@ -16,10 +17,13 @@ export interface QuestionResultDto {
     maxScore?: number;
     isCorrect?: boolean;
     comment?: string | null;
-    questionResultStatus?: number;
+    questionResultStatus?: AttemptStatus;
     selectedOptionIds?: Array<string> | null;
     freeTextAnswer?: string | null;
     correctOptionIds?: Array<string> | null;
     correctAnswerText?: string | null;
 }
+export namespace QuestionResultDto {
+}
+
 

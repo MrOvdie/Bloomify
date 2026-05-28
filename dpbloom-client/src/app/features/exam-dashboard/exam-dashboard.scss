@@ -1,0 +1,212 @@
+.test-dashboard-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 3rem 2rem;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  display: flex;
+  flex-direction: column;
+  gap: 2.5rem;
+  color: #111;
+}
+
+.page-header {
+  text-align: center;
+}
+
+.exam-title {
+  font-size: 2.2rem;
+  font-weight: bold;
+  margin: 0;
+}
+
+.academic-card {
+  background-color: #fff0f2;
+  border: 1px solid #fbdcde;
+  border-radius: 20px;
+  padding: 2rem;
+}
+
+.description-card {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.test-sections-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 2rem;
+  align-items: start;
+}
+
+.card-title {
+  font-size: 1.6rem;
+  font-weight: normal;
+  margin: 0 0 1.5rem 0;
+}
+
+.info-block, .info-block-inline {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 0.8rem;
+}
+
+.info-label {
+  font-size: 1.05rem;
+  color: #111;
+}
+
+.info-value {
+  font-size: 1.05rem;
+  color: #333;
+}
+
+.pending-score {
+  font-style: italic;
+  color: #666;
+}
+
+.start-test-btn {
+  margin-top: 1rem;
+  background-color: #ff9a9e;
+  color: #111;
+  border: none;
+  border-radius: 25px;
+  padding: 0.8rem 2rem;
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  display: inline-block;
+  transition: opacity 0.2s;
+}
+
+.start-test-btn:hover {
+  opacity: 0.8;
+}
+
+.exam-unavailable-message {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  background-color: #f5f5f5;
+  border: 1px solid #e0e0e0;
+  border-radius: 25px;
+  color: #777;
+  font-style: italic;
+  display: inline-block;
+  font-size: 1rem;
+}
+
+.recommendations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.rec-item {
+  font-size: 1.1rem;
+  line-height: 1.5;
+  position: relative;
+  padding-left: 1.2rem;
+}
+
+.rec-item::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #111;
+}
+
+.attempts-section {
+  width: 100%;
+}
+
+.section-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: normal;
+  margin-bottom: 1.5rem;
+}
+
+.attempts-scroll-list {
+  display: flex;
+  gap: 1.5rem;
+  overflow-x: auto;
+  padding: 1rem 0;
+  align-items: stretch;
+}
+
+.attempts-scroll-list::-webkit-scrollbar {
+  height: 8px;
+}
+
+.attempts-scroll-list::-webkit-scrollbar-track {
+  background: #f5f5f5;
+  border-radius: 4px;
+}
+
+.attempts-scroll-list::-webkit-scrollbar-thumb {
+  background: #ff9eb5;
+  border-radius: 4px;
+}
+
+.attempt-card {
+  flex: 0 0 350px;
+  max-width: 350px;
+  display: flex;
+  flex-direction: column;
+}
+
+.attempt-number {
+  font-size: 1.3rem;
+  font-weight: normal;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+}
+
+.status-finished {
+  font-style: italic;
+}
+
+.bloom-radar-wrapper {
+  margin: 1.5rem 0;
+  display: flex;
+  justify-content: center;
+}
+
+.bloom-radar {
+  width: 160px;
+  height: 160px;
+}
+
+.check-attempt-btn {
+  margin-top: auto;
+  background-color: #ff9a9e;
+  color: #111;
+  border: none;
+  border-radius: 20px;
+  padding: 0.6rem 2rem;
+  font-family: 'Georgia', serif;
+  font-size: 1.1rem;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: opacity 0.2s;
+}
+
+.check-attempt-btn:hover {
+  opacity: 0.8;
+}
+
+.loading-placeholder {
+  text-align: center;
+  padding: 5rem;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .test-sections-grid {
+    grid-template-columns: 1fr;
+  }
+}

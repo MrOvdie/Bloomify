@@ -9,9 +9,10 @@
  */
 
 
-export interface UpdateOptionDto { 
-    id?: string | null;
-    text?: string;
-    isCorrect?: boolean;
+export interface RecommendedMaterialDto { 
+    materialId?: string;
+    materialType?: string;
+    title?: string;
+    relevantBloomLevelName?: string;
 }
 

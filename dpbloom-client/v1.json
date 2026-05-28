@@ -128,6 +128,46 @@
         }
       }
     },
+    "/api/Attempts/{attemptId}/continue": {
+      "get": {
+        "tags": [
+          "Attempts"
+        ],
+        "parameters": [
+          {
+            "name": "attemptId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptDetailsDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptDetailsDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptDetailsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Attempts/{attemptId}/finish": {
       "post": {
         "tags": [
@@ -201,6 +241,162 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/AttemptResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Attempts/{examId}/attempts/{userId}": {
+      "get": {
+        "tags": [
+          "Attempts"
+        ],
+        "parameters": [
+          {
+            "name": "examId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AttemptResultRecordDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AttemptResultRecordDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AttemptResultRecordDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Attempts/{examId}/attempts-stats/{userId}": {
+      "get": {
+        "tags": [
+          "Attempts"
+        ],
+        "parameters": [
+          {
+            "name": "examId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AttemptResultWithStatsDto"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AttemptResultWithStatsDto"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AttemptResultWithStatsDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/attempt-stats/{attemptResultId}": {
+      "get": {
+        "tags": [
+          "Attempts"
+        ],
+        "parameters": [
+          {
+            "name": "attemptResultId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptResultWithStatsDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptResultWithStatsDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptResultWithStatsDto"
                 }
               }
             }
@@ -1421,47 +1617,6 @@
           }
         }
       },
-      "put": {
-        "tags": [
-          "Exams"
-        ],
-        "parameters": [
-          {
-            "name": "id",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateExamDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateExamDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/UpdateExamDto"
-              }
-            }
-          },
-          "required": true
-        },
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      },
       "delete": {
         "tags": [
           "Exams"
@@ -1494,6 +1649,46 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ExamDetailsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Exams/overview/{examId}": {
+      "get": {
+        "tags": [
+          "Exams"
+        ],
+        "parameters": [
+          {
+            "name": "examId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamRecordDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamRecordDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamRecordDto"
                 }
               }
             }
@@ -1557,6 +1752,49 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/api/Exams/{examId}": {
+      "put": {
+        "tags": [
+          "Exams"
+        ],
+        "parameters": [
+          {
+            "name": "examId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExamDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExamDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateExamDto"
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK"
           }
         }
       }
@@ -2886,9 +3124,49 @@
           }
         }
       },
+      "AttemptDetailsDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "examId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "examTitle": {
+            "type": "string"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionDto"
+            }
+          },
+          "savedAnswers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SavedAnswerDto"
+            }
+          }
+        }
+      },
       "AttemptResultDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
           "attemptId": {
             "type": "string",
             "format": "uuid"
@@ -2920,6 +3198,19 @@
           "scorePercentage": {
             "type": "number",
             "format": "double"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "evaluatedOn": {
+            "type": "string",
+            "format": "date-time"
           },
           "passed": {
             "type": "boolean"
@@ -2935,7 +3226,7 @@
       "AttemptResultRecordDto": {
         "type": "object",
         "properties": {
-          "resultId": {
+          "id": {
             "type": "string",
             "format": "uuid"
           },
@@ -2975,14 +3266,40 @@
             "format": "double",
             "nullable": true
           },
+          "evaluatedOn": {
+            "type": "string",
+            "format": "date-time"
+          },
           "passed": {
             "type": "boolean",
             "nullable": true
           }
         }
       },
+      "AttemptResultWithStatsDto": {
+        "type": "object",
+        "properties": {
+          "attemptResult": {
+            "$ref": "#/components/schemas/AttemptResultRecordDto"
+          },
+          "examAttempt": {
+            "$ref": "#/components/schemas/ExamAttemptDto"
+          },
+          "bloomAnalytics": {
+            "$ref": "#/components/schemas/BloomAnalysisDto"
+          }
+        }
+      },
       "AttemptStatus": {
-        "type": "integer"
+        "enum": [
+          "InProgress",
+          "Submitted",
+          "Expired",
+          "Draft",
+          "Checked",
+          "PendingReview",
+          "PendingManualReview"
+        ]
       },
       "AuthResponseDto": {
         "type": "object",
@@ -3006,8 +3323,44 @@
           }
         }
       },
+      "BloomAnalysisDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attemptResultId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "overallFeedback": {
+            "type": "string",
+            "nullable": true
+          },
+          "performanceByLevel": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/BloomLevelPerformanceDto"
+            }
+          },
+          "recommendations": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RecommendedMaterialDto"
+            }
+          }
+        }
+      },
       "BloomLevel": {
-        "type": "integer"
+        "enum": [
+          "Evaluating",
+          "Creating",
+          "Analyzing",
+          "Applying",
+          "Understanding",
+          "Knowing"
+        ]
       },
       "BloomLevelPerformanceDto": {
         "type": "object",
@@ -3034,6 +3387,12 @@
             "type": "string"
           }
         }
+      },
+      "CheckingType": {
+        "enum": [
+          "Automatic",
+          "Manual"
+        ]
       },
       "CourseAggregateDto": {
         "type": "object",
@@ -3069,7 +3428,7 @@
           "exams": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ExamDetailsDto"
+              "$ref": "#/components/schemas/ExamRecordDto"
             },
             "nullable": true
           }
@@ -3162,10 +3521,17 @@
             "format": "double",
             "nullable": true
           },
+          "attemptsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
           "canSkip": {
             "type": "boolean"
           },
           "showResults": {
+            "type": "boolean"
+          },
+          "canCheckAttempts": {
             "type": "boolean"
           },
           "isRandomOrder": {
@@ -3231,20 +3597,17 @@
             "type": "string"
           },
           "type": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/QuestionType"
           },
           "scoreWeight": {
             "type": "number",
             "format": "double"
           },
           "checkingType": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/CheckingType"
           },
           "level": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/BloomLevel"
           },
           "options": {
             "type": "array",
@@ -3281,6 +3644,44 @@
             "nullable": true
           }
         }
+      },
+      "ExamAttemptDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "examId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "courseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "attemptResultId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "status": {
+            "$ref": "#/components/schemas/AttemptStatus"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finishedAt": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "nullable": true
       },
       "ExamDetailsDto": {
         "type": "object",
@@ -3321,10 +3722,21 @@
             "type": "string",
             "format": "date-time"
           },
+          "minimalPassScore": {
+            "type": "number",
+            "format": "double"
+          },
+          "attemptsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
           "canSkip": {
             "type": "boolean"
           },
           "showResults": {
+            "type": "boolean"
+          },
+          "canCheckAttempts": {
             "type": "boolean"
           },
           "isRandomOrder": {
@@ -3355,10 +3767,6 @@
       "ExamRecordDto": {
         "type": "object",
         "properties": {
-          "examId": {
-            "type": "string",
-            "format": "uuid"
-          },
           "title": {
             "type": "string"
           },
@@ -3394,6 +3802,31 @@
           "finishesAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "minimalPassScore": {
+            "type": "number",
+            "format": "double"
+          },
+          "attemptsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "canCheckAttempts": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
           }
         }
       },
@@ -3533,7 +3966,34 @@
         }
       },
       "NullableOfBloomLevel": {
-        "type": "integer",
+        "enum": [
+          "Evaluating",
+          "Creating",
+          "Analyzing",
+          "Applying",
+          "Understanding",
+          "Knowing",
+          null
+        ],
+        "nullable": true
+      },
+      "NullableOfCheckingType": {
+        "enum": [
+          "Automatic",
+          "Manual",
+          null
+        ],
+        "nullable": true
+      },
+      "NullableOfQuestionType": {
+        "enum": [
+          "SingleChoice",
+          "MultipleChoice",
+          "OpenAnswer",
+          "TrueFalse",
+          "Matches",
+          null
+        ],
         "nullable": true
       },
       "OptionDto": {
@@ -3565,16 +4025,17 @@
             "type": "string"
           },
           "type": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/QuestionType"
           },
           "level": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/BloomLevel"
           },
           "checkingType": {
-            "type": "integer",
-            "format": "int32"
+            "$ref": "#/components/schemas/CheckingType"
+          },
+          "scoreWeight": {
+            "type": "number",
+            "format": "double"
           },
           "options": {
             "type": "array",
@@ -3652,6 +4113,15 @@
           }
         }
       },
+      "QuestionType": {
+        "enum": [
+          "SingleChoice",
+          "MultipleChoice",
+          "OpenAnswer",
+          "TrueFalse",
+          "Matches"
+        ]
+      },
       "RecommendationTemplateDto": {
         "type": "object",
         "properties": {
@@ -3669,6 +4139,24 @@
             "type": "string",
             "format": "uuid",
             "nullable": true
+          }
+        }
+      },
+      "RecommendedMaterialDto": {
+        "type": "object",
+        "properties": {
+          "materialId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "materialType": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "relevantBloomLevelName": {
+            "type": "string"
           }
         }
       },
@@ -3696,6 +4184,26 @@
             "nullable": true
           },
           "faculty": {
+            "type": "string",
+            "nullable": true
+          }
+        }
+      },
+      "SavedAnswerDto": {
+        "type": "object",
+        "properties": {
+          "questionId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "selectedOptionIds": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "format": "uuid"
+            }
+          },
+          "freeTextAnswer": {
             "type": "string",
             "nullable": true
           }
@@ -3851,11 +4359,19 @@
             "format": "double",
             "nullable": true
           },
+          "attemptsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
           "canSkip": {
             "type": "boolean",
             "nullable": true
           },
           "showResults": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "canCheckAttempts": {
             "type": "boolean",
             "nullable": true
           },
@@ -3930,39 +4446,33 @@
       "UpdateOptionDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
           "text": {
             "type": "string"
           },
           "isCorrect": {
             "type": "boolean"
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdOn": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "updatedOn": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
           }
         }
       },
       "UpdateQuestionDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
           "text": {
             "type": "string",
             "nullable": true
           },
           "type": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "$ref": "#/components/schemas/NullableOfQuestionType"
           },
           "scoreWeight": {
             "type": "number",
@@ -3970,34 +4480,16 @@
             "nullable": true
           },
           "checkingType": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "$ref": "#/components/schemas/NullableOfCheckingType"
           },
           "level": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "$ref": "#/components/schemas/NullableOfBloomLevel"
           },
           "options": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/UpdateOptionDto"
             },
-            "nullable": true
-          },
-          "id": {
-            "type": "string",
-            "format": "uuid"
-          },
-          "createdOn": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "updatedOn": {
-            "type": "string",
-            "format": "date-time",
             "nullable": true
           }
         }

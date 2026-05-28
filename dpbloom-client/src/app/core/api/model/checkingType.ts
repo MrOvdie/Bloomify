@@ -9,9 +9,9 @@
  */
 
 
-export interface UpdateOptionDto { 
-    id?: string | null;
-    text?: string;
-    isCorrect?: boolean;
-}
+export const CheckingType = {
+    Automatic: 'Automatic',
+    Manual: 'Manual'
+} as const;
+export type CheckingType = typeof CheckingType[keyof typeof CheckingType];
 
