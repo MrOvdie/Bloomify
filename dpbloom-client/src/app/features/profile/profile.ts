@@ -34,10 +34,8 @@ export class Profile implements OnInit, OnDestroy {
         this.userStats = data.stats;
         this.isLoading = false;
 
-        // 1. Примусово оновлюємо DOM, щоб теги <canvas> з'явилися на сторінці
         this.cdr.detectChanges();
 
-        // 2. Тепер спокійно ініціалізуємо графіки, бо канваси вже 100% існують
         this.initAllCharts();
       },
       error: (err) => {
@@ -61,7 +59,6 @@ export class Profile implements OnInit, OnDestroy {
     const score = this.userStats.averageCourseScore ?? 0;
     const completion = this.userStats.averageExamCompletion ?? 0;
 
-    // 1. Диаграма: Average Course Score
     if (this.scoreCanvas) {
       const scoreChart = new Chart(this.scoreCanvas.nativeElement, {
         type: 'doughnut',
@@ -77,7 +74,6 @@ export class Profile implements OnInit, OnDestroy {
       this.charts.push(scoreChart);
     }
 
-    // 2. Диаграма: Average Exam Completion
     if (this.completionCanvas) {
       const completionChart = new Chart(this.completionCanvas.nativeElement, {
         type: 'doughnut',
@@ -101,18 +97,19 @@ export class Profile implements OnInit, OnDestroy {
           labels: ['KNOWING', 'UNDERSTANDING', 'APPLYING', 'ANALYSING', 'CREATING', 'EVALUATING'],
           datasets: [{
             data: [
-              this.getBloomScore('1'),
-              this.getBloomScore('2'),
-              this.getBloomScore('3'),
-              this.getBloomScore('4'),
-              this.getBloomScore('5'),
-              this.getBloomScore('6')
+              this.getBloomScore('Knowing'),
+              this.getBloomScore('Understanding'),
+              this.getBloomScore('Applying'),
+              this.getBloomScore('Analyzing'),
+              this.getBloomScore('Creating'),
+              this.getBloomScore('Evaluating')
             ],
             backgroundColor: 'rgba(162, 217, 206, 0.6)',
             borderColor: '#5b9b8e',
             pointBackgroundColor: '#5b9b8e',
             pointBorderColor: '#fff',
             borderWidth: 2,
+            fill: true,
           }]
         },
         options: {

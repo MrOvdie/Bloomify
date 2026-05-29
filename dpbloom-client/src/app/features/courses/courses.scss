@@ -1,5 +1,5 @@
 .courses-page {
-  max-width: 900px; // Обмеження ширини за макетом
+  max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
   font-family: sans-serif;
@@ -19,11 +19,10 @@
   gap: 1.5rem;
 }
 
-// Стилізація картки
 .course-card {
   display: flex;
-  background-color: var(--form-bg); // Дуже світлий рожевий відтінок фону
-  border: 1px solid #fbdcde; // Ніжна рожева рамка
+  background-color: var(--form-bg);
+  border: 1px solid #fbdcde;
   border-radius: 12px;
   padding: 1rem;
   align-items: center;
@@ -35,7 +34,7 @@
   }
 }
 
-// Сіра плашка з шапочкою
+
 .course-icon {
   width: 100px;
   height: 100px;
@@ -45,7 +44,7 @@
   justify-content: center;
   align-items: center;
   margin-right: 1.5rem;
-  flex-shrink: 0; // Забороняє стискатися, якщо текст надто довгий
+  flex-shrink: 0;
 
   svg {
     width: 60px;
@@ -72,7 +71,7 @@
 
 .progress-section {
   display: flex;
-  align-items: center; // Вирівнює бари і цифри "50/100" по одній лінії
+  align-items: center;
   justify-content: space-between;
 }
 
@@ -96,7 +95,7 @@
 .tracks-group {
   display: flex;
   flex-direction: column;
-  gap: 2px; // Мінімальний відступ між смужками (якщо треба, щоб зливалися - постав 0)
+  gap: 2px;
 }
 
 .progress-track {
@@ -105,17 +104,16 @@
   border-radius: 4px;
   overflow: hidden;
 
-  // Індивідуальні кольори треку і його внутрішнього заповнення
   &.score {
     background-color: #ffe8e8;
     opacity: 0.5;
-    .progress-fill { background-color: #ff8b94; } // Рожевий
+    .progress-fill { background-color: #ff8b94; }
   }
 
   &.test {
     background-color: #e8e8ff;
     opacity: 0.5;
-    .progress-fill { background-color: #8b8bff; } // Фіолетово-синій
+    .progress-fill { background-color: #8b8bff; }
   }
 }
 

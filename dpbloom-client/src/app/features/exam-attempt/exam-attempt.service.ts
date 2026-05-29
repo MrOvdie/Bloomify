@@ -4,7 +4,7 @@ import {
   ExamsService,
   AttemptsService,
   SubmitAnswerDto,
-  AttemptResultDto, ExamDetailsDto
+  AttemptResultDto, ExamDetailsDto, AttemptDetailsDto
 } from '../../core/api';
 
 
@@ -15,22 +15,26 @@ export class ExamAttemptService {
   private attemptsApi = inject(AttemptsService);
 
   getExamWithQuestions(examId: string): Observable<ExamDetailsDto> {
-    // Підстав точну назву методу, який повертає питання тесту
     return this.examsApi.apiExamsIdGet(examId);
   }
 
   startAttempt(examId: string): Observable<any> {
-    // Викликаємо твій [HttpPost("{examId:guid}/start")]
     return this.attemptsApi.apiAttemptsExamIdStartPost(examId);
   }
 
+  submitCurrentAnswer(attemptId: string, answer: SubmitAnswerDto): Observable<void> {
+    return this.attemptsApi.apiAttemptsAttemptIdSubmitPost(attemptId, answer);
+  }
+
   submitAllAnswers(attemptId: string, answers: SubmitAnswerDto[]): Observable<void> {
-    // Викликаємо твій [HttpPost("{attemptId:guid}/submit-all")]
     return this.attemptsApi.apiAttemptsAttemptIdSubmitAllPost(attemptId, answers);
   }
 
   finishAttempt(attemptId: string): Observable<AttemptResultDto> {
-    // Викликаємо твій [HttpPost("{attemptId:guid}/finish")]
     return this.attemptsApi.apiAttemptsAttemptIdFinishPost(attemptId);
+  }
+
+  continueAttempt(attemptId: string) : Observable<AttemptDetailsDto>{
+    return this.attemptsApi.apiAttemptsAttemptIdContinueGet(attemptId);
   }
 }

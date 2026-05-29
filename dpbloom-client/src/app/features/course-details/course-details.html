@@ -11,7 +11,7 @@
         <div class="topic-header" (click)="toggleTopic('general')">
           <div class="topic-info">
             <h2 class="topic-title">General course info</h2>
-            <p class="topic-desc">Загальні матеріали та вступні лекції до курсу</p>
+            <p class="topic-desc">General info materials and initial lectures for the course</p>
           </div>
           <div class="toggle-icon" [class.rotated]="expandedTopics['general']">
             <svg viewBox="0 0 24 24" width="24" height="24" fill="#a2d9ce">
@@ -58,14 +58,14 @@
           @if (expandedTopics[topic.id || '']) {
             <div class="topic-content">
               @for (lecture of getLecturesForTopic(topic.id); track lecture.id) {
-                <div class="item-row">
+                <div class="item-row" (click)="goToLecture(lecture.id)">
                   <div class="icon-box">T</div>
                   <span class="item-text">{{ lecture.title }}</span>
                 </div>
               }
 
               @for (exam of getExamsForTopic(topic.id); track exam.id) {
-                <div class="item-row">
+                <div class="item-row" (click)="goToExamDashboard(exam.id)">
                   <div class="icon-box test-icon">✓</div>
                   <span class="item-text">{{ exam.title }}</span>
                 </div>

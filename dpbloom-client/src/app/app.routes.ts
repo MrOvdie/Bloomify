@@ -8,6 +8,7 @@ import {ProfileLayout} from "./core/layouts/profile-layout/profile-layout";
 import {LectureDetails} from "./features/lecture/lecture";
 import {ExamDashboard} from "./features/exam-dashboard/exam-dashboard";
 import {ExamAttemptComponent} from "./features/exam-attempt/exam-attempt";
+import {authGuard} from "./core/guards/auth.guard";
 
 export const routes: Routes = [
   { path: 'login', component: Login },
@@ -15,6 +16,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayout,
+    canActivate: [authGuard],
     children: [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
       { path: 'courses', component: Courses},
@@ -28,10 +30,11 @@ export const routes: Routes = [
   {
     path: 'profile',
     component: ProfileLayout,
+    canActivate: [authGuard],
     children: [
       { path: '', component: Profile },
     ]
   },
 
-  { path: '**', redirectTo: 'courses' },
+  { path: '**', redirectTo: 'login' },
 ];

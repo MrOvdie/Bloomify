@@ -6,7 +6,7 @@
     </header>
 
     <div class="attempt-info-bar">
-      <span class="attempt-number">Attempt 1</span>
+      <span class="attempt-number">Attempt {{ attemptNumber }}</span>
       <span class="attempt-timer">{{ formattedTime }} left</span>
     </div>
 
@@ -34,7 +34,8 @@
                   <input type="radio"
                          [name]="'question_' + q.id"
                          [value]="opt.id"
-                         [(ngModel)]="answers[q.id!]">
+                         [(ngModel)]="answers[q.id!]"
+                         (ngModelChange)="onOptionChange(q.id!)">
                   <span class="radio-mark"></span>
                   <span class="option-text">{{ opt.text }}</span>
                 </label>
@@ -54,9 +55,10 @@
             }
 
             @if (q.type === 'OpenAnswer') {
-              <textarea class="custom-textarea"
-                        placeholder="Enter your answer here..."
-                        [(ngModel)]="answers[q.id!]">
+              <textarea class="text-answer-input"
+                        placeholder="Type your answer here..."
+                        [(ngModel)]="answers[q.id!]"
+                        (ngModelChange)="onTextChange(q.id!)">
               </textarea>
             }
 

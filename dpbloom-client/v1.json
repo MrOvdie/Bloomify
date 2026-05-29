@@ -467,14 +467,6 @@
               "type": "string",
               "format": "uuid"
             }
-          },
-          {
-            "name": "examId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
           }
         ],
         "requestBody": {
@@ -3138,6 +3130,14 @@
           "examTitle": {
             "type": "string"
           },
+          "examDescription": {
+            "type": "string",
+            "nullable": true
+          },
+          "attemptNumber": {
+            "type": "integer",
+            "format": "int32"
+          },
           "createdOn": {
             "type": "string",
             "format": "date-time"
@@ -3145,6 +3145,10 @@
           "startedAt": {
             "type": "string",
             "format": "date-time"
+          },
+          "duration": {
+            "pattern": "^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$",
+            "type": "string"
           },
           "questions": {
             "type": "array",
@@ -3354,12 +3358,12 @@
       },
       "BloomLevel": {
         "enum": [
-          "Evaluating",
-          "Creating",
-          "Analyzing",
-          "Applying",
+          "Knowing",
           "Understanding",
-          "Knowing"
+          "Applying",
+          "Analyzing",
+          "Creating",
+          "Evaluating"
         ]
       },
       "BloomLevelPerformanceDto": {
@@ -3967,12 +3971,12 @@
       },
       "NullableOfBloomLevel": {
         "enum": [
-          "Evaluating",
-          "Creating",
-          "Analyzing",
-          "Applying",
-          "Understanding",
           "Knowing",
+          "Understanding",
+          "Applying",
+          "Analyzing",
+          "Creating",
+          "Evaluating",
           null
         ],
         "nullable": true
@@ -4185,6 +4189,16 @@
           },
           "faculty": {
             "type": "string",
+            "nullable": true
+          },
+          "enteringDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "graduationDate": {
+            "type": "string",
+            "format": "date-time",
             "nullable": true
           }
         }

@@ -17,5 +17,7 @@ export interface RegisterUserDto {
     lastName?: string;
     group?: string | null;
     faculty?: string | null;
+    enteringDate?: string | null;
+    graduationDate?: string | null;
 }
 

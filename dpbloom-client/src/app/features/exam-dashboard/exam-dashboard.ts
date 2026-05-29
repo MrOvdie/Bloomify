@@ -57,12 +57,12 @@ export class ExamDashboard implements OnInit {
     const maxRadius = 140;
 
     const bloomValues = [
-      this.getBloomScore(stats, '1'), // KNOWING (Верх)
-      this.getBloomScore(stats, '2'), // UNDERSTANDING (Верх-право)
-      this.getBloomScore(stats, '3'), // APPLYING (Низ-право)
-      this.getBloomScore(stats, '4'), // ANALYSING (Низ)
-      this.getBloomScore(stats, '5'), // CREATING (Низ-ліво)
-      this.getBloomScore(stats, '6')  // EVALUATING (Верх-ліво)
+      this.getBloomScore(stats, 'Knowing'),       // Верх
+      this.getBloomScore(stats, 'Understanding'), // Верх-право
+      this.getBloomScore(stats, 'Applying'),      // Низ-право
+      this.getBloomScore(stats, 'Analyzing'),     // Низ (зверни увагу на Z)
+      this.getBloomScore(stats, 'Creating'),      // Низ-ліво
+      this.getBloomScore(stats, 'Evaluating')     // Верх-ліво
     ];
 
     const angles = [
@@ -75,7 +75,9 @@ export class ExamDashboard implements OnInit {
     ];
 
     return bloomValues.map((value, index) => {
-      const radius = (value / 100) * maxRadius;
+      const effectiveValue = Math.max(value, 5);
+
+      const radius = (effectiveValue / 100) * maxRadius;
       const x = center + radius * Math.cos(angles[index]);
       const y = center + radius * Math.sin(angles[index]);
       return `${x.toFixed(1)},${y.toFixed(1)}`;

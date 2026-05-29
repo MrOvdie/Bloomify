@@ -15,8 +15,11 @@ export interface AttemptDetailsDto {
     id?: string;
     examId?: string;
     examTitle?: string;
+    examDescription?: string | null;
+    attemptNumber?: number;
     createdOn?: string;
     startedAt?: string;
+    duration?: string;
     questions?: Array<QuestionDto>;
     savedAnswers?: Array<SavedAnswerDto>;
 }

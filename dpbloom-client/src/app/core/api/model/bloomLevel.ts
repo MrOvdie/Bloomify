@@ -10,12 +10,12 @@
 
 
 export const BloomLevel = {
-    Evaluating: 'Evaluating',
-    Creating: 'Creating',
-    Analyzing: 'Analyzing',
-    Applying: 'Applying',
+    Knowing: 'Knowing',
     Understanding: 'Understanding',
-    Knowing: 'Knowing'
+    Applying: 'Applying',
+    Analyzing: 'Analyzing',
+    Creating: 'Creating',
+    Evaluating: 'Evaluating'
 } as const;
 export type BloomLevel = typeof BloomLevel[keyof typeof BloomLevel];
 

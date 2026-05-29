@@ -10,12 +10,12 @@
 
 
 export const NullableOfBloomLevel = {
-    Evaluating: 'Evaluating',
-    Creating: 'Creating',
-    Analyzing: 'Analyzing',
-    Applying: 'Applying',
+    Knowing: 'Knowing',
     Understanding: 'Understanding',
-    Knowing: 'Knowing'
+    Applying: 'Applying',
+    Analyzing: 'Analyzing',
+    Creating: 'Creating',
+    Evaluating: 'Evaluating'
 } as const;
 export type NullableOfBloomLevel = typeof NullableOfBloomLevel[keyof typeof NullableOfBloomLevel];
 

@@ -680,32 +680,20 @@ export class AttemptsService extends BaseService {
      * @endpoint post /api/Attempts/review/{attemptResultId}
      * @param attemptResultId 
      * @param teacherEvaluationDto 
-     * @param examId 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, examId?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<AttemptResultDto>;
-    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, examId?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AttemptResultDto>>;
-    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, examId?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AttemptResultDto>>;
-    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, examId?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<AttemptResultDto>;
+    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AttemptResultDto>>;
+    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AttemptResultDto>>;
+    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (attemptResultId === null || attemptResultId === undefined) {
             throw new Error('Required parameter attemptResultId was null or undefined when calling apiAttemptsReviewAttemptResultIdPost.');
         }
         if (teacherEvaluationDto === null || teacherEvaluationDto === undefined) {
             throw new Error('Required parameter teacherEvaluationDto was null or undefined when calling apiAttemptsReviewAttemptResultIdPost.');
         }
-
-        let localVarQueryParameters = new OpenApiHttpParams(this.encoder);
-
-        localVarQueryParameters = this.addToHttpParams(
-            localVarQueryParameters,
-            'examId',
-            <any>examId,
-            QueryParamStyle.Form,
-            true,
-        );
-
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -754,7 +742,6 @@ export class AttemptsService extends BaseService {
             {
                 context: localVarHttpContext,
                 body: teacherEvaluationDto,
-                params: localVarQueryParameters.toHttpParams(),
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
