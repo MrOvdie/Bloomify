@@ -1,5 +1,6 @@
 export * from './aggregatedCourseStatsDto';
 export * from './attemptDetailsDto';
+export * from './attemptOverviewAggregateDto';
 export * from './attemptResultDto';
 export * from './attemptResultRecordDto';
 export * from './attemptResultWithStatsDto';
@@ -48,4 +49,5 @@ export * from './updateQuestionDto';
 export * from './updateRecommendationTemplate';
 export * from './updateTopic';
 export * from './updateUserProfileDto';
+export * from './userBaseInformationDto';
 export * from './userProfileDto';

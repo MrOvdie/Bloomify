@@ -6,6 +6,13 @@
       {{ course.description || 'Опис відсутній.' }}
     </div>
 
+    @if (isTeacherMode) {
+      <div class="teacher-global-controls" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
+        <button class="teacher-btn enrol-btn" (click)="enrolStudents()">Enrol students</button>
+        <button class="teacher-btn add-btn" (click)="addTopic()">+</button>
+      </div>
+    }
+
     @if (hasGeneralContent()) {
       <div class="topic-card general-info-card">
         <div class="topic-header" (click)="toggleTopic('general')">
@@ -13,26 +20,49 @@
             <h2 class="topic-title">General course info</h2>
             <p class="topic-desc">General info materials and initial lectures for the course</p>
           </div>
-          <div class="toggle-icon" [class.rotated]="expandedTopics['general']">
-            <svg viewBox="0 0 24 24" width="24" height="24" fill="#a2d9ce">
-              <path d="M7 10l5 5 5-5H7z"/>
-            </svg>
+          <div class="header-actions" style="display: flex; align-items: center; gap: 1rem;">
+            @if (isTeacherMode) {
+              <button class="teacher-icon-btn remove-btn" (click)="removeTopic('general',$event)">-</button>
+            }
+            <div class="toggle-icon" [class.rotated]="expandedTopics['general']">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="#a2d9ce">
+                <path d="M7 10l5 5 5-5H7z"/>
+              </svg>
+            </div>
           </div>
         </div>
 
         @if (expandedTopics['general']) {
           <div class="topic-content">
             @for (lecture of getGeneralLectures(); track lecture.id) {
-              <div class="item-row" (click)="goToLecture(lecture.id)">
-                <div class="icon-box">T</div>
-                <span class="item-text">{{ lecture.title }}</span>
+              <div class="item-row" (click)="goToLecture(lecture.id)" style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div class="icon-box">T</div>
+                  <span class="item-text">{{ lecture.title }}</span>
+                </div>
+                @if (isTeacherMode) {
+                  <button class="teacher-icon-btn remove-btn"
+                          (click)="removeActivity(lecture.id, 'lecture', $event)">-</button>
+                }
               </div>
             }
 
             @for (exam of getGeneralExams(); track exam.id) {
-              <div class="item-row" (click)="goToExamDashboard(exam.id)">
-                <div class="icon-box test-icon">✓</div>
-                <span class="item-text">{{ exam.title }}</span>
+              <div class="item-row" (click)="goToExamDashboard(exam.id)" style="display: flex; justify-content: space-between; align-items: center;">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <div class="icon-box test-icon">✓</div>
+                  <span class="item-text">{{ exam.title }}</span>
+                </div>
+                @if (isTeacherMode) {
+                  <button class="teacher-icon-btn remove-btn"
+                          (click)="removeActivity(exam.id, 'exam', $event)">-</button>
+                }
+              </div>
+            }
+
+            @if (isTeacherMode) {
+              <div class="add-activity-row" style="text-align: right; padding: 0.5rem 1rem;">
+                <button class="teacher-icon-btn add-btn" (click)="addActivity('general')">+</button>
               </div>
             }
           </div>
@@ -48,26 +78,49 @@
               <h2 class="topic-title">{{ topic.title }}</h2>
               <p class="topic-desc">{{ topic.description }}</p>
             </div>
-            <div class="toggle-icon" [class.rotated]="expandedTopics[topic.id || '']">
-              <svg viewBox="0 0 24 24" width="24" height="24" fill="#a2d9ce">
-                <path d="M7 10l5 5 5-5H7z"/>
-              </svg>
+            <div class="header-actions" style="display: flex; align-items: center; gap: 1rem;">
+              @if (isTeacherMode) {
+                <button class="teacher-icon-btn remove-btn" (click)="removeTopic(topic.id, $event)">-</button>
+              }
+              <div class="toggle-icon" [class.rotated]="expandedTopics[topic.id || '']">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="#a2d9ce">
+                  <path d="M7 10l5 5 5-5H7z"/>
+                </svg>
+              </div>
             </div>
           </div>
 
           @if (expandedTopics[topic.id || '']) {
             <div class="topic-content">
               @for (lecture of getLecturesForTopic(topic.id); track lecture.id) {
-                <div class="item-row" (click)="goToLecture(lecture.id)">
-                  <div class="icon-box">T</div>
-                  <span class="item-text">{{ lecture.title }}</span>
+                <div class="item-row" (click)="goToLecture(lecture.id)" style="display: flex; justify-content: space-between; align-items: center;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="icon-box">T</div>
+                    <span class="item-text">{{ lecture.title }}</span>
+                  </div>
+                  @if (isTeacherMode) {
+                    <button class="teacher-icon-btn remove-btn"
+                            (click)="removeActivity(lecture.id, 'lecture', $event)">-</button>
+                  }
                 </div>
               }
 
               @for (exam of getExamsForTopic(topic.id); track exam.id) {
-                <div class="item-row" (click)="goToExamDashboard(exam.id)">
-                  <div class="icon-box test-icon">✓</div>
-                  <span class="item-text">{{ exam.title }}</span>
+                <div class="item-row" (click)="goToExamDashboard(exam.id)" style="display: flex; justify-content: space-between; align-items: center;">
+                  <div style="display: flex; align-items: center; gap: 10px;">
+                    <div class="icon-box test-icon">✓</div>
+                    <span class="item-text">{{ exam.title }}</span>
+                  </div>
+                  @if (isTeacherMode) {
+                    <button class="teacher-icon-btn remove-btn"
+                            (click)="removeActivity(exam.id, 'exam', $event)">-</button>
+                  }
+                </div>
+              }
+
+              @if (isTeacherMode) {
+                <div class="add-activity-row" style="text-align: right; padding: 0.5rem 1rem;">
+                  <button class="teacher-icon-btn add-btn" (click)="addActivity(topic.id)">+</button>
                 </div>
               }
             </div>
@@ -77,3 +130,16 @@
     </div>
   }
 </div>
+
+@if (isRemoveModalOpen) {
+  <div class="modal-backdrop">
+    <div class="confirm-modal">
+      <h2 class="modal-title">Are you sure?</h2>
+
+      <div class="modal-actions">
+        <button class="modal-btn btn-remove" (click)="confirmRemove()">Remove</button>
+        <button class="modal-btn btn-back" (click)="closeRemoveModal()">Back</button>
+      </div>
+    </div>
+  </div>
+}

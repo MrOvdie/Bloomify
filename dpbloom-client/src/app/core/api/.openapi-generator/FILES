@@ -17,6 +17,7 @@ git_push.sh
 index.ts
 model/aggregatedCourseStatsDto.ts
 model/attemptDetailsDto.ts
+model/attemptOverviewAggregateDto.ts
 model/attemptResultDto.ts
 model/attemptResultRecordDto.ts
 model/attemptResultWithStatsDto.ts
@@ -66,6 +67,7 @@ model/updateQuestionDto.ts
 model/updateRecommendationTemplate.ts
 model/updateTopic.ts
 model/updateUserProfileDto.ts
+model/userBaseInformationDto.ts
 model/userProfileDto.ts
 param.ts
 provide-api.ts

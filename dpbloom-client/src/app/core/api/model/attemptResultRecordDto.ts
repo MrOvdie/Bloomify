@@ -19,6 +19,7 @@ export interface AttemptResultRecordDto {
     score?: number | null;
     maxScore?: number;
     scorePercentage?: number | null;
+    duration?: string | null;
     evaluatedOn?: string;
     passed?: boolean | null;
 }

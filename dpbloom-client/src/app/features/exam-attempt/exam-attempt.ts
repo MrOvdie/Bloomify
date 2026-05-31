@@ -66,7 +66,6 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
         }
       });
       this.autoSaveSubject.pipe(
-        // Чекаємо 800 мілісекунд після останньої зміни (ідеально для тексту)
         debounceTime(50)
       ).subscribe(questionId => {
         this.submitSingleAnswer(questionId);
@@ -74,7 +73,6 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
     }
   }
 
-// Виносимо логіку завантаження в окремий метод, щоб не дублювати код
   private loadAttemptData(attemptId: string) {
     // Підстав правильну назву методу з NSwag для ContinueAttemptAsync
     this.attemptService.continueAttempt(attemptId).subscribe({
@@ -160,7 +158,7 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
     return (this.answers[questionId] as string[]).includes(optionId);
   }
 
-  private startTimer(startedAt?: string, durationTimeSpan?: string) {
+  private startTimer(startedAt?: string, durationTimeSpan?: string | null) {
     if (this.timerSub) {
       this.timerSub.unsubscribe();
     }
@@ -241,7 +239,7 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
     });
   }
 
-  private parseTimeSpanToSeconds(timeSpan?: string): number {
+  private parseTimeSpanToSeconds(timeSpan?: string | null): number {
     if (!timeSpan) return 0;
 
     const parts = timeSpan.split(':');

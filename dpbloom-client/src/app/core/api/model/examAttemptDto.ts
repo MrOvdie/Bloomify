@@ -16,6 +16,10 @@ export interface ExamAttemptDto {
     courseId?: string;
     attemptResultId?: string | null;
     userId?: string;
+    firstName?: string;
+    middleName?: string | null;
+    lastName?: string;
+    userGroup?: string | null;
     status?: AttemptStatus;
     startedAt?: string;
     finishedAt?: string;

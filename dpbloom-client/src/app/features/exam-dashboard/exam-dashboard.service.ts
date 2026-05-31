@@ -4,10 +4,9 @@ import {
   ExamsService,
   AttemptsService,
   ExamRecordDto,
-  AttemptResultWithStatsDto
+  AttemptResultWithStatsDto, UserService
 } from '../../core/api';
 
-// Розширений інтерфейс для зручної роботи з UI
 export interface AttemptWithMetadata {
   stats: AttemptResultWithStatsDto;
   durationInSeconds: number;
@@ -22,32 +21,33 @@ export interface ExamDashboardPageData {
 export class ExamDashboardService {
   private examApi = inject(ExamsService);
   private attemptApi = inject(AttemptsService);
+  private userService = inject(UserService)
 
-  getDashboardData(examId: string): Observable<ExamDashboardPageData> {
-    const userId = localStorage.getItem('userId');
+  displayStudentName: string = 'Loading...';
+
+  getDashboardData(examId: string, targetStudentId?: string | null): Observable<ExamDashboardPageData> {
+
+    const userId = targetStudentId || localStorage.getItem('userId');
 
     if (!userId) {
-      console.error('Cannot find User ID in localStorage!');
-      return throwError(() => new Error('User is not authenticated'));
+      console.error('Cannot find User ID for dashboard!');
+      return throwError(() => new Error('User is not identified'));
     }
 
     return forkJoin({
-      // Отримуємо загальну інформацію про тест
       exam: this.examApi.apiExamsOverviewExamIdGet(examId),
-      // Отримуємо агреговані дані спроб зі статистикою
       attemptAggregate: this.attemptApi.apiAttemptsExamIdAttemptsStatsUserIdGet(examId, userId)
     }).pipe(
       map(data => {
         const attempts: AttemptWithMetadata[] = data.attemptAggregate.map(aggregateItem => {
 
-          // Вираховуємо реальну тривалість на основі полів з examAttempt
           const startTime = aggregateItem.examAttempt?.startedAt
             ? new Date(aggregateItem.examAttempt.startedAt).getTime()
             : 0;
 
           const finishTime = aggregateItem.examAttempt?.finishedAt
             ? new Date(aggregateItem.examAttempt.finishedAt).getTime()
-            : startTime; // Якщо finishedAt порожній (спроба ще триває), беремо startTime, щоб duration був 0
+            : startTime;
 
           const durationInSeconds = startTime > 0 ? (finishTime - startTime) / 1000 : 0;
 
@@ -73,5 +73,25 @@ export class ExamDashboardService {
         };
       })
     );
+  }
+
+  public loadStudentProfile(userId: string) {
+    this.userService.apiUserBaseInfouserIdGet(userId).subscribe({
+      next: (user) => {
+        const group = user.group || 'Group';
+        const lastName = user.lastName || 'Student';
+        const firstName = user.firstName || '';
+        const middleName = user.middleName || '';
+
+        let initials = '';
+        if (firstName) initials += `${firstName.charAt(0)}. `;
+        if (middleName) initials += `${middleName.charAt(0)}.`;
+
+        this.displayStudentName = `${group} | ${lastName} ${initials}`.trim();
+      },
+      error: () => {
+        this.displayStudentName = 'Unknown student name';
+      }
+    });
   }
 }

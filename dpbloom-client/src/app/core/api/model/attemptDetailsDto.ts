@@ -7,20 +7,26 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { AttemptStatus } from './attemptStatus';
 import { SavedAnswerDto } from './savedAnswerDto';
 import { QuestionDto } from './questionDto';
 
 
 export interface AttemptDetailsDto { 
     id?: string;
+    attemptResultId?: string | null;
     examId?: string;
     examTitle?: string;
     examDescription?: string | null;
     attemptNumber?: number;
     createdOn?: string;
     startedAt?: string;
-    duration?: string;
+    duration?: string | null;
+    status?: AttemptStatus;
     questions?: Array<QuestionDto>;
     savedAnswers?: Array<SavedAnswerDto>;
 }
+export namespace AttemptDetailsDto {
+}
+
 

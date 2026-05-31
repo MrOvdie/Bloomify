@@ -1,13 +1,16 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { CourseService as ApiCourseService } from '../../core/api/api/course.service';
-import { CourseAggregateDto } from '../../core/api';
+import {CourseAggregateDto, ExamsService, LectureService, TopicService} from '../../core/api';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CourseDetailsService {
   private apiCourseClient = inject(ApiCourseService);
+  private apiTopicClient = inject(TopicService);
+  private apiLectureClient = inject(LectureService);
+  private apiExamClient = inject(ExamsService)
 
   getCourseDetails(courseId: string): Observable<CourseAggregateDto | null> {
     return this.apiCourseClient.apiCourseContentCourseIdGet(courseId).pipe(
@@ -16,5 +19,17 @@ export class CourseDetailsService {
         return of(null);
       })
     );
+  }
+
+  deleteTopic(topicId: string) {
+    return this.apiTopicClient.apiTopicIdDelete(topicId)
+  }
+
+  deleteLecture(lectureId: string) {
+    return this.apiLectureClient.apiLectureIdDelete(lectureId);
+  }
+
+  deleteExam(examId: string) {
+    return this.apiExamClient.apiExamsIdDelete(examId);
   }
 }

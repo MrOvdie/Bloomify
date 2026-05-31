@@ -19,6 +19,8 @@ import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 // @ts-ignore
 import { AttemptDetailsDto } from '../model/attemptDetailsDto';
 // @ts-ignore
+import { AttemptOverviewAggregateDto } from '../model/attemptOverviewAggregateDto';
+// @ts-ignore
 import { AttemptResultDto } from '../model/attemptResultDto';
 // @ts-ignore
 import { AttemptResultRecordDto } from '../model/attemptResultRecordDto';
@@ -172,9 +174,9 @@ export class AttemptsService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiAttemptsAttemptIdResultGet(attemptId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<AttemptResultDto>;
-    public apiAttemptsAttemptIdResultGet(attemptId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AttemptResultDto>>;
-    public apiAttemptsAttemptIdResultGet(attemptId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AttemptResultDto>>;
+    public apiAttemptsAttemptIdResultGet(attemptId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<AttemptOverviewAggregateDto>;
+    public apiAttemptsAttemptIdResultGet(attemptId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AttemptOverviewAggregateDto>>;
+    public apiAttemptsAttemptIdResultGet(attemptId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AttemptOverviewAggregateDto>>;
     public apiAttemptsAttemptIdResultGet(attemptId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (attemptId === null || attemptId === undefined) {
             throw new Error('Required parameter attemptId was null or undefined when calling apiAttemptsAttemptIdResultGet.');
@@ -212,7 +214,7 @@ export class AttemptsService extends BaseService {
 
         let localVarPath = `/api/Attempts/${this.configuration.encodeParam({name: "attemptId", value: attemptId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/result`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<AttemptResultDto>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<AttemptOverviewAggregateDto>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
@@ -506,9 +508,9 @@ export class AttemptsService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiAttemptsExamIdExamResultsGet(examId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<AttemptResultRecordDto>>;
-    public apiAttemptsExamIdExamResultsGet(examId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<AttemptResultRecordDto>>>;
-    public apiAttemptsExamIdExamResultsGet(examId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<AttemptResultRecordDto>>>;
+    public apiAttemptsExamIdExamResultsGet(examId: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<AttemptResultWithStatsDto>>;
+    public apiAttemptsExamIdExamResultsGet(examId: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<AttemptResultWithStatsDto>>>;
+    public apiAttemptsExamIdExamResultsGet(examId: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<AttemptResultWithStatsDto>>>;
     public apiAttemptsExamIdExamResultsGet(examId: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (examId === null || examId === undefined) {
             throw new Error('Required parameter examId was null or undefined when calling apiAttemptsExamIdExamResultsGet.');
@@ -546,7 +548,7 @@ export class AttemptsService extends BaseService {
 
         let localVarPath = `/api/Attempts/${this.configuration.encodeParam({name: "examId", value: examId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}/exam-results`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<Array<AttemptResultRecordDto>>('get', `${basePath}${localVarPath}`,
+        return this.httpClient.request<Array<AttemptResultWithStatsDto>>('get', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

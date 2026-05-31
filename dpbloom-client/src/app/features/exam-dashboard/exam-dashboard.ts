@@ -1,28 +1,51 @@
 import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { DatePipe } from '@angular/common';
 import { ExamDashboardService, ExamDashboardPageData } from './exam-dashboard.service';
-import { AttemptResultWithStatsDto, RecommendedMaterialDto } from '../../core/api';
+import {AttemptResultWithStatsDto, RecommendedMaterialDto} from '../../core/api';
+import {DatePipe} from '@angular/common';
 
 @Component({
   selector: 'app-test-details',
   standalone: true,
   templateUrl: './exam-dashboard.html',
-  imports: [DatePipe],
-  styleUrls: ['./exam-dashboard.scss']
+  styleUrls: ['./exam-dashboard.scss'],
+  imports: [
+    DatePipe
+  ],
 })
+
 export class ExamDashboard implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private testService = inject(ExamDashboardService);
 
+  isTeacherMode = false;
+  studentId: string | null = null;
+  examId: string | null = null;
+  nameFromRoute: string | null = null;
+
   data: ExamDashboardPageData | null = null;
   isLoading = true;
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('examId');
-    if (id) {
-      this.testService.getDashboardData(id).subscribe({
+    this.examId = this.route.snapshot.paramMap.get('examId');
+
+    this.isTeacherMode = this.route.snapshot.data['isTeacherMode'] || false;
+
+    this.nameFromRoute = history.state.studentName;
+
+    if (this.nameFromRoute){
+      this.testService.displayStudentName = this.nameFromRoute;
+    } else if (this.studentId){
+      this.testService.loadStudentProfile(this.studentId);
+    }
+
+    if (this.isTeacherMode) {
+      this.studentId = this.route.snapshot.paramMap.get('userId');
+    }
+
+    if (this.examId) {
+      this.testService.getDashboardData(this.examId, this.studentId).subscribe({
         next: (res) => {
           this.data = res;
           this.isLoading = false;
@@ -60,7 +83,7 @@ export class ExamDashboard implements OnInit {
       this.getBloomScore(stats, 'Knowing'),       // Верх
       this.getBloomScore(stats, 'Understanding'), // Верх-право
       this.getBloomScore(stats, 'Applying'),      // Низ-право
-      this.getBloomScore(stats, 'Analyzing'),     // Низ (зверни увагу на Z)
+      this.getBloomScore(stats, 'Analyzing'),     // Низ
       this.getBloomScore(stats, 'Creating'),      // Низ-ліво
       this.getBloomScore(stats, 'Evaluating')     // Верх-ліво
     ];
@@ -97,11 +120,15 @@ export class ExamDashboard implements OnInit {
     await this.router.navigate(['/exam-attempt', examId]);
   }
 
-  checkAttemptResult(attemptResultId: string|undefined) {
-    if (!attemptResultId) return;
+  async checkAttemptResult(attemptId: string, attemptNumber: number, durationInSeconds: number) {
+    if (!attemptId) return;
 
-    console.log('Перегляд результатів спроби:', attemptResultId);
-    // this.router.navigate(['/attempt-result', attemptResultId]);
+    await this.router.navigate(['/attempt-overview', attemptId], {
+      state: {
+        attemptNumber: attemptNumber,
+        duration: durationInSeconds
+      }
+    });
   }
 
   isExamAvailable(): boolean {
