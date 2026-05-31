@@ -13,6 +13,7 @@ import { TopicDto } from './topicDto';
 
 
 export interface CourseAggregateDto { 
+    id?: string;
     title?: string;
     description?: string | null;
     authorId?: string;

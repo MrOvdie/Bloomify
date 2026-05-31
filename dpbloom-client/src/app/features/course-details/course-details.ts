@@ -3,12 +3,16 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {CourseDetailsService} from './course-details.service';
 import {CourseAggregateDto} from '../../core/api';
 import {AuthService} from "../../core/services/auth.service";
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-course-details',
   standalone: true,
   templateUrl: './course-details.html',
-  styleUrls: ['./course-details.scss']
+  styleUrls: ['./course-details.scss'],
+  imports: [
+    FormsModule
+  ],
 })
 export class CourseDetails implements OnInit {
   private route = inject(ActivatedRoute);
@@ -22,6 +26,10 @@ export class CourseDetails implements OnInit {
 
   isRemoveModalOpen = false;
   itemToRemove: { id: string, type: 'topic' | 'lecture' | 'exam' } | null = null;
+
+  isAddTopicModalOpen = false;
+  newTopicTitle = '';
+  newTopicDescription = '';
 
   expandedTopics: Record<string, boolean> = {};
 
@@ -111,8 +119,45 @@ export class CourseDetails implements OnInit {
     console.log('Open enrol modal');
   }
 
-  addTopic() {
-    console.log('Add new topic');
+  openAddTopicModal() {
+    this.newTopicTitle = '';
+    this.newTopicDescription = '';
+    this.isAddTopicModalOpen = true;
+  }
+
+// Закриття модалки
+  closeAddTopicModal() {
+    this.isAddTopicModalOpen = false;
+  }
+
+// Підтвердження створення
+  confirmAddTopic() {
+    // Базова валідація, щоб не створювати порожні теми
+    if (!this.newTopicTitle.trim()) {
+      return;
+    }
+
+    const payload = {
+      title: this.newTopicTitle,
+      description: this.newTopicDescription
+    };
+
+    if (this.course?.id != null) {
+      this.courseDetailsService.addTopic(this.course.id, payload).subscribe({
+        next: (newTopic) => {
+          if (!this.course!.topics) {
+            this.course!.topics = [];
+          }
+
+          this.course!.topics.push(newTopic);
+
+          this.closeAddTopicModal();
+        },
+        error: (err) => {
+          console.error('Error during topic creation:', err);
+        }
+      });
+    }
   }
 
   addActivity(topicId: string | undefined) {

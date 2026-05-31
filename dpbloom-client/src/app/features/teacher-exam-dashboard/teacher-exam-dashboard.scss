@@ -1,0 +1,180 @@
+.teacher-dashboard-page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: 'Georgia', serif;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.description-card {
+  border: 1px solid #ffcfd9;
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  background-color: #fffafb;
+  text-align: center;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 2rem;
+}
+
+.left-column, .right-column {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.academic-card {
+  border: 1px solid #ffcfd9;
+  border-radius: 16px;
+  padding: 1.5rem;
+  background-color: #fffafb;
+
+  .card-title {
+    font-size: 1.4rem;
+    font-weight: normal;
+    margin-top: 0;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.info-block {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+
+  .info-label {
+    font-family: 'Georgia', serif;
+    color: #333;
+    font-size: 0.95rem;
+  }
+
+  .info-value {
+    font-weight: bold;
+    margin-top: 0.2rem;
+  }
+}
+
+.start-test-btn {
+  width: 100%;
+  background-color: #ff9eb5;
+  color: #111;
+  border: none;
+  padding: 0.8rem;
+  border-radius: 20px;
+  font-family: 'Georgia', serif;
+  font-size: 1rem;
+  margin-top: 1.5rem;
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.attempts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-height: 400px;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+.attempt-row {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ffcfd9;
+  border-radius: 8px;
+  padding: 0.8rem 1rem;
+  background-color: #fff;
+  gap: 1rem;
+
+  .attempt-status-icon {
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+    font-weight: bold;
+    color: #111;
+    background-color: #a2d9ce; // Зелений за замовчуванням
+
+    &.pending {
+      background-color: #ffb3b9; // Червоний для неперевірених
+    }
+  }
+
+  .attempt-info {
+    flex: 1;
+
+    .student-name {
+      font-size: 1.1rem;
+      margin-bottom: 0.2rem;
+    }
+
+    .attempt-meta {
+      font-size: 0.75rem;
+      color: #666;
+      font-family: sans-serif;
+    }
+  }
+
+  .attempt-stats {
+    text-align: right;
+    font-size: 0.85rem;
+    margin-right: 1rem;
+
+    .score {
+      font-family: 'Georgia', serif;
+      margin-bottom: 0.2rem;
+    }
+
+    .duration {
+      color: #666;
+      font-family: sans-serif;
+    }
+  }
+
+  .action-btn {
+    border: none;
+    padding: 0.5rem 1.2rem;
+    border-radius: 4px;
+    font-family: 'Georgia', serif;
+    cursor: pointer;
+    transition: filter 0.2s;
+
+    &:hover { filter: brightness(0.95); }
+
+    &.evaluate-btn {
+      background-color: #ff9eb5;
+    }
+
+    &.check-btn {
+      background-color: #a2d9ce;
+    }
+  }
+}
+
+.radar-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .radar-text {
+    flex: 1;
+    span { font-size: 1.1rem; }
+  }
+
+  .radar-container {
+    width: 250px;
+    height: 250px;
+  }
+}

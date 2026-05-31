@@ -9,7 +9,7 @@
     @if (isTeacherMode) {
       <div class="teacher-global-controls" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
         <button class="teacher-btn enrol-btn" (click)="enrolStudents()">Enrol students</button>
-        <button class="teacher-btn add-btn" (click)="addTopic()">+</button>
+        <button class="teacher-btn add-btn" (click)="openAddTopicModal()">+</button>
       </div>
     }
 
@@ -139,6 +139,33 @@
       <div class="modal-actions">
         <button class="modal-btn btn-remove" (click)="confirmRemove()">Remove</button>
         <button class="modal-btn btn-back" (click)="closeRemoveModal()">Back</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (isAddTopicModalOpen) {
+  <div class="modal-backdrop">
+    <div class="confirm-modal action-modal">
+      <h2 class="modal-title">Add New Topic</h2>
+
+      <div class="form-container">
+        <div class="input-group">
+          <label>Topic Title</label>
+          <input type="text" [(ngModel)]="newTopicTitle" placeholder="E.g., Introduction to the course" />
+        </div>
+
+        <div class="input-group">
+          <label>Description (optional)</label>
+          <textarea [(ngModel)]="newTopicDescription" rows="3" placeholder="Briefly describe what students will learn..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="modal-btn btn-confirm"
+                [disabled]="!newTopicTitle.trim()"
+                (click)="confirmAddTopic()">Create Topic</button>
+        <button class="modal-btn btn-back" (click)="closeAddTopicModal()">Cancel</button>
       </div>
     </div>
   </div>

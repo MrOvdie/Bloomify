@@ -1,0 +1,54 @@
+<div class="attempt-result-page">
+  <h1 class="page-title">{{ aggregateData?.examTitle || 'Undefined Title Test' }}</h1>
+
+  <div class="stats-bar">
+    <span>Attempt {{ aggregateData?.attemptDetails?.attemptNumber || 1 }}</span>
+    <span>Result: {{ aggregateData?.attemptResult?.score || 0 }}/{{ aggregateData?.attemptResult?.maxScore || 0 }}</span>
+    <span>{{ formatTimeSpan(aggregateData?.attemptDetails?.duration) || '00:00:00' }} total</span>
+  </div>
+
+  <div class="questions-list">
+    @for (q of viewQuestions; track q.id; let i = $index) {
+      <div class="question-card">
+
+        <div class="question-header">
+          <h2 class="question-text">{{ i + 1 }}. {{ q.text }}</h2>
+          <span class="question-score">{{ q.earnedScore }}/{{ q.maxScore }} p.</span>
+        </div>
+
+        <div class="question-meta">
+          <span class="meta-type">
+            {{ q.type === 'SingleChoice' ? 'Single choice' : q.type === 'MultipleChoice' ? 'MultipleChoice' : 'Open answer' }}:
+          </span>
+          <span class="meta-bloom">{{ q.bloomLevel }}</span>
+        </div>
+
+        @if (q.type === 'SingleChoice' || q.type === 'MultipleChoice') {
+          <div class="options-container">
+            @for (opt of q.options; track opt.id) {
+              <div class="option-row" [ngClass]="getOptionClass(opt)">
+                <input
+                  [type]="q.type === 'SingleChoice' ? 'radio' : 'checkbox'"
+                  [checked]="opt.isSelected"
+                  disabled
+                />
+                <span class="option-text">{{ opt.text }}</span>
+              </div>
+            }
+          </div>
+        }
+
+        @if (q.type === 'OpenAnswer') {
+          <div class="open-answer-container">
+            {{ q.userAnswer || 'No answer provided.' }}
+          </div>
+        }
+
+      </div>
+    }
+  </div>
+
+  <div class="action-footer">
+    <button class="close-btn" (click)="closeResult()">Close this attempt result</button>
+  </div>
+</div>
