@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { NullableOfEvaluationStrategy } from './nullableOfEvaluationStrategy';
 import { UpdateQuestionDto } from './updateQuestionDto';
 
 
@@ -20,6 +21,7 @@ export interface UpdateExamDto {
     finishesAt?: string | null;
     minimalPassScore?: number | null;
     attemptsCount?: number;
+    evaluationStrategy?: NullableOfEvaluationStrategy | null;
     canSkip?: boolean | null;
     showResults?: boolean | null;
     canCheckAttempts?: boolean | null;
@@ -29,4 +31,7 @@ export interface UpdateExamDto {
     createdOn?: string | null;
     updatedOn?: string | null;
 }
+export namespace UpdateExamDto {
+}
+
 

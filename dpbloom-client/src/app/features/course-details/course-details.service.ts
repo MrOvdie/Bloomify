@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { CourseService as ApiCourseService } from '../../core/api/api/course.service';
-import { CourseAggregateDto, ExamsService, LectureService, TopicService, CreateTopic} from '../../core/api';
+import { CourseAggregateDto, ExamsService, LectureService, TopicService, CreateTopicDto} from '../../core/api';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +22,7 @@ export class CourseDetailsService {
   }
 
 
-  addTopic(courseId: string, payload: any){
+  addTopic(courseId: string, payload: CreateTopicDto){
     return this.apiTopicClient.apiTopicCourseIdPost(courseId, payload)
   }
 

@@ -23,9 +23,9 @@ import { CourseAggregateDto } from '../model/courseAggregateDto';
 // @ts-ignore
 import { CourseDto } from '../model/courseDto';
 // @ts-ignore
-import { CreateCourse } from '../model/createCourse';
+import { CreateCourseDto } from '../model/createCourseDto';
 // @ts-ignore
-import { UpdateCourse } from '../model/updateCourse';
+import { UpdateCourseDto } from '../model/updateCourseDto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -516,20 +516,20 @@ export class CourseService extends BaseService {
     /**
      * @endpoint put /api/Course/{id}
      * @param id 
-     * @param updateCourse 
+     * @param updateCourseDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiCourseIdPut(id: string, updateCourse: UpdateCourse, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<CourseDto>;
-    public apiCourseIdPut(id: string, updateCourse: UpdateCourse, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CourseDto>>;
-    public apiCourseIdPut(id: string, updateCourse: UpdateCourse, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CourseDto>>;
-    public apiCourseIdPut(id: string, updateCourse: UpdateCourse, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiCourseIdPut(id: string, updateCourseDto: UpdateCourseDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<CourseDto>;
+    public apiCourseIdPut(id: string, updateCourseDto: UpdateCourseDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CourseDto>>;
+    public apiCourseIdPut(id: string, updateCourseDto: UpdateCourseDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CourseDto>>;
+    public apiCourseIdPut(id: string, updateCourseDto: UpdateCourseDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiCourseIdPut.');
         }
-        if (updateCourse === null || updateCourse === undefined) {
-            throw new Error('Required parameter updateCourse was null or undefined when calling apiCourseIdPut.');
+        if (updateCourseDto === null || updateCourseDto === undefined) {
+            throw new Error('Required parameter updateCourseDto was null or undefined when calling apiCourseIdPut.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -578,7 +578,7 @@ export class CourseService extends BaseService {
         return this.httpClient.request<CourseDto>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: updateCourse,
+                body: updateCourseDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -711,17 +711,17 @@ export class CourseService extends BaseService {
 
     /**
      * @endpoint post /api/Course
-     * @param createCourse 
+     * @param createCourseDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiCoursePost(createCourse: CreateCourse, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<CourseDto>;
-    public apiCoursePost(createCourse: CreateCourse, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CourseDto>>;
-    public apiCoursePost(createCourse: CreateCourse, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CourseDto>>;
-    public apiCoursePost(createCourse: CreateCourse, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (createCourse === null || createCourse === undefined) {
-            throw new Error('Required parameter createCourse was null or undefined when calling apiCoursePost.');
+    public apiCoursePost(createCourseDto: CreateCourseDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<CourseDto>;
+    public apiCoursePost(createCourseDto: CreateCourseDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<CourseDto>>;
+    public apiCoursePost(createCourseDto: CreateCourseDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<CourseDto>>;
+    public apiCoursePost(createCourseDto: CreateCourseDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (createCourseDto === null || createCourseDto === undefined) {
+            throw new Error('Required parameter createCourseDto was null or undefined when calling apiCoursePost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -770,7 +770,7 @@ export class CourseService extends BaseService {
         return this.httpClient.request<CourseDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: createCourse,
+                body: createCourseDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

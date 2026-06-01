@@ -453,7 +453,7 @@
         }
       }
     },
-    "/api/Attempts/review/{attemptResultId}": {
+    "/api/Attempts/review-many/{attemptResultId}": {
       "post": {
         "tags": [
           "Attempts"
@@ -493,6 +493,66 @@
                 "items": {
                   "$ref": "#/components/schemas/TeacherEvaluationDto"
                 }
+              }
+            }
+          },
+          "required": true
+        },
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptResultDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptResultDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AttemptResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Attempts/review/{attemptResultId}": {
+      "post": {
+        "tags": [
+          "Attempts"
+        ],
+        "parameters": [
+          {
+            "name": "attemptResultId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeacherEvaluationDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeacherEvaluationDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeacherEvaluationDto"
               }
             }
           },
@@ -800,17 +860,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateCourse"
+                "$ref": "#/components/schemas/CreateCourseDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateCourse"
+                "$ref": "#/components/schemas/CreateCourseDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateCourse"
+                "$ref": "#/components/schemas/CreateCourseDto"
               }
             }
           },
@@ -898,17 +958,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateCourse"
+                "$ref": "#/components/schemas/UpdateCourseDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateCourse"
+                "$ref": "#/components/schemas/UpdateCourseDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateCourse"
+                "$ref": "#/components/schemas/UpdateCourseDto"
               }
             }
           },
@@ -1959,17 +2019,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateLecture"
+                "$ref": "#/components/schemas/UpdateLectureDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateLecture"
+                "$ref": "#/components/schemas/UpdateLectureDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateLecture"
+                "$ref": "#/components/schemas/UpdateLectureDto"
               }
             }
           },
@@ -2252,17 +2312,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateLecture"
+                "$ref": "#/components/schemas/CreateLectureDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateLecture"
+                "$ref": "#/components/schemas/CreateLectureDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateLecture"
+                "$ref": "#/components/schemas/CreateLectureDto"
               }
             }
           },
@@ -2377,17 +2437,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRecommendationTemplate"
+                "$ref": "#/components/schemas/CreateRecommendationTemplateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRecommendationTemplate"
+                "$ref": "#/components/schemas/CreateRecommendationTemplateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateRecommendationTemplate"
+                "$ref": "#/components/schemas/CreateRecommendationTemplateDto"
               }
             }
           },
@@ -2475,17 +2535,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateRecommendationTemplate"
+                "$ref": "#/components/schemas/UpdateRecommendationTemplateDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateRecommendationTemplate"
+                "$ref": "#/components/schemas/UpdateRecommendationTemplateDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateRecommendationTemplate"
+                "$ref": "#/components/schemas/UpdateRecommendationTemplateDto"
               }
             }
           },
@@ -2687,17 +2747,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateTopic"
+                "$ref": "#/components/schemas/UpdateTopicDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateTopic"
+                "$ref": "#/components/schemas/UpdateTopicDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateTopic"
+                "$ref": "#/components/schemas/UpdateTopicDto"
               }
             }
           },
@@ -2931,17 +2991,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTopic"
+                "$ref": "#/components/schemas/CreateTopicDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTopic"
+                "$ref": "#/components/schemas/CreateTopicDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CreateTopic"
+                "$ref": "#/components/schemas/CreateTopicDto"
               }
             }
           },
@@ -3554,7 +3614,7 @@
           }
         }
       },
-      "CreateCourse": {
+      "CreateCourseDto": {
         "type": "object",
         "properties": {
           "title": {
@@ -3605,6 +3665,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "evaluationStrategy": {
+            "$ref": "#/components/schemas/EvaluationStrategy"
+          },
           "canSkip": {
             "type": "boolean"
           },
@@ -3625,7 +3688,7 @@
           }
         }
       },
-      "CreateLecture": {
+      "CreateLectureDto": {
         "type": "object",
         "properties": {
           "title": {
@@ -3697,7 +3760,7 @@
           }
         }
       },
-      "CreateRecommendationTemplate": {
+      "CreateRecommendationTemplateDto": {
         "type": "object",
         "properties": {
           "targetLevel": {
@@ -3713,7 +3776,7 @@
           }
         }
       },
-      "CreateTopic": {
+      "CreateTopicDto": {
         "type": "object",
         "properties": {
           "title": {
@@ -3724,6 +3787,12 @@
             "nullable": true
           }
         }
+      },
+      "EvaluationStrategy": {
+        "enum": [
+          "Best",
+          "Last"
+        ]
       },
       "ExamAttemptDto": {
         "type": "object",
@@ -3824,6 +3893,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "evaluationStrategy": {
+            "$ref": "#/components/schemas/EvaluationStrategy"
+          },
           "canSkip": {
             "type": "boolean"
           },
@@ -3904,6 +3976,9 @@
           "attemptsCount": {
             "type": "integer",
             "format": "int32"
+          },
+          "evaluationStrategy": {
+            "$ref": "#/components/schemas/EvaluationStrategy"
           },
           "canCheckAttempts": {
             "type": "boolean"
@@ -4075,6 +4150,14 @@
         "enum": [
           "Automatic",
           "Manual",
+          null
+        ],
+        "nullable": true
+      },
+      "NullableOfEvaluationStrategy": {
+        "enum": [
+          "Best",
+          "Last",
           null
         ],
         "nullable": true
@@ -4403,7 +4486,7 @@
           }
         }
       },
-      "UpdateCourse": {
+      "UpdateCourseDto": {
         "type": "object",
         "properties": {
           "title": {
@@ -4467,6 +4550,9 @@
             "type": "integer",
             "format": "int32"
           },
+          "evaluationStrategy": {
+            "$ref": "#/components/schemas/NullableOfEvaluationStrategy"
+          },
           "canSkip": {
             "type": "boolean",
             "nullable": true
@@ -4506,7 +4592,7 @@
           }
         }
       },
-      "UpdateLecture": {
+      "UpdateLectureDto": {
         "type": "object",
         "properties": {
           "title": {
@@ -4598,7 +4684,7 @@
           }
         }
       },
-      "UpdateRecommendationTemplate": {
+      "UpdateRecommendationTemplateDto": {
         "type": "object",
         "properties": {
           "targetLevel": {
@@ -4615,7 +4701,7 @@
           }
         }
       },
-      "UpdateTopic": {
+      "UpdateTopicDto": {
         "type": "object",
         "properties": {
           "title": {

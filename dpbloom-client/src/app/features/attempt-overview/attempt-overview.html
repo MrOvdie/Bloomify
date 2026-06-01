@@ -3,7 +3,8 @@
 
   <div class="stats-bar">
     <span>Attempt {{ aggregateData?.attemptDetails?.attemptNumber || 1 }}</span>
-    <span>Result: {{ aggregateData?.attemptResult?.score || 0 }}/{{ aggregateData?.attemptResult?.maxScore || 0 }}</span>
+    <span>Result: {{ aggregateData?.attemptResult?.score || 0 }}
+      /{{ aggregateData?.attemptResult?.maxScore || 0 }}</span>
     <span>{{ formatTimeSpan(aggregateData?.attemptDetails?.duration) || '00:00:00' }} total</span>
   </div>
 
@@ -13,13 +14,16 @@
 
         <div class="question-header">
           <h2 class="question-text">{{ i + 1 }}. {{ q.text }}</h2>
-          <span class="question-score">{{ q.earnedScore }}/{{ q.maxScore }} p.</span>
+          <span class="question-score">
+          {{ q.earnedScore != null ? q.earnedScore : '?' }}/{{ q.maxScore }} p.
+        </span>
         </div>
 
         <div class="question-meta">
-          <span class="meta-type">
-            {{ q.type === 'SingleChoice' ? 'Single choice' : q.type === 'MultipleChoice' ? 'MultipleChoice' : 'Open answer' }}:
-          </span>
+        <span class="meta-type">
+          {{ q.type === 'SingleChoice' ? 'Single choice' : q.type === 'MultipleChoice' ? 'Multichoice' : 'Open answer' }}
+          :
+        </span>
           <span class="meta-bloom">{{ q.bloomLevel }}</span>
         </div>
 
@@ -38,10 +42,47 @@
           </div>
         }
 
-        @if (q.type === 'OpenAnswer') {
-          <div class="open-answer-container">
+        @if (q.type === 'OpenAnswer' || q.type === 'openAnswer') {
+
+          <div class="open-answer-container pink-input"
+               style="padding: 1rem; min-height: 80px; margin-bottom: 1rem; border: 1px solid #f5c6cb; border-radius: 8px;">
             {{ q.userAnswer || 'No answer provided.' }}
           </div>
+
+          @if (isTeacherMode && q.questionResultStatus === 'PendingManualReview') {
+            <div class="evaluation-section" style="border-top: 1px solid #f8d7da; padding-top: 1rem;">
+
+      <textarea class="pink-input"
+                placeholder="Leave a comment..."
+                [(ngModel)]="evaluationComments[q.id]"
+                style="width: 100%; min-height: 80px; resize: vertical; margin-bottom: 1rem;">
+      </textarea>
+
+              <div class="evaluation-controls"
+                   style="display: flex; justify-content: flex-end; align-items: center; gap: 1rem;">
+                <div class="score-input-wrapper">
+                  <input type="number"
+                         class="pink-input"
+                         [(ngModel)]="evaluationScores[q.id]"
+                         [max]="q.maxScore"
+                         min="0"
+                         placeholder="?"
+                         style="width: 60px; text-align: center;">
+                  <span> / {{ q.maxScore }}</span>
+                </div>
+
+                <button class="action-btn evaluate-btn" (click)="submitEvaluation(q.id)">
+                  Evaluate
+                </button>
+              </div>
+            </div>
+          } @else if (q.teacherComment) {
+            <div class="teacher-comment"
+                 style="background: #eaf8e6; padding: 1rem; border-radius: 8px; margin-top: 1rem;">
+              <strong>Comment:</strong> {{ q.teacherComment }}
+            </div>
+          }
+
         }
 
       </div>

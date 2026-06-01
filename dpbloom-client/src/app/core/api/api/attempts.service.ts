@@ -686,10 +686,10 @@ export class AttemptsService extends BaseService {
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<AttemptResultDto>;
-    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AttemptResultDto>>;
-    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AttemptResultDto>>;
-    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: TeacherEvaluationDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<AttemptResultDto>;
+    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: TeacherEvaluationDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AttemptResultDto>>;
+    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: TeacherEvaluationDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AttemptResultDto>>;
+    public apiAttemptsReviewAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: TeacherEvaluationDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (attemptResultId === null || attemptResultId === undefined) {
             throw new Error('Required parameter attemptResultId was null or undefined when calling apiAttemptsReviewAttemptResultIdPost.');
         }
@@ -739,6 +739,82 @@ export class AttemptsService extends BaseService {
         }
 
         let localVarPath = `/api/Attempts/review/${this.configuration.encodeParam({name: "attemptResultId", value: attemptResultId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
+        const { basePath, withCredentials } = this.configuration;
+        return this.httpClient.request<AttemptResultDto>('post', `${basePath}${localVarPath}`,
+            {
+                context: localVarHttpContext,
+                body: teacherEvaluationDto,
+                responseType: <any>responseType_,
+                ...(withCredentials ? { withCredentials } : {}),
+                headers: localVarHeaders,
+                observe: observe,
+                ...(localVarTransferCache !== undefined ? { transferCache: localVarTransferCache } : {}),
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * @endpoint post /api/Attempts/review-many/{attemptResultId}
+     * @param attemptResultId 
+     * @param teacherEvaluationDto 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     * @param options additional options
+     */
+    public apiAttemptsReviewManyAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<AttemptResultDto>;
+    public apiAttemptsReviewManyAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<AttemptResultDto>>;
+    public apiAttemptsReviewManyAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<AttemptResultDto>>;
+    public apiAttemptsReviewManyAttemptResultIdPost(attemptResultId: string, teacherEvaluationDto: Array<TeacherEvaluationDto>, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (attemptResultId === null || attemptResultId === undefined) {
+            throw new Error('Required parameter attemptResultId was null or undefined when calling apiAttemptsReviewManyAttemptResultIdPost.');
+        }
+        if (teacherEvaluationDto === null || teacherEvaluationDto === undefined) {
+            throw new Error('Required parameter teacherEvaluationDto was null or undefined when calling apiAttemptsReviewManyAttemptResultIdPost.');
+        }
+
+        let localVarHeaders = this.defaultHeaders;
+
+        // authentication (Bearer) required
+        localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
+
+        const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
+        ]);
+        if (localVarHttpHeaderAcceptSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
+        }
+
+        const localVarHttpContext: HttpContext = options?.context ?? new HttpContext();
+
+        const localVarTransferCache: boolean = options?.transferCache ?? true;
+
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+            'application/json',
+            'text/json',
+            'application/*+json'
+        ];
+        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
+        if (httpContentTypeSelected !== undefined) {
+            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
+        }
+
+        let responseType_: 'text' | 'json' | 'blob' = 'json';
+        if (localVarHttpHeaderAcceptSelected) {
+            if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
+                responseType_ = 'text';
+            } else if (this.configuration.isJsonMime(localVarHttpHeaderAcceptSelected)) {
+                responseType_ = 'json';
+            } else {
+                responseType_ = 'blob';
+            }
+        }
+
+        let localVarPath = `/api/Attempts/review-many/${this.configuration.encodeParam({name: "attemptResultId", value: attemptResultId, in: "path", style: "simple", explode: false, dataType: "string", dataFormat: "uuid"})}`;
         const { basePath, withCredentials } = this.configuration;
         return this.httpClient.request<AttemptResultDto>('post', `${basePath}${localVarPath}`,
             {

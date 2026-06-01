@@ -25,7 +25,6 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
 
   answers: Record<string, any> = {};
 
-  // Таймер
   timeLeftSeconds = 1210;
   formattedTime = '00:00:00';
   private timerSub?: Subscription;
@@ -39,10 +38,8 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
     const resumeAttemptId = this.route.snapshot.queryParamMap.get('resumeId');
 
     if (resumeAttemptId) {
-      // ВАРІАНТ 1: Продовжуємо існуючу спробу (маємо ID з URL)
       this.loadAttemptData(resumeAttemptId);
     } else {
-      // ВАРІАНТ 2: Створюємо нову спробу
       this.attemptService.startAttempt(this.examId).pipe(
         switchMap((response: any) => {
 
@@ -55,7 +52,6 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
             replaceUrl: true
           });
 
-          // 2. Тепер викликаємо метод продовження, як і раніше
           return this.attemptService.continueAttempt(newAttemptId);
         })
       ).subscribe({
@@ -74,7 +70,6 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
   }
 
   private loadAttemptData(attemptId: string) {
-    // Підстав правильну назву методу з NSwag для ContinueAttemptAsync
     this.attemptService.continueAttempt(attemptId).subscribe({
       next: (details: AttemptDetailsDto) => {
         this.initializeAttemptData(details);
@@ -94,6 +89,7 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
 
     this.questions.forEach(q => {
       if (!q.id) return;
+      const qType = q.type?.toLowerCase();
       this.answers[q.id] = q.type === 'MultipleChoice' ? [] : '';
     });
 
@@ -107,13 +103,10 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
         if (!question) return;
 
         if (question.type === 'SingleChoice') {
-          // Для SingleChoice беремо перший елемент масиву
           this.answers[qId] = saved.selectedOptionIds?.length ? saved.selectedOptionIds[0] : '';
         } else if (question.type === 'MultipleChoice') {
-          // Для MultiChoice просто передаємо масив
           this.answers[qId] = saved.selectedOptionIds || [];
         } else if (question.type === 'OpenAnswer') {
-          // Для тексту беремо freeTextAnswer
           this.answers[qId] = saved.freeTextAnswer || '';
         }
       });
@@ -229,8 +222,8 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
     this.attemptService.submitAllAnswers(this.attemptId, payload).pipe(
       switchMap(() => this.attemptService.finishAttempt(this.attemptId))
     ).subscribe({
-      next: () => {
-        this.router.navigate(['/exam-dashboard', this.examId]);
+      next: async () => {
+        await this.router.navigate(['/exam-dashboard', this.examId]);
       },
       error: (err) => {
         console.error('Final saving error:', err);
@@ -259,7 +252,6 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
     this.autoSaveSubject.next(questionId);
   }
 
-// А цей метод вже формує DTO і відправляє на бекенд
   private submitSingleAnswer(questionId: string) {
     if (!this.attemptId) return;
 
@@ -292,16 +284,12 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
   }
 
   onTextChange(questionId: string) {
-    // Якщо користувач продовжує друкувати в ЦЬОМУ Ж питанні - скидаємо таймер
     if (this.textSaveTimers[questionId]) {
       clearTimeout(this.textSaveTimers[questionId]);
     }
 
-    // Заводимо новий таймер на 800мс тільки для цього питання
     this.textSaveTimers[questionId] = setTimeout(() => {
       this.submitSingleAnswer(questionId);
-    }, 800);
+    }, 500);
   }
-
-
 }

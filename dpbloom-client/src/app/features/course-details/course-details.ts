@@ -160,10 +160,16 @@ export class CourseDetails implements OnInit {
     }
   }
 
-  addActivity(topicId: string | undefined) {
-    console.log('Add activity to topic', topicId);
-  }
+  async addActivity(topicId: string | undefined) {
+    if (!this.course?.id) {
+      console.error('Cannot find course id');
+      return;
+    }
 
+    await this.router.navigate(['/teacher/add-activity', this.course.id], {
+      queryParams: { topicId: topicId }
+    });
+  }
   private evaluateTeacherMode() {
     console.log('evaluateTeacherMode');
 
@@ -194,12 +200,6 @@ export class CourseDetails implements OnInit {
     }
 
     this.itemToRemove = { id: activityId, type: activityType };
-    this.isRemoveModalOpen = true;
-  }
-
-  openRemoveModal(id: string, type: 'topic' | 'lecture' | 'exam', event: Event) {
-    event.stopPropagation();
-    this.itemToRemove = { id, type };
     this.isRemoveModalOpen = true;
   }
 

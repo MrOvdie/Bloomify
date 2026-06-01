@@ -133,12 +133,6 @@ export class TeacherDashboardComponent implements OnInit {
     }).join(' ');
   }
 
-  evaluateAttempt(attemptId: string | undefined) {
-    if (!attemptId) return;
-    // Навігація на сторінку перевірки відкритого питання викладачем
-    this.router.navigate(['/evaluate-attempt', attemptId]);
-  }
-
   async checkAttemptDetails(aggregate: any) {
     const userId = aggregate.examAttempt?.userId;
     const examId = this.data?.overview.id;

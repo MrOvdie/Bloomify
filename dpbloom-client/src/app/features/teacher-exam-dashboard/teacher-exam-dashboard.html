@@ -84,7 +84,7 @@
                 </div>
 
                 @if (aggregate.examAttempt?.status === 'PendingManualReview') {
-                  <button class="action-btn evaluate-btn" (click)="evaluateAttempt(aggregate.attemptResult?.id)">Evaluate</button>
+                  <button class="action-btn evaluate-btn" (click)="checkAttemptDetails(aggregate)">Evaluate</button>
                 } @else {
                   <button class="action-btn check-btn" (click)="checkAttemptDetails(aggregate)">Check</button>
                 }

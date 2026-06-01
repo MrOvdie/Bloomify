@@ -17,13 +17,13 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
-import { CreateLecture } from '../model/createLecture';
+import { CreateLectureDto } from '../model/createLectureDto';
 // @ts-ignore
 import { LectureDetailsDto } from '../model/lectureDetailsDto';
 // @ts-ignore
 import { LectureDto } from '../model/lectureDto';
 // @ts-ignore
-import { UpdateLecture } from '../model/updateLecture';
+import { UpdateLectureDto } from '../model/updateLectureDto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -164,20 +164,20 @@ export class LectureService extends BaseService {
     /**
      * @endpoint post /api/Lecture/{courseId}
      * @param courseId 
-     * @param createLecture 
+     * @param createLectureDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiLectureCourseIdPost(courseId: string, createLecture: CreateLecture, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<LectureDetailsDto>;
-    public apiLectureCourseIdPost(courseId: string, createLecture: CreateLecture, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LectureDetailsDto>>;
-    public apiLectureCourseIdPost(courseId: string, createLecture: CreateLecture, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LectureDetailsDto>>;
-    public apiLectureCourseIdPost(courseId: string, createLecture: CreateLecture, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiLectureCourseIdPost(courseId: string, createLectureDto: CreateLectureDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<LectureDetailsDto>;
+    public apiLectureCourseIdPost(courseId: string, createLectureDto: CreateLectureDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LectureDetailsDto>>;
+    public apiLectureCourseIdPost(courseId: string, createLectureDto: CreateLectureDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LectureDetailsDto>>;
+    public apiLectureCourseIdPost(courseId: string, createLectureDto: CreateLectureDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (courseId === null || courseId === undefined) {
             throw new Error('Required parameter courseId was null or undefined when calling apiLectureCourseIdPost.');
         }
-        if (createLecture === null || createLecture === undefined) {
-            throw new Error('Required parameter createLecture was null or undefined when calling apiLectureCourseIdPost.');
+        if (createLectureDto === null || createLectureDto === undefined) {
+            throw new Error('Required parameter createLectureDto was null or undefined when calling apiLectureCourseIdPost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -226,7 +226,7 @@ export class LectureService extends BaseService {
         return this.httpClient.request<LectureDetailsDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: createLecture,
+                body: createLectureDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -416,20 +416,20 @@ export class LectureService extends BaseService {
     /**
      * @endpoint put /api/Lecture/{id}
      * @param id 
-     * @param updateLecture 
+     * @param updateLectureDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiLectureIdPut(id: string, updateLecture: UpdateLecture, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<LectureDetailsDto>;
-    public apiLectureIdPut(id: string, updateLecture: UpdateLecture, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LectureDetailsDto>>;
-    public apiLectureIdPut(id: string, updateLecture: UpdateLecture, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LectureDetailsDto>>;
-    public apiLectureIdPut(id: string, updateLecture: UpdateLecture, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiLectureIdPut(id: string, updateLectureDto: UpdateLectureDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<LectureDetailsDto>;
+    public apiLectureIdPut(id: string, updateLectureDto: UpdateLectureDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<LectureDetailsDto>>;
+    public apiLectureIdPut(id: string, updateLectureDto: UpdateLectureDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<LectureDetailsDto>>;
+    public apiLectureIdPut(id: string, updateLectureDto: UpdateLectureDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiLectureIdPut.');
         }
-        if (updateLecture === null || updateLecture === undefined) {
-            throw new Error('Required parameter updateLecture was null or undefined when calling apiLectureIdPut.');
+        if (updateLectureDto === null || updateLectureDto === undefined) {
+            throw new Error('Required parameter updateLectureDto was null or undefined when calling apiLectureIdPut.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -478,7 +478,7 @@ export class LectureService extends BaseService {
         return this.httpClient.request<LectureDetailsDto>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: updateLecture,
+                body: updateLectureDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

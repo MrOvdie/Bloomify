@@ -17,11 +17,11 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
-import { CreateTopic } from '../model/createTopic';
+import { CreateTopicDto } from '../model/createTopicDto';
 // @ts-ignore
 import { TopicDto } from '../model/topicDto';
 // @ts-ignore
-import { UpdateTopic } from '../model/updateTopic';
+import { UpdateTopicDto } from '../model/updateTopicDto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -162,20 +162,20 @@ export class TopicService extends BaseService {
     /**
      * @endpoint post /api/Topic/{courseId}
      * @param courseId 
-     * @param createTopic 
+     * @param createTopicDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiTopicCourseIdPost(courseId: string, createTopic: CreateTopic, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<TopicDto>;
-    public apiTopicCourseIdPost(courseId: string, createTopic: CreateTopic, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TopicDto>>;
-    public apiTopicCourseIdPost(courseId: string, createTopic: CreateTopic, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TopicDto>>;
-    public apiTopicCourseIdPost(courseId: string, createTopic: CreateTopic, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiTopicCourseIdPost(courseId: string, createTopicDto: CreateTopicDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<TopicDto>;
+    public apiTopicCourseIdPost(courseId: string, createTopicDto: CreateTopicDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TopicDto>>;
+    public apiTopicCourseIdPost(courseId: string, createTopicDto: CreateTopicDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TopicDto>>;
+    public apiTopicCourseIdPost(courseId: string, createTopicDto: CreateTopicDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (courseId === null || courseId === undefined) {
             throw new Error('Required parameter courseId was null or undefined when calling apiTopicCourseIdPost.');
         }
-        if (createTopic === null || createTopic === undefined) {
-            throw new Error('Required parameter createTopic was null or undefined when calling apiTopicCourseIdPost.');
+        if (createTopicDto === null || createTopicDto === undefined) {
+            throw new Error('Required parameter createTopicDto was null or undefined when calling apiTopicCourseIdPost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -224,7 +224,7 @@ export class TopicService extends BaseService {
         return this.httpClient.request<TopicDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: createTopic,
+                body: createTopicDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -414,20 +414,20 @@ export class TopicService extends BaseService {
     /**
      * @endpoint put /api/Topic/{id}
      * @param id 
-     * @param updateTopic 
+     * @param updateTopicDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiTopicIdPut(id: string, updateTopic: UpdateTopic, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<TopicDto>;
-    public apiTopicIdPut(id: string, updateTopic: UpdateTopic, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TopicDto>>;
-    public apiTopicIdPut(id: string, updateTopic: UpdateTopic, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TopicDto>>;
-    public apiTopicIdPut(id: string, updateTopic: UpdateTopic, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiTopicIdPut(id: string, updateTopicDto: UpdateTopicDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<TopicDto>;
+    public apiTopicIdPut(id: string, updateTopicDto: UpdateTopicDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TopicDto>>;
+    public apiTopicIdPut(id: string, updateTopicDto: UpdateTopicDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TopicDto>>;
+    public apiTopicIdPut(id: string, updateTopicDto: UpdateTopicDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiTopicIdPut.');
         }
-        if (updateTopic === null || updateTopic === undefined) {
-            throw new Error('Required parameter updateTopic was null or undefined when calling apiTopicIdPut.');
+        if (updateTopicDto === null || updateTopicDto === undefined) {
+            throw new Error('Required parameter updateTopicDto was null or undefined when calling apiTopicIdPut.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -476,7 +476,7 @@ export class TopicService extends BaseService {
         return this.httpClient.request<TopicDto>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: updateTopic,
+                body: updateTopicDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

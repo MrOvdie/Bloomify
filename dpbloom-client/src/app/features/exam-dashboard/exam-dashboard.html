@@ -147,11 +147,21 @@
               </div>
             }
 
-            @if (data.exam.canCheckAttempts && item.stats.attemptResult?.id) {
-              <button class="check-attempt-btn"
-                      (click)="checkAttemptResult(item.stats.attemptResult!.attemptId!, data.attempts.length - i, item.durationInSeconds); $event.stopPropagation();">
-                Check attempt
-              </button>
+            @if (item.stats.attemptResult?.id) {
+
+              @if (isTeacherMode && item.stats.examAttempt?.status === 'PendingManualReview') {
+                <button class="check-attempt-btn evaluate-btn"
+                        (click)="evaluateAttemptResult(item.stats.attemptResult!.attemptId!, data.attempts.length - i, item.durationInSeconds); $event.stopPropagation();">
+                  Evaluate attempt
+                </button>
+              }
+
+              @else if (data.exam.canCheckAttempts || isTeacherMode) {
+                <button class="check-attempt-btn"
+                        (click)="checkAttemptResult(item.stats.attemptResult!.attemptId!, data.attempts.length - i, item.durationInSeconds); $event.stopPropagation();">
+                  Check attempt
+                </button>
+              }
             }
           </div>
         }

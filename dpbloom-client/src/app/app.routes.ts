@@ -11,6 +11,7 @@ import {ExamAttemptComponent} from "./features/exam-attempt/exam-attempt";
 import {authGuard} from "./core/guards/auth.guard";
 import {AttemptOverviewComponent} from "./features/attempt-overview/attempt-overview";
 import {TeacherDashboardComponent} from "./features/teacher-exam-dashboard/teacher-exam-dashboard";
+import {AddActivityComponent} from "./features/add-activity/add-activity";
 
 export const routes: Routes = [
   {path: 'login', component: Login},
@@ -26,7 +27,7 @@ export const routes: Routes = [
       {
         path: 'teacher/course-details/:courseId',
         component: CourseDetails,
-        data: { isTeacherMode: true }
+        data: {isTeacherMode: true}
       },
 
       {path: 'lecture-details/:lectureId', component: LectureDetails},
@@ -39,7 +40,13 @@ export const routes: Routes = [
 
       {path: 'exam-attempt/:examId', component: ExamAttemptComponent},
       {path: 'attempt-overview/:attemptId', component: AttemptOverviewComponent},
+      {
+        path: 'teacher/attempt-overview/:attemptId',
+        component: AttemptOverviewComponent,
+        data: {isTeacherMode: true}
+      },
       {path: 'teacher-exam-dashboard/:examId', component: TeacherDashboardComponent},
+      {path: 'teacher/add-activity/:courseId', component: AddActivityComponent}
     ]
   },
 

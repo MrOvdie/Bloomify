@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { CreateQuestionDto } from './createQuestionDto';
+import { EvaluationStrategy } from './evaluationStrategy';
 
 
 export interface CreateExamDto { 
@@ -19,10 +20,14 @@ export interface CreateExamDto {
     finishesAt?: string;
     minimalPassScore?: number | null;
     attemptsCount?: number;
+    evaluationStrategy?: EvaluationStrategy;
     canSkip?: boolean;
     showResults?: boolean;
     canCheckAttempts?: boolean;
     isRandomOrder?: boolean;
     questions?: Array<CreateQuestionDto>;
 }
+export namespace CreateExamDto {
+}
+
 

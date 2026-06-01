@@ -131,6 +131,17 @@ export class ExamDashboard implements OnInit {
     });
   }
 
+  async evaluateAttemptResult(attemptId: string, attemptNumber: number, durationInSeconds: number) {
+    if (!attemptId) return;
+
+    await this.router.navigate(['teacher/attempt-overview', attemptId], {
+      state: {
+        attemptNumber: attemptNumber,
+        duration: durationInSeconds
+      }
+    });
+  }
+
   isExamAvailable(): boolean {
     if (!this.data?.exam) return false;
 

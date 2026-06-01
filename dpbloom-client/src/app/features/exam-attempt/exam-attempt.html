@@ -55,13 +55,13 @@
             }
 
             @if (q.type === 'OpenAnswer') {
-              <textarea class="text-answer-input"
+              <textarea class="text-answer-input pink-input"
+                        style="width: 100%; min-height: 120px; resize: vertical; padding: 1rem; box-sizing: border-box;"
                         placeholder="Type your answer here..."
                         [(ngModel)]="answers[q.id!]"
                         (ngModelChange)="onTextChange(q.id!)">
               </textarea>
             }
-
           </div>
         </div>
       }

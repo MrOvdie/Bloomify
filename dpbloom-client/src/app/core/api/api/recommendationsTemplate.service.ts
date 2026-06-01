@@ -17,11 +17,11 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
-import { CreateRecommendationTemplate } from '../model/createRecommendationTemplate';
+import { CreateRecommendationTemplateDto } from '../model/createRecommendationTemplateDto';
 // @ts-ignore
 import { RecommendationTemplateDto } from '../model/recommendationTemplateDto';
 // @ts-ignore
-import { UpdateRecommendationTemplate } from '../model/updateRecommendationTemplate';
+import { UpdateRecommendationTemplateDto } from '../model/updateRecommendationTemplateDto';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -278,20 +278,20 @@ export class RecommendationsTemplateService extends BaseService {
     /**
      * @endpoint put /api/RecommendationsTemplate/{id}
      * @param id 
-     * @param updateRecommendationTemplate 
+     * @param updateRecommendationTemplateDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<RecommendationTemplateDto>;
-    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecommendationTemplateDto>>;
-    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecommendationTemplateDto>>;
-    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplate: UpdateRecommendationTemplate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplateDto: UpdateRecommendationTemplateDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<RecommendationTemplateDto>;
+    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplateDto: UpdateRecommendationTemplateDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplateDto: UpdateRecommendationTemplateDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplateIdPut(id: string, updateRecommendationTemplateDto: UpdateRecommendationTemplateDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
         if (id === null || id === undefined) {
             throw new Error('Required parameter id was null or undefined when calling apiRecommendationsTemplateIdPut.');
         }
-        if (updateRecommendationTemplate === null || updateRecommendationTemplate === undefined) {
-            throw new Error('Required parameter updateRecommendationTemplate was null or undefined when calling apiRecommendationsTemplateIdPut.');
+        if (updateRecommendationTemplateDto === null || updateRecommendationTemplateDto === undefined) {
+            throw new Error('Required parameter updateRecommendationTemplateDto was null or undefined when calling apiRecommendationsTemplateIdPut.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -340,7 +340,7 @@ export class RecommendationsTemplateService extends BaseService {
         return this.httpClient.request<RecommendationTemplateDto>('put', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: updateRecommendationTemplate,
+                body: updateRecommendationTemplateDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,
@@ -353,17 +353,17 @@ export class RecommendationsTemplateService extends BaseService {
 
     /**
      * @endpoint post /api/RecommendationsTemplate
-     * @param createRecommendationTemplate 
+     * @param createRecommendationTemplateDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<RecommendationTemplateDto>;
-    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecommendationTemplateDto>>;
-    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecommendationTemplateDto>>;
-    public apiRecommendationsTemplatePost(createRecommendationTemplate: CreateRecommendationTemplate, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (createRecommendationTemplate === null || createRecommendationTemplate === undefined) {
-            throw new Error('Required parameter createRecommendationTemplate was null or undefined when calling apiRecommendationsTemplatePost.');
+    public apiRecommendationsTemplatePost(createRecommendationTemplateDto: CreateRecommendationTemplateDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<RecommendationTemplateDto>;
+    public apiRecommendationsTemplatePost(createRecommendationTemplateDto: CreateRecommendationTemplateDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplatePost(createRecommendationTemplateDto: CreateRecommendationTemplateDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<RecommendationTemplateDto>>;
+    public apiRecommendationsTemplatePost(createRecommendationTemplateDto: CreateRecommendationTemplateDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (createRecommendationTemplateDto === null || createRecommendationTemplateDto === undefined) {
+            throw new Error('Required parameter createRecommendationTemplateDto was null or undefined when calling apiRecommendationsTemplatePost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -412,7 +412,7 @@ export class RecommendationsTemplateService extends BaseService {
         return this.httpClient.request<RecommendationTemplateDto>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: createRecommendationTemplate,
+                body: createRecommendationTemplateDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

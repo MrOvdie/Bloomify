@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { EvaluationStrategy } from './evaluationStrategy';
 import { QuestionDto } from './questionDto';
 
 
@@ -22,6 +23,7 @@ export interface ExamDetailsDto {
     finishesAt?: string;
     minimalPassScore?: number;
     attemptsCount?: number;
+    evaluationStrategy?: EvaluationStrategy;
     canSkip?: boolean;
     showResults?: boolean;
     canCheckAttempts?: boolean;
@@ -31,4 +33,7 @@ export interface ExamDetailsDto {
     createdOn?: string | null;
     updatedOn?: string | null;
 }
+export namespace ExamDetailsDto {
+}
+
 
