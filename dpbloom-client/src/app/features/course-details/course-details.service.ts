@@ -21,6 +21,17 @@ export class CourseDetailsService {
     );
   }
 
+  enrollStudent(courseId: string, userName: string){
+    return this.apiCourseClient.apiCourseCourseIdEnrollUserNamePost(courseId, userName);
+  }
+
+  enrollMultiple(courseId: string, userNames: string[]){
+    return this.apiCourseClient.apiCourseCourseIdEnrollMultiplePost(courseId, userNames);
+  }
+
+  enrollGroup(courseId: string, groupName: string){
+    return this.apiCourseClient.apiCourseCourseIdEnrollGroupGroupPost(courseId, groupName);
+  }
 
   addTopic(courseId: string, payload: CreateTopicDto){
     return this.apiTopicClient.apiTopicCourseIdPost(courseId, payload)

@@ -4,6 +4,7 @@ import {CourseDetailsService} from './course-details.service';
 import {CourseAggregateDto} from '../../core/api';
 import {AuthService} from "../../core/services/auth.service";
 import { FormsModule } from '@angular/forms';
+import {finalize, forkJoin, Observable} from "rxjs";
 
 @Component({
   selector: 'app-course-details',
@@ -22,10 +23,13 @@ export class CourseDetails implements OnInit {
 
   course: CourseAggregateDto | null = null;
   isLoading = true;
-  isTeacherMode = false;
+  isAuthorMode = false;
 
   isRemoveModalOpen = false;
   itemToRemove: { id: string, type: 'topic' | 'lecture' | 'exam' } | null = null;
+
+  isTeacherMode = false;
+  isAdminMode = false;
 
   isAddTopicModalOpen = false;
   newTopicTitle = '';
@@ -33,9 +37,18 @@ export class CourseDetails implements OnInit {
 
   expandedTopics: Record<string, boolean> = {};
 
+  isEnrolModalOpen = false;
+  enrolGroup = '';
+  enrolUsername = '';
+  enrolUsernamesList = '';
+  isEnrolling = false;
+
   ngOnInit() {
     this.expandedTopics['general'] = true;
-    this.isTeacherMode = this.route.snapshot.data['isTeacherMode'] || false;
+    this.isAuthorMode = this.route.snapshot.data['isTeacherMode'] || false;
+
+    this.isTeacherMode = this.authService.isTeacher();
+    this.isAdminMode = this.authService.isAdmin();
 
     const id = this.route.snapshot.paramMap.get('courseId');
     if (id) {
@@ -103,7 +116,7 @@ export class CourseDetails implements OnInit {
     }
 
     let success = false;
-    if (this.isTeacherMode) {
+    if (this.isAuthorMode && this.isTeacherMode) {
       success = await this.router.navigate(['/teacher-exam-dashboard', examId]);
     } else {
       success = await this.router.navigate(['/exam-dashboard', examId]);
@@ -114,23 +127,16 @@ export class CourseDetails implements OnInit {
     }
   }
 
-  enrolStudents() {
-    // Відкриття модалки додавання студентів
-    console.log('Open enrol modal');
-  }
-
   openAddTopicModal() {
     this.newTopicTitle = '';
     this.newTopicDescription = '';
     this.isAddTopicModalOpen = true;
   }
 
-// Закриття модалки
   closeAddTopicModal() {
     this.isAddTopicModalOpen = false;
   }
 
-// Підтвердження створення
   confirmAddTopic() {
     // Базова валідація, щоб не створювати порожні теми
     if (!this.newTopicTitle.trim()) {
@@ -178,7 +184,7 @@ export class CourseDetails implements OnInit {
 
     const isCourseAuthor = currentUserId === this.course?.authorId;
 
-    this.isTeacherMode = hasPrivilegedRole && isCourseAuthor;
+    this.isAuthorMode = hasPrivilegedRole && isCourseAuthor;
   }
 
   removeTopic(topicId: string | undefined, event: Event) {
@@ -237,5 +243,68 @@ export class CourseDetails implements OnInit {
         this.closeRemoveModal();
       });
     }
+  }
+
+  enrolStudents() {
+    this.openEnrolModal();
+  }
+
+  openEnrolModal() {
+    this.enrolGroup = '';
+    this.enrolUsername = '';
+    this.enrolUsernamesList = '';
+    this.isEnrolModalOpen = true;
+  }
+
+  closeEnrolModal() {
+    this.isEnrolModalOpen = false;
+  }
+
+  confirmEnrol() {
+    if (!this.course?.id) {
+      console.error('Course ID is missing');
+      return;
+    }
+
+    const group = this.enrolGroup.trim();
+    const singleUser = this.enrolUsername.trim();
+    const multipleUsers = this.enrolUsernamesList
+      .split(/[,\n]+/)
+      .map(name => name.trim())
+      .filter(name => name.length > 0);
+
+    if (!group && !singleUser && multipleUsers.length === 0) {
+      return;
+    }
+
+    this.isEnrolling = true;
+
+    const requests: Observable<any>[] = [];
+
+    if (group) {
+      requests.push(this.courseDetailsService.enrollGroup(this.course.id, group));
+    }
+
+    if (singleUser) {
+      requests.push(this.courseDetailsService.enrollStudent(this.course.id, singleUser));
+    }
+
+    if (multipleUsers.length > 0) {
+      requests.push(this.courseDetailsService.enrollMultiple(this.course.id, multipleUsers));
+    }
+
+    forkJoin(requests)
+      .pipe(finalize(() => {
+        this.isEnrolling = false;
+        this.closeEnrolModal();
+      }))
+      .subscribe({
+        next: () => {
+          console.log('Successful enrollment!');
+        },
+        error: (err) => {
+          console.error('Error during enrollment:', err);
+        }
+      });
   }
 }

@@ -308,3 +308,135 @@ $icon-text: #495057;
     }
   }
 }
+
+.general-actions-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 3rem;
+  margin-bottom: 2rem;
+  padding-top: 2rem;
+  border-top: 2px dashed #fce8eb;
+}
+
+.create-general-btn {
+  background-color: #fce8eb;
+  color: #a32a3d;
+  border: none;
+  padding: 0.8rem 2rem;
+  border-radius: 8px;
+  font-family: inherit;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background-color: #f5d6dc;
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+}
+
+.enrol-modal {
+  max-width: 500px;
+  padding: 3rem 4rem;
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .input-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    label {
+      font-size: 0.95rem;
+      color: #333;
+      font-weight: 500;
+      flex: 1;
+    }
+
+    input {
+      width: 55%;
+    }
+  }
+
+  .textarea-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    margin-top: 0.5rem;
+
+    label {
+      font-size: 0.95rem;
+      color: #333;
+      font-weight: 500;
+    }
+
+    textarea {
+      width: 100%;
+      resize: vertical;
+      min-height: 100px;
+    }
+  }
+
+  .outline-input {
+    background-color: transparent;
+    border: 1px solid #ffcccc;
+    padding: 0.6rem 1rem;
+    font-family: inherit;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+    color: #333;
+
+    &::placeholder {
+      color: #b59599;
+      opacity: 0.6;
+    }
+
+    &:focus {
+      border-color: #ff9999;
+    }
+  }
+
+  .pill-input {
+    border-radius: 50px;
+  }
+
+  textarea.outline-input {
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+  }
+}
+
+.stacked-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+  margin-top: 2rem;
+
+  .modal-btn {
+    width: 100%;
+    max-width: 250px;
+    padding: 0.7rem 1.5rem;
+  }
+
+  .btn-back {
+    background-color: transparent;
+    border: 1px solid #b5a8a9;
+    color: #555;
+
+    &:hover {
+      background-color: #f7f7f7;
+    }
+  }
+}

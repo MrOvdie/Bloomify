@@ -6,7 +6,7 @@
       {{ course.description || 'Опис відсутній.' }}
     </div>
 
-    @if (isTeacherMode) {
+    @if (isAuthorMode) {
       <div class="teacher-global-controls" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
         <button class="teacher-btn enrol-btn" (click)="enrolStudents()">Enrol students</button>
         <button class="teacher-btn add-btn" (click)="openAddTopicModal()">+</button>
@@ -21,7 +21,7 @@
             <p class="topic-desc">General info materials and initial lectures for the course</p>
           </div>
           <div class="header-actions" style="display: flex; align-items: center; gap: 1rem;">
-            @if (isTeacherMode) {
+            @if (isAuthorMode) {
               <button class="teacher-icon-btn remove-btn" (click)="removeTopic('general',$event)">-</button>
             }
             <div class="toggle-icon" [class.rotated]="expandedTopics['general']">
@@ -40,7 +40,7 @@
                   <div class="icon-box">T</div>
                   <span class="item-text">{{ lecture.title }}</span>
                 </div>
-                @if (isTeacherMode) {
+                @if (isAuthorMode) {
                   <button class="teacher-icon-btn remove-btn"
                           (click)="removeActivity(lecture.id, 'lecture', $event)">-</button>
                 }
@@ -53,16 +53,16 @@
                   <div class="icon-box test-icon">✓</div>
                   <span class="item-text">{{ exam.title }}</span>
                 </div>
-                @if (isTeacherMode) {
+                @if (isAuthorMode) {
                   <button class="teacher-icon-btn remove-btn"
                           (click)="removeActivity(exam.id, 'exam', $event)">-</button>
                 }
               </div>
             }
 
-            @if (isTeacherMode) {
+            @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
               <div class="add-activity-row" style="text-align: right; padding: 0.5rem 1rem;">
-                <button class="teacher-icon-btn add-btn" (click)="addActivity('general')">+</button>
+                <button class="teacher-icon-btn add-btn" (click)="addActivity(undefined)">+</button>
               </div>
             }
           </div>
@@ -79,7 +79,7 @@
               <p class="topic-desc">{{ topic.description }}</p>
             </div>
             <div class="header-actions" style="display: flex; align-items: center; gap: 1rem;">
-              @if (isTeacherMode) {
+              @if (isAuthorMode) {
                 <button class="teacher-icon-btn remove-btn" (click)="removeTopic(topic.id, $event)">-</button>
               }
               <div class="toggle-icon" [class.rotated]="expandedTopics[topic.id || '']">
@@ -98,7 +98,7 @@
                     <div class="icon-box">T</div>
                     <span class="item-text">{{ lecture.title }}</span>
                   </div>
-                  @if (isTeacherMode) {
+                  @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
                     <button class="teacher-icon-btn remove-btn"
                             (click)="removeActivity(lecture.id, 'lecture', $event)">-</button>
                   }
@@ -111,14 +111,14 @@
                     <div class="icon-box test-icon">✓</div>
                     <span class="item-text">{{ exam.title }}</span>
                   </div>
-                  @if (isTeacherMode) {
+                  @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
                     <button class="teacher-icon-btn remove-btn"
                             (click)="removeActivity(exam.id, 'exam', $event)">-</button>
                   }
                 </div>
               }
 
-              @if (isTeacherMode) {
+              @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
                 <div class="add-activity-row" style="text-align: right; padding: 0.5rem 1rem;">
                   <button class="teacher-icon-btn add-btn" (click)="addActivity(topic.id)">+</button>
                 </div>
@@ -128,6 +128,15 @@
         </div>
       }
     </div>
+
+    @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
+      <div class="general-actions-wrapper">
+        <button class="create-general-btn" (click)="addActivity(undefined)">
+          + Create without topic
+        </button>
+      </div>
+    }
+
   }
 </div>
 
@@ -166,6 +175,52 @@
                 [disabled]="!newTopicTitle.trim()"
                 (click)="confirmAddTopic()">Create Topic</button>
         <button class="modal-btn btn-back" (click)="closeAddTopicModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (isEnrolModalOpen) {
+  <div class="modal-backdrop" (click)="closeEnrolModal()">
+    <div class="confirm-modal enrol-modal" (click)="$event.stopPropagation()">
+      <h2 class="modal-title">Enrol students</h2>
+
+      <div class="form-container">
+        <div class="input-row">
+          <label>Enrol by group</label>
+          <input
+            type="text"
+            class="outline-input pill-input"
+            [(ngModel)]="enrolGroup"
+            placeholder="XX-XX">
+        </div>
+
+        <div class="input-row">
+          <label>Enrol by username</label>
+          <input
+            type="text"
+            class="outline-input pill-input"
+            [(ngModel)]="enrolUsername"
+            placeholder="...">
+        </div>
+
+        <div class="textarea-group">
+          <label>List of usernames:</label>
+          <textarea
+            class="outline-input"
+            [(ngModel)]="enrolUsernamesList"
+            rows="4"
+            placeholder="Enter usernames, divided by comma..."></textarea>
+        </div>
+      </div>
+
+      <div class="modal-actions stacked-actions">
+        <button class="modal-btn btn-confirm"
+                [disabled]="isEnrolling"
+                (click)="confirmEnrol()">Enrol</button>
+
+        <button class="modal-btn btn-back"
+                (click)="closeEnrolModal()">Back</button>
       </div>
     </div>
   </div>

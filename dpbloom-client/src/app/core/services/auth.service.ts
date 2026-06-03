@@ -9,6 +9,8 @@ import {AuthResponseDto, LoginRequestDto} from '../api';
 
 export class AuthService {
   private apiAuthClient = inject(ApiAuthService);
+  private readonly ROLE_CLAIM = 'http://schemas.microsoft.com/ws/2008/06/identity/claims/role';
+  private readonly ID_CLAIM = 'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier';
 
   login(credentials: LoginRequestDto): Observable<AuthResponseDto> {
     return this.apiAuthClient.apiAuthLoginPost(credentials).pipe(
@@ -47,7 +49,6 @@ export class AuthService {
     const payload = this.getParsedToken();
     if (!payload) return null;
 
-    // Шукаємо ID у стандартних клеймах .NET або коротких форматах
     return payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier']
       || payload.sub
       || payload.id
@@ -71,5 +72,39 @@ export class AuthService {
 
   logout(): void {
     localStorage.clear();
+  }
+
+  private getDecodedToken(): any | null {
+    const token = localStorage.getItem('jwt_token');
+    if (!token) return null;
+
+    try {
+      const payloadBase64 = token.split('.')[1];
+      return JSON.parse(atob(payloadBase64));
+    } catch (error) {
+      console.error('Помилка при декодуванні JWT токена:', error);
+      return null;
+    }
+  }
+
+  getUserRoles(): string[] {
+    const decodedPayload = this.getDecodedToken();
+    if (!decodedPayload) return [];
+
+    const roles = decodedPayload[this.ROLE_CLAIM] || decodedPayload.role || [];
+    return Array.isArray(roles) ? roles : [roles];
+  }
+
+  isTeacher(): boolean {
+    return this.getUserRoles().includes('Teacher');
+  }
+  // Окремий метод для перевірки на адміна
+  isAdmin(): boolean {
+    return this.getUserRoles().includes('Admin');
+  }
+
+  getCurrentUserId(): string | null {
+    const decodedPayload = this.getDecodedToken();
+    return decodedPayload ? decodedPayload[this.ID_CLAIM] : null;
   }
 }
