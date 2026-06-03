@@ -16,6 +16,7 @@ export interface UserProfileDto {
     middleName?: string | null;
     lastName?: string;
     email?: string;
+    phoneNumber?: string;
     group?: string | null;
     faculty?: string | null;
     avatarUrl?: string | null;

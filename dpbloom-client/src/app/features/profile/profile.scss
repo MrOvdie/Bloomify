@@ -158,3 +158,112 @@ canvas {
   width: 100% !important;
   height: 100% !important;
 }
+
+.profile-actions-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: 2rem;
+  width: 100%;
+  align-items: center;
+}
+
+.profile-action-btn {
+  width: 100%;
+  max-width: 220px;
+  padding: 0.65rem 1.2rem;
+  border-radius: 50px;
+  border: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &.btn-edit {
+    background-color: #ff9999;
+    color: #1a1a1a;
+  }
+
+  &.btn-password {
+    background-color: #a2d9ce;
+    color: #1a1a1a;
+  }
+
+  &.btn-logout {
+    background-color: #b5a8a9;
+    color: #1a1a1a;
+  }
+}
+
+.profile-actions-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  margin-top: auto;
+  padding-top: 2rem;
+  width: 100%;
+  align-items: center;
+}
+
+.profile-action-btn {
+  width: 100%;
+  max-width: 240px;
+  padding: 0.7rem 1.2rem;
+  border-radius: 50px;
+  border: none;
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: center;
+  box-sizing: border-box;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+
+  &:active {
+    transform: translateY(1px);
+  }
+
+  &.btn-edit {
+    background-color: #ff9999;
+    color: #1a1a1a;
+  }
+
+  &.btn-password {
+    background-color: transparent;
+    border: 2px solid #ff9999;
+    color: #1a1a1a;
+    padding: 0.6rem 1.2rem;
+
+    &:hover {
+      background-color: rgba(255, 153, 153, 0.08);
+      opacity: 1;
+    }
+  }
+
+  &.btn-logout {
+    background-color: #b5a8a9;
+    color: #1a1a1a;
+  }
+}
+
+.details-card, .session-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}

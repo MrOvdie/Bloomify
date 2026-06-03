@@ -1,6 +1,6 @@
 import {Injectable, inject} from '@angular/core';
 import {map, Observable, switchMap} from 'rxjs';
-import {UserService} from '../../core/api';
+import {ChangePasswordDto, UserService} from '../../core/api';
 import {UserProfileDto, GlobalUserDashboardDto} from '../../core/api';
 
 export interface CombinedProfileData {
@@ -12,7 +12,6 @@ export interface CombinedProfileData {
   providedIn: 'root'
 })
 export class ProfileService {
-  // Інжектуємо твій автозгенерований клієнт
   private profileApi = inject(UserService);
 
   getFullProfileData(): Observable<CombinedProfileData> {
@@ -32,4 +31,5 @@ export class ProfileService {
       })
     );
   }
+
 }

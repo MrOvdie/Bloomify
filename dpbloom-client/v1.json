@@ -712,6 +712,18 @@
         }
       }
     },
+    "/api/Auth/logout": {
+      "post": {
+        "tags": [
+          "Auth"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Auth/update-profile/{userId}": {
       "put": {
         "tags": [
@@ -4816,6 +4828,14 @@
             "type": "string",
             "nullable": true
           },
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "phoneNumber": {
+            "type": "string",
+            "nullable": true
+          },
           "group": {
             "type": "string",
             "nullable": true
@@ -4826,6 +4846,16 @@
           },
           "avatarUrl": {
             "type": "string",
+            "nullable": true
+          },
+          "enteringDate": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "graduationDate": {
+            "type": "string",
+            "format": "date-time",
             "nullable": true
           }
         }
@@ -4878,6 +4908,9 @@
             "type": "string"
           },
           "email": {
+            "type": "string"
+          },
+          "phoneNumber": {
             "type": "string"
           },
           "group": {

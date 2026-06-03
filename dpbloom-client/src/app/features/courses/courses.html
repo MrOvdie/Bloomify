@@ -66,82 +66,65 @@
 @if (isAddCourseModalOpen) {
   <div class="modal-overlay" (click)="closeAddCourseModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
+
       <h2 class="modal-title">Create new course</h2>
-      <div class="form-group">
-        <input type="text" class="pill-input" placeholder="Name" [(ngModel)]="newCourseName">
+
+      <div class="form-container">
+        <div class="form-group">
+          <input type="text" class="pill-input" placeholder="Name" [(ngModel)]="newCourseName">
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="pill-input" placeholder="Description" [(ngModel)]="newCourseDescription">
+        </div>
+
+        <div class="checkbox-group">
+          <label class="checkbox-label">
+            <input type="checkbox" [(ngModel)]="isCoursePublished">
+            <span class="custom-checkbox"></span>
+            Publish course immediately
+          </label>
+        </div>
       </div>
-      <div class="form-group">
-        <input type="text" class="pill-input" placeholder="Description" [(ngModel)]="newCourseDescription">
+
+      <div class="stacked-actions">
+        <button class="modal-btn btn-coral" (click)="confirmAddCourse()" [disabled]="isSubmitting">Create</button>
+        <button class="modal-btn btn-grey" (click)="closeAddCourseModal()">Back</button>
       </div>
-      <div class="checkbox-group">
-        <label class="checkbox-label">
-          <input type="checkbox" [(ngModel)]="isCoursePublished">
-          <span class="custom-checkbox"></span>
-          Publish course immediately
-        </label>
-      </div>
-      <div class="modal-actions">
-        <button class="btn-back" (click)="closeAddCourseModal()">Back</button>
-        <button class="btn-create" (click)="confirmAddCourse()" [disabled]="isSubmitting">Create</button>
-      </div>
+
     </div>
   </div>
 }
 
 @if (isRegisterModalOpen) {
   <div class="modal-overlay" (click)="closeRegisterModal()">
-    <div class="modal-content register-modal" (click)="$event.stopPropagation()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
       <h2 class="modal-title">Register new students</h2>
 
-      <div class="form-group">
-        <input type="text" class="pill-input" placeholder="Name" [(ngModel)]="regName">
-      </div>
+      <div class="form-container">
+        <div class="form-group"><input type="text" class="pill-input" placeholder="Name" [(ngModel)]="regName"></div>
+        <div class="form-group"><input type="text" class="pill-input" placeholder="Middle name" [(ngModel)]="regMiddleName"></div>
+        <div class="form-group"><input type="text" class="pill-input" placeholder="Last name" [(ngModel)]="regLastName"></div>
+        <div class="form-group"><input type="email" class="pill-input" placeholder="Email" [(ngModel)]="regEmail"></div>
 
-      <div class="form-group">
-        <input type="text" class="pill-input" placeholder="Middle name" [(ngModel)]="regMiddleName">
-      </div>
-
-      <div class="form-group">
-        <input type="text" class="pill-input" placeholder="Last name" [(ngModel)]="regLastName">
-      </div>
-
-      <div class="form-group">
-        <input type="email" class="pill-input" placeholder="Email" [(ngModel)]="regEmail">
-      </div>
-
-      <div class="form-row-twin">
-        <div class="form-group field-half">
-          <input type="text" class="pill-input" placeholder="Group" [(ngModel)]="regGroup">
+        <div class="form-row-twin">
+          <div class="form-group field-half"><input type="text" class="pill-input" placeholder="Group" [(ngModel)]="regGroup"></div>
+          <div class="form-group field-half"><input type="text" class="pill-input" placeholder="Faculty" [(ngModel)]="regFaculty"></div>
         </div>
-        <div class="form-group field-half">
-          <input type="text" class="pill-input" placeholder="Faculty" [(ngModel)]="regFaculty">
+
+        <div class="form-row-twin">
+          <div class="form-group field-half">
+            <input type="text" class="pill-input" placeholder="Entering date" [(ngModel)]="regEnteringDate" onfocus="(this.type='date')" onblur="if(!this.value) this.type='text'">
+          </div>
+          <div class="form-group field-half">
+            <input type="text" class="pill-input" placeholder="Graduation date" [(ngModel)]="regGraduationDate" onfocus="(this.type='date')" onblur="if(!this.value) this.type='text'">
+          </div>
         </div>
       </div>
 
-      <div class="form-row-twin">
-        <div class="form-group field-half">
-          <input
-            type="text"
-            class="pill-input date-input"
-            placeholder="Entering date"
-            [(ngModel)]="regEnteringDate"
-            onfocus="(this.type='date')"
-            onblur="if(!this.value) this.type='text'">
-        </div>
-        <div class="form-group field-half">
-          <input
-            type="text"
-            class="pill-input date-input"
-            placeholder="Graduation date"
-            [(ngModel)]="regGraduationDate"
-            onfocus="(this.type='date')"
-            onblur="if(!this.value) this.type='text'">
-        </div>
-      </div>
-
-      <div class="modal-actions-right">
-        <button class="btn-back" (click)="closeRegisterModal()">Back</button>
-        <button class="btn-create" (click)="confirmRegisterStudent()" [disabled]="isRegistering">Register</button>
+      <div class="stacked-actions">
+        <button class="modal-btn btn-coral" (click)="confirmRegisterStudent()" [disabled]="isRegistering">Register</button>
+        <button class="modal-btn btn-grey" (click)="closeRegisterModal()">Back</button>
       </div>
     </div>
   </div>

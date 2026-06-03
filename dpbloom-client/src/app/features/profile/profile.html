@@ -13,10 +13,16 @@
         <div class="info-card">
           <h2 class="card-title">Details</h2>
           <div class="info-block"><span class="info-label">Email:</span><span class="info-value">{{ userProfile.email }}</span></div>
-          <div class="info-block"><span class="info-label">Phone:</span><span class="info-value">+380(xx)-xxx-xx-xx</span></div>
+          <div class="info-block"><span class="info-label">Phone:</span><span class="info-value">{{ userProfile.phoneNumber }}</span></div>
           <div class="info-block"><span class="info-label">Group:</span><span class="info-value">{{ userProfile.group || 'N/A' }}</span></div>
           <div class="info-block"><span class="info-label">Faculty:</span><span class="info-value">{{ userProfile.faculty || 'N/A' }}</span></div>
-          <button class="edit-btn" (click)="editProfile()">Edit</button>
+
+          <div class="details-card">
+            <div class="profile-actions-wrapper">
+              <button class="profile-action-btn btn-edit" (click)="openEditModal()">Edit</button>
+              <button class="profile-action-btn btn-password" (click)="openChangePasswordModal()">Change Password</button>
+            </div>
+          </div>
         </div>
 
         <div class="info-card">
@@ -26,36 +32,129 @@
           <div class="info-block"><span class="info-label">Last login date:</span><span class="info-value">{{ userProfile.lastLogin | date:'dd.MM.yyyy hh:mm a' }}</span></div>
           <div class="info-block"><span class="info-label">Entering date:</span><span class="info-value">{{ userProfile.enteringDate ? (userProfile.enteringDate | date:'dd.MM.yyyy') : 'N/A' }}</span></div>
           <div class="info-block"><span class="info-label">Graduation date:</span><span class="info-value">{{ userProfile.graduationDate ? (userProfile.graduationDate | date:'dd.MM.yyyy') : 'N/A' }}</span></div>
+
+          <div class="session-card">
+            <div class="profile-actions-wrapper">
+              <button class="profile-action-btn btn-logout" (click)="logout()">Logout</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <div class="profile-right">
 
-      <div class="progress-charts">
-        <div class="circle-chart-wrapper">
-          <canvas #scoreCanvas></canvas>
-          <div class="chart-text">
-            <span class="chart-label">AVERAGE SCORE</span>
-            <span class="chart-value">{{ userStats.averageCourseScore ?? 0 }}</span>
+      @if (isAnalyticsEmpty) {
+
+        <div class="admin-empty-state">
+          <img ngSrc="/Icons/blooms-flower.png" alt="Beautiful flower, trust us :)" height="108" width="108">
+          <h3>No learning analytics available yet</h3>
+          <p>There are no active courses associated with this account, or no statistics have been accumulated yet.</p>
+        </div>
+
+      } @else {
+
+        <div class="progress-charts">
+          <div class="circle-chart-wrapper">
+            <canvas #scoreCanvas></canvas>
+            <div class="chart-text">
+              <span class="chart-label">AVERAGE SCORE</span>
+              <span class="chart-value">{{ userStats.averageCourseScore ?? 0 }}</span>
+            </div>
+          </div>
+
+          <div class="circle-chart-wrapper">
+            <canvas #completionCanvas></canvas>
+            <div class="chart-text">
+              <span class="chart-label">AVERAGE EXAM<br>COMPLETION</span>
+              <span class="chart-value">{{ userStats.averageExamCompletion ?? 0 }}%</span>
+            </div>
           </div>
         </div>
 
-        <div class="circle-chart-wrapper">
-          <canvas #completionCanvas></canvas>
-          <div class="chart-text">
-            <span class="chart-label">AVERAGE EXAM<br>COMPLETION</span>
-            <span class="chart-value">{{ userStats.averageExamCompletion ?? 0 }}%</span>
-          </div>
+        <div class="radar-chart-container">
+          <canvas #radarCanvas></canvas>
         </div>
-      </div>
 
-      <div class="radar-chart-container">
-        <canvas #radarCanvas></canvas>
-      </div>
-
+      }
     </div>
   </div>
 } @else if (isLoading) {
-  <div class="loading-placeholder">Завантаження профілю студента...</div>
+  <div class="loading-placeholder">Loading your profile...</div>
+}
+
+@if (isChangePasswordModalOpen) {
+  <div class="modal-overlay" (click)="closeChangePasswordModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2 class="modal-title">Change Password</h2>
+
+      <div class="form-container">
+        <div class="form-group">
+          <input
+            type="password"
+            class="pill-input"
+            placeholder="Old password"
+            [(ngModel)]="oldPassword">
+        </div>
+
+        <div class="form-group">
+          <input
+            type="password"
+            class="pill-input"
+            placeholder="New password"
+            [(ngModel)]="newPassword">
+        </div>
+
+        <div class="form-group">
+          <input
+            type="password"
+            class="pill-input"
+            placeholder="Confirm new password"
+            [(ngModel)]="confirmPassword">
+        </div>
+      </div>
+
+      <div class="stacked-actions">
+        <button class="modal-btn btn-coral"
+                (click)="confirmChangePassword()"
+                [disabled]="isChangingPassword">Update Password</button>
+        <button class="modal-btn btn-grey" (click)="closeChangePasswordModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (isEditModalOpen) {
+  <div class="modal-overlay" (click)="closeEditModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2 class="modal-title">Edit Details</h2>
+
+      <div class="form-container">
+        <div class="form-group">
+          <label class="input-label">Email</label>
+          <input
+            type="email"
+            class="pill-input"
+            placeholder="Enter your email"
+            [(ngModel)]="editEmail">
+        </div>
+
+        <div class="form-group">
+          <label class="input-label">Phone</label>
+          <input
+            type="text"
+            class="pill-input"
+            placeholder="Enter your phone number"
+            [(ngModel)]="editPhone">
+        </div>
+      </div>
+
+      <div class="stacked-actions">
+        <button class="modal-btn btn-coral"
+                (click)="confirmSaveInfo()"
+                [disabled]="isSavingInfo">Save Changes</button>
+        <button class="modal-btn btn-grey" (click)="closeEditModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
 }

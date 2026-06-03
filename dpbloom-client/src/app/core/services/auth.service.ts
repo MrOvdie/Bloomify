@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 import { AuthService as ApiAuthService } from '../api/api/auth.service';
-import {AuthResponseDto, LoginRequestDto} from '../api';
+import {AuthResponseDto, ChangePasswordDto, LoginRequestDto, UpdateUserProfileDto} from '../api';
 
 @Injectable({
   providedIn: 'root'
@@ -55,6 +55,14 @@ export class AuthService {
       || null;
   }
 
+  changeUserPassword(userId: string, payload: ChangePasswordDto){
+    return this.apiAuthClient.apiAuthChangePasswordUserIdPut(userId, payload);
+  }
+
+  updateUserProfile(userId:string, payload:UpdateUserProfileDto){
+    return this.apiAuthClient.apiAuthUpdateProfileUserIdPut(userId, payload);
+  }
+
   hasTeacherOrAdminRole(): boolean {
     const payload = this.getParsedToken();
     if (!payload) return false;
@@ -71,6 +79,7 @@ export class AuthService {
   }
 
   logout(): void {
+    this.apiAuthClient.apiAuthLogoutPost()
     localStorage.clear();
   }
 

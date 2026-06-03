@@ -13,8 +13,12 @@ export interface UpdateUserProfileDto {
     firstName?: string | null;
     middleName?: string | null;
     lastName?: string | null;
+    email?: string | null;
+    phoneNumber?: string | null;
     group?: string | null;
     faculty?: string | null;
     avatarUrl?: string | null;
+    enteringDate?: string | null;
+    graduationDate?: string | null;
 }
 

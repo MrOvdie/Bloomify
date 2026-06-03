@@ -154,73 +154,55 @@
 }
 
 @if (isAddTopicModalOpen) {
-  <div class="modal-backdrop">
-    <div class="confirm-modal action-modal">
+  <div class="modal-overlay" (click)="closeAddTopicModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
       <h2 class="modal-title">Add New Topic</h2>
 
       <div class="form-container">
-        <div class="input-group">
-          <label>Topic Title</label>
-          <input type="text" [(ngModel)]="newTopicTitle" placeholder="E.g., Introduction to the course" />
+        <div class="form-group">
+          <label class="input-label">Topic Title</label>
+          <input type="text" class="pill-input" [(ngModel)]="newTopicTitle" placeholder="E.g., Introduction to the course" />
         </div>
 
-        <div class="input-group">
-          <label>Description (optional)</label>
-          <textarea [(ngModel)]="newTopicDescription" rows="3" placeholder="Briefly describe what students will learn..."></textarea>
+        <div class="form-group">
+          <label class="input-label">Description (optional)</label>
+          <textarea class="pill-input" [(ngModel)]="newTopicDescription" rows="3" placeholder="Briefly describe what students will learn..."></textarea>
         </div>
       </div>
 
-      <div class="modal-actions">
-        <button class="modal-btn btn-confirm"
-                [disabled]="!newTopicTitle.trim()"
-                (click)="confirmAddTopic()">Create Topic</button>
-        <button class="modal-btn btn-back" (click)="closeAddTopicModal()">Cancel</button>
+      <div class="stacked-actions">
+        <button class="modal-btn btn-coral" [disabled]="!newTopicTitle.trim()" (click)="confirmAddTopic()">Create Topic</button>
+        <button class="modal-btn btn-grey" (click)="closeAddTopicModal()">Cancel</button>
       </div>
     </div>
   </div>
 }
 
 @if (isEnrolModalOpen) {
-  <div class="modal-backdrop" (click)="closeEnrolModal()">
-    <div class="confirm-modal enrol-modal" (click)="$event.stopPropagation()">
+  <div class="modal-overlay" (click)="closeEnrolModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
       <h2 class="modal-title">Enrol students</h2>
 
       <div class="form-container">
-        <div class="input-row">
-          <label>Enrol by group</label>
-          <input
-            type="text"
-            class="outline-input pill-input"
-            [(ngModel)]="enrolGroup"
-            placeholder="XX-XX">
+        <div class="form-group">
+          <label class="input-label">Enrol by group</label>
+          <input type="text" class="pill-input" [(ngModel)]="enrolGroup" placeholder="XX-XX">
         </div>
 
-        <div class="input-row">
-          <label>Enrol by username</label>
-          <input
-            type="text"
-            class="outline-input pill-input"
-            [(ngModel)]="enrolUsername"
-            placeholder="...">
+        <div class="form-group">
+          <label class="input-label">Enrol by username</label>
+          <input type="text" class="pill-input" [(ngModel)]="enrolUsername" placeholder="...">
         </div>
 
-        <div class="textarea-group">
-          <label>List of usernames:</label>
-          <textarea
-            class="outline-input"
-            [(ngModel)]="enrolUsernamesList"
-            rows="4"
-            placeholder="Enter usernames, divided by comma..."></textarea>
+        <div class="form-group">
+          <label class="input-label">List of usernames:</label>
+          <textarea class="pill-input" [(ngModel)]="enrolUsernamesList" rows="4" placeholder="Enter usernames, divided by comma..."></textarea>
         </div>
       </div>
 
-      <div class="modal-actions stacked-actions">
-        <button class="modal-btn btn-confirm"
-                [disabled]="isEnrolling"
-                (click)="confirmEnrol()">Enrol</button>
-
-        <button class="modal-btn btn-back"
-                (click)="closeEnrolModal()">Back</button>
+      <div class="stacked-actions">
+        <button class="modal-btn btn-coral" [disabled]="isEnrolling" (click)="confirmEnrol()">Enrol</button>
+        <button class="modal-btn btn-grey" (click)="closeEnrolModal()">Back</button>
       </div>
     </div>
   </div>
