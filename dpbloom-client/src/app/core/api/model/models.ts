@@ -33,6 +33,7 @@ export * from './nullableOfCheckingType';
 export * from './nullableOfEvaluationStrategy';
 export * from './nullableOfQuestionType';
 export * from './optionDto';
+export * from './predictBloomRequestDto';
 export * from './questionDto';
 export * from './questionResultDto';
 export * from './questionType';

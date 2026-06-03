@@ -14,7 +14,8 @@
       @if (activityType === 'lecture') {
         <div class="input-group">
           <label class="input-label">File</label>
-          <div class="upload-box" style="height: 100%; min-height: 40px; border: 2px dashed #f5c6cb; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #721c24;">
+          <div class="upload-box"
+               style="height: 100%; min-height: 40px; border: 2px dashed #f5c6cb; border-radius: 12px; display: flex; align-items: center; justify-content: center; color: #721c24;">
             <span>Add pdf or video file</span>
           </div>
         </div>
@@ -37,7 +38,8 @@
           <label class="input-label">Name</label>
           <input type="text" [(ngModel)]="lectureData.title" placeholder="Name" class="pink-input">
         </div>
-        <div class="input-group"></div> }
+        <div class="input-group"></div>
+      }
       @if (activityType === 'test') {
         <div class="input-group">
           <label class="input-label">Name</label>
@@ -54,7 +56,8 @@
           <label class="input-label">Description</label>
           <input type="text" [(ngModel)]="lectureData.description" placeholder="Description" class="pink-input">
         </div>
-        <div class="input-group"></div> }
+        <div class="input-group"></div>
+      }
       @if (activityType === 'test') {
         <div class="input-group">
           <label class="input-label">Description</label>
@@ -69,18 +72,26 @@
       @if (activityType === 'test') {
         <div class="bottom-left-controls">
           <div class="strategy-switcher">
-            <button [class.active]="testData.evaluationStrategy === 'Best'" (click)="testData.evaluationStrategy = 'Best'">Best attempt</button>
-            <button [class.active]="testData.evaluationStrategy === 'Last'" (click)="testData.evaluationStrategy = 'Last'">Last attempt</button>
+            <button [class.active]="testData.evaluationStrategy === 'Best'"
+                    (click)="testData.evaluationStrategy = 'Best'">Best attempt
+            </button>
+            <button [class.active]="testData.evaluationStrategy === 'Last'"
+                    (click)="testData.evaluationStrategy = 'Last'">Last attempt
+            </button>
           </div>
           <div class="numeric-settings">
-            <label>Amount of attempts: <input type="number" [(ngModel)]="testData.attemptsCount" min="1" class="small-num-input"></label>
-            <label>Minimal pass score: <input type="number" [(ngModel)]="testData.minimalPassScore" min="0" class="small-num-input"></label>
+            <label>Amount of attempts: <input type="number" [(ngModel)]="testData.attemptsCount" min="1"
+                                              class="small-num-input"></label>
+            <label>Minimal pass score: <input type="number" [(ngModel)]="testData.minimalPassScore" min="0"
+                                              class="small-num-input"></label>
           </div>
         </div>
 
         <div class="checkbox-settings" style="margin-top: 1rem;">
-          <label class="custom-toggle"><input type="checkbox" [(ngModel)]="testData.isRandomOrder"> Shuffle questions</label>
-          <label class="custom-toggle"><input type="checkbox" [(ngModel)]="testData.canCheckAttempts"> Allow to check results</label>
+          <label class="custom-toggle"><input type="checkbox" [(ngModel)]="testData.isRandomOrder"> Shuffle
+            questions</label>
+          <label class="custom-toggle"><input type="checkbox" [(ngModel)]="testData.canCheckAttempts"> Allow to check
+            results</label>
           <label class="custom-toggle"><input type="checkbox" [(ngModel)]="testData.showResults"> Show results</label>
           <label class="custom-toggle"><input type="checkbox" [(ngModel)]="testData.canSkip"> Allow skipping</label>
         </div>
@@ -95,28 +106,59 @@
         @for (q of testData.questions; track $index; let qIndex = $index) {
           <div class="question-card">
 
-            <div class="question-header">
-              <input type="text" [(ngModel)]="q.text" placeholder="Enter test question here..." class="pink-input question-title">
-              <button class="minus-btn square" (click)="removeQuestion(qIndex)" title="Remove question">-</button>
+            <div class="question-header" style="flex-wrap: wrap;">
+              <div style="display: flex; width: 100%; gap: 1rem; align-items: center;">
+                <input type="text"
+                       [(ngModel)]="q.text"
+                       (ngModelChange)="onQuestionTextChanged(qIndex, $event)"
+                       placeholder="Enter test question here..."
+                       class="pink-input question-title"
+                       style="flex: 1;">
+                <button class="minus-btn square" (click)="removeQuestion(qIndex)" title="Remove question">-</button>
+              </div>
+
+              <div style="width: 100%; min-height: 20px; margin-top: 6px; padding-left: 8px;">
+                @if (analyzingQuestions[qIndex]) {
+                  <span
+                    style="color: #999; font-size: 0.85rem; font-style: italic;">🤖 Analyzing cognitive level...</span>
+                } @else if (aiSuccessStatus[qIndex]) {
+                  <span [style.color]="isLevelManuallyOverridden[qIndex] ? '#1a1a1a' : '#aaa'"
+                        style="font-size: 0.85rem; transition: color 0.3s;"> {{
+                      isLevelManuallyOverridden[qIndex] ?
+                        '✏️ Cognitive level manually modified' :
+                        '✨ AI recommendation applied'
+                    }}
+                  </span>
+                }
+              </div>
             </div>
 
             <div class="question-settings">
               <div class="left-settings" style="display: flex; flex-direction: column; gap: 0.8rem;">
                 <div class="type-switcher small" style="margin-bottom: 0;">
-                  <button [class.active]="q.type === 'SingleChoice'" (click)="q.type = 'SingleChoice'">Single choice</button>
-                  <button [class.active]="q.type === 'MultipleChoice'" (click)="q.type = 'MultipleChoice'">Multichoice</button>
+                  <button [class.active]="q.type === 'SingleChoice'" (click)="q.type = 'SingleChoice'">Single choice
+                  </button>
+                  <button [class.active]="q.type === 'MultipleChoice'" (click)="q.type = 'MultipleChoice'">Multichoice
+                  </button>
                   <button [class.active]="q.type === 'OpenAnswer'" (click)="q.type = 'OpenAnswer'">Open answer</button>
                 </div>
 
                 <div class="type-switcher small" style="margin-bottom: 0;">
-                  <button [class.active]="q.checkingType === 'Automatic'" (click)="q.checkingType = 'Automatic'">Auto</button>
-                  <button [class.active]="q.checkingType === 'Manual'" (click)="q.checkingType = 'Manual'">Manual</button>
+                  <button [class.active]="q.checkingType === 'Automatic'" (click)="q.checkingType = 'Automatic'">Auto
+                  </button>
+                  <button [class.active]="q.checkingType === 'Manual'" (click)="q.checkingType = 'Manual'">Manual
+                  </button>
                 </div>
               </div>
 
               <div class="number-inputs">
                 <label>Cognitive level:
-                  <input type="number" [ngModel]="q.level" (ngModelChange)="q.level = $event > 6 ? 6 : ($event < 1 ? 1 : $event)" min="1" max="6">
+                  <input type="number"
+                         [ngModel]="q.level"
+                         (ngModelChange)="onLevelManuallyChanged(qIndex, $event)"
+                         min="1" max="6"
+                         [style.color]="(aiSuccessStatus[qIndex] && !isLevelManuallyOverridden[qIndex]) ? '#aaa' : '#1a1a1a'"
+                         style="transition: color 0.3s; font-weight: 500;">
                 </label>
                 <label>Question score: <input type="number" [(ngModel)]="q.scoreWeight"></label>
               </div>
@@ -138,7 +180,9 @@
                            [placeholder]="q.type === 'OpenAnswer' ? 'Enter acceptable exact answer...' : 'Enter answer option here...'"
                            class="pink-input answer-input">
 
-                    <button class="minus-btn square small" (click)="removeOption(qIndex, optIndex)" title="Remove option">-</button>
+                    <button class="minus-btn square small" (click)="removeOption(qIndex, optIndex)"
+                            title="Remove option">-
+                    </button>
                   </div>
                 }
 

@@ -51,6 +51,7 @@ model/nullableOfCheckingType.ts
 model/nullableOfEvaluationStrategy.ts
 model/nullableOfQuestionType.ts
 model/optionDto.ts
+model/predictBloomRequestDto.ts
 model/questionDto.ts
 model/questionResultDto.ts
 model/questionType.ts

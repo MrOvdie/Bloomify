@@ -1994,17 +1994,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "string"
+                "$ref": "#/components/schemas/PredictBloomRequestDto"
               }
             },
             "text/json": {
               "schema": {
-                "type": "string"
+                "$ref": "#/components/schemas/PredictBloomRequestDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "type": "string"
+                "$ref": "#/components/schemas/PredictBloomRequestDto"
               }
             }
           },
@@ -2012,7 +2012,24 @@
         },
         "responses": {
           "200": {
-            "description": "OK"
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BloomLevel"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BloomLevel"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BloomLevel"
+                }
+              }
+            }
           }
         }
       }
@@ -4286,6 +4303,14 @@
             "type": "string",
             "format": "date-time",
             "nullable": true
+          }
+        }
+      },
+      "PredictBloomRequestDto": {
+        "type": "object",
+        "properties": {
+          "questionText": {
+            "type": "string"
           }
         }
       },

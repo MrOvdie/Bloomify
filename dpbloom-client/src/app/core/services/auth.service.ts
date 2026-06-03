@@ -107,7 +107,7 @@ export class AuthService {
   isTeacher(): boolean {
     return this.getUserRoles().includes('Teacher');
   }
-  // Окремий метод для перевірки на адміна
+
   isAdmin(): boolean {
     return this.getUserRoles().includes('Admin');
   }

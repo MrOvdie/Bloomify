@@ -17,11 +17,15 @@ import { Observable }                                        from 'rxjs';
 import { OpenApiHttpParams, QueryParamStyle } from '../query.params';
 
 // @ts-ignore
+import { BloomLevel } from '../model/bloomLevel';
+// @ts-ignore
 import { CreateExamDto } from '../model/createExamDto';
 // @ts-ignore
 import { ExamDetailsDto } from '../model/examDetailsDto';
 // @ts-ignore
 import { ExamRecordDto } from '../model/examRecordDto';
+// @ts-ignore
+import { PredictBloomRequestDto } from '../model/predictBloomRequestDto';
 // @ts-ignore
 import { UpdateExamDto } from '../model/updateExamDto';
 
@@ -548,17 +552,17 @@ export class ExamsService extends BaseService {
 
     /**
      * @endpoint post /api/Exams/predict-bloom
-     * @param body 
+     * @param predictBloomRequestDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      * @param options additional options
      */
-    public apiExamsPredictBloomPost(body: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiExamsPredictBloomPost(body: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiExamsPredictBloomPost(body: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiExamsPredictBloomPost(body: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
-        if (body === null || body === undefined) {
-            throw new Error('Required parameter body was null or undefined when calling apiExamsPredictBloomPost.');
+    public apiExamsPredictBloomPost(predictBloomRequestDto: PredictBloomRequestDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<BloomLevel>;
+    public apiExamsPredictBloomPost(predictBloomRequestDto: PredictBloomRequestDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<BloomLevel>>;
+    public apiExamsPredictBloomPost(predictBloomRequestDto: PredictBloomRequestDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<BloomLevel>>;
+    public apiExamsPredictBloomPost(predictBloomRequestDto: PredictBloomRequestDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (predictBloomRequestDto === null || predictBloomRequestDto === undefined) {
+            throw new Error('Required parameter predictBloomRequestDto was null or undefined when calling apiExamsPredictBloomPost.');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -567,6 +571,9 @@ export class ExamsService extends BaseService {
         localVarHeaders = this.configuration.addCredentialToHeaders('Bearer', 'Authorization', localVarHeaders, 'Bearer ');
 
         const localVarHttpHeaderAcceptSelected: string | undefined = options?.httpHeaderAccept ?? this.configuration.selectHeaderAccept([
+            'text/plain',
+            'application/json',
+            'text/json'
         ]);
         if (localVarHttpHeaderAcceptSelected !== undefined) {
             localVarHeaders = localVarHeaders.set('Accept', localVarHttpHeaderAcceptSelected);
@@ -601,10 +608,10 @@ export class ExamsService extends BaseService {
 
         let localVarPath = `/api/Exams/predict-bloom`;
         const { basePath, withCredentials } = this.configuration;
-        return this.httpClient.request<any>('post', `${basePath}${localVarPath}`,
+        return this.httpClient.request<BloomLevel>('post', `${basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: body,
+                body: predictBloomRequestDto,
                 responseType: <any>responseType_,
                 ...(withCredentials ? { withCredentials } : {}),
                 headers: localVarHeaders,

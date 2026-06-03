@@ -9,10 +9,12 @@ import {
   QuestionType,
   BloomLevel,
   CheckingType,
-  CreateOptionDto, EvaluationStrategy
+  PredictBloomRequestDto,
+  CreateOptionDto,
+  EvaluationStrategy
 } from '../../core/api';
 import {ActivityService} from "./add-activity.service";
-import {async} from "rxjs";
+import {catchError, debounceTime, filter, map, of, Subject, Subscription, switchMap, tap} from "rxjs";
 
 @Component({
   selector: 'app-add-activity',
@@ -60,9 +62,14 @@ export class AddActivityComponent implements OnInit {
     ],
   };
 
+  private questionInput$ = new Subject<{ index: number, text: string }>();
+  private aiSubscription!: Subscription;
+  analyzingQuestions: { [index: number]: boolean } = {};
+  aiSuccessStatus: { [index: number]: boolean } = {};
+  isLevelManuallyOverridden: { [index: number]: boolean } = {};
 
   ngOnInit() {
-    const paramCourseId = this.route.snapshot.paramMap.get('courseId'); // Можливо, у твоєму роуті він називається просто 'id'
+    const paramCourseId = this.route.snapshot.paramMap.get('courseId');
     if (paramCourseId) {
       this.courseId = paramCourseId;
     }
@@ -77,9 +84,76 @@ export class AddActivityComponent implements OnInit {
       this.topicId = queryTopicId;
     }
 
-    console.log('Ініціалізація компонента. Course ID:', this.courseId, '| Topic ID:', this.topicId);
+    console.log('Initializing component. Course ID:', this.courseId, '| Topic ID:', this.topicId);
+
+
+    this.aiSubscription = this.questionInput$.pipe(
+      debounceTime(800),
+      filter(data => data.text.trim().length > 10),
+      tap(data => this.analyzingQuestions[data.index] = true),
+      switchMap(data => {
+        const payload: PredictBloomRequestDto = {
+          questionText: data.text
+        };
+
+        return this.activityService.evaluateQuestionBloomLevel(payload).pipe(
+          map(response => ({ index: data.index, level: response, success: true })),
+          catchError(err => {
+            console.error('ANN analysis error:', err);
+            return of({ index: data.index, level: null, success: false });
+          })
+        );
+      })
+    ).subscribe(result => {
+      this.analyzingQuestions[result.index] = false;
+
+      if (result.success && result.level !== null && this.testData.questions) {
+        const mappedLevel = this.mapAnnLevelToEnum(result.level);
+
+        if (mappedLevel) {
+          this.testData.questions[result.index].level = mappedLevel as any;
+          this.aiSuccessStatus[result.index] = true;
+          this.isLevelManuallyOverridden[result.index] = false;
+        }
+      } else {
+        this.aiSuccessStatus[result.index] = false;
+      }
+    });
   }
 
+  ngOnDestroy() {
+    if (this.aiSubscription) {
+      this.aiSubscription.unsubscribe();
+    }
+  }
+
+  onQuestionTextChanged(index: number, text: string) {
+    this.questionInput$.next({ index, text });
+  }
+
+  private mapAnnLevelToEnum(aiLevel: string | number): number {
+    if (!aiLevel) return 1;
+
+    const levelStr = String(aiLevel).replace(/['"]/g, '').toLowerCase().trim();
+
+    switch (levelStr) {
+      case 'knowing': case '0': case '1':
+        return 1;
+      case 'understanding': case '2':
+        return 2;
+      case 'applying': case '3':
+        return 3;
+      case 'analyzing': case '4':
+        return 4;
+      case 'creating': case '5':
+        return 5;
+      case 'evaluating': case '6':
+        return 6;
+      default:
+        console.warn('ШІ повернув невідомий рівень:', aiLevel);
+        return 1;
+    }
+  }
 
   createEmptyQuestion(): CreateQuestionDto {
     return {
@@ -136,7 +210,6 @@ export class AddActivityComponent implements OnInit {
       const payload = JSON.parse(JSON.stringify(this.testData));
       payload.topicId = finalTopicId;
 
-      // Форматуємо питання
       if (payload.questions) {
         payload.questions.forEach((q: any) => {
           switch (Number(q.level)) {
@@ -169,7 +242,6 @@ export class AddActivityComponent implements OnInit {
         });
       }
 
-      // Форматуємо час
       let h = this.durationHours || 0;
       let m = this.durationMinutes || 0;
       let s = this.durationSeconds || 0;
@@ -198,10 +270,8 @@ export class AddActivityComponent implements OnInit {
         }
       });
 
-      // ==================== ЛОГІКА ЛЕКЦІЇ ====================
     } else if (this.activityType === 'lecture') {
 
-      // Присвоюємо правильний топік лекції
       (this.lectureData as any).topicId = finalTopicId;
 
       this.activityService.addLecture(this.courseId, this.lectureData).subscribe({
@@ -231,6 +301,21 @@ export class AddActivityComponent implements OnInit {
 
     if (question.options) {
       question.options.splice(optionIndex, 1);
+    }
+  }
+
+  onLevelManuallyChanged(index: number, newValue: number) {
+    if (!this.testData.questions) return;
+
+    let val = newValue;
+    if (val > 6) val = 6;
+    if (val < 1) val = 1;
+
+    this.testData.questions[index].level = val as any;
+
+    // Якщо до цього тут успішно попрацював ШІ, помічаємо, що людина втрутилася
+    if (this.aiSuccessStatus[index]) {
+      this.isLevelManuallyOverridden[index] = true;
     }
   }
 }
