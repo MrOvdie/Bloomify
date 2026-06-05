@@ -83,7 +83,7 @@
                   <div class="duration">duration: {{ aggregate.attemptResult?.duration || '00:00:00' }}</div>
                 </div>
 
-                @if (aggregate.examAttempt?.status === 'PendingManualReview') {
+                @if (aggregate.hasUncheckedAttempts){
                   <button class="action-btn evaluate-btn" (click)="checkAttemptDetails(aggregate)">Evaluate</button>
                 } @else {
                   <button class="action-btn check-btn" (click)="checkAttemptDetails(aggregate)">Check</button>

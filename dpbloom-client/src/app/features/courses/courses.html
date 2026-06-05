@@ -54,6 +54,16 @@
               </div>
             </div>
           </div>
+          @if (isTeacherMode && course.authorId === currentUserId) {
+            <div>
+              <button class="square-icon-btn edit-btn"
+                      (click)="openEditCourseModal(course, $event)"
+                      title="Edit course"
+                      style="margin: 0;">
+                ✎
+              </button>
+            </div>
+          }
         </div>
 
       } @empty {
@@ -141,6 +151,38 @@
         <button class="modal-btn btn-back-pill" (click)="closeDeleteModal()">Back</button>
       </div>
 
+    </div>
+  </div>
+}
+
+@if (isEditCourseModalOpen) {
+  <div class="modal-overlay" (click)="closeEditCourseModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2 class="modal-title">Edit Course</h2>
+
+      <div class="form-container">
+        <div class="form-group">
+          <label class="input-label">Course Title</label>
+          <input type="text" class="pill-input" [(ngModel)]="editCourseName" placeholder="e.g. Advanced .NET Development">
+        </div>
+        <div class="form-group">
+          <label class="input-label">Description</label>
+          <textarea class="pill-input" rows="4" [(ngModel)]="editCourseDescription" placeholder="Briefly describe what students will learn..."></textarea>
+        </div>
+      </div>
+
+      <div class="checkbox-group">
+        <label class="checkbox-label">
+          <input type="checkbox" [(ngModel)]="editCoursePublishStatus">
+          <span class="custom-checkbox"></span>
+          Publish course immediately
+        </label>
+      </div>
+
+      <div class="stacked-actions">
+        <button class="modal-btn btn-coral" (click)="confirmEditCourse()" [disabled]="isUpdatingCourse">Save Changes</button>
+        <button class="modal-btn btn-grey" (click)="closeEditCourseModal()">Cancel</button>
+      </div>
     </div>
   </div>
 }

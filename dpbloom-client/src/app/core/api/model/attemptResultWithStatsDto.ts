@@ -13,6 +13,7 @@ import { AttemptResultRecordDto } from './attemptResultRecordDto';
 
 
 export interface AttemptResultWithStatsDto { 
+    hasUncheckedAttempts?: boolean;
     attemptResult?: AttemptResultRecordDto;
     examAttempt?: ExamAttemptDto | null;
     bloomAnalytics?: BloomAnalysisDto;

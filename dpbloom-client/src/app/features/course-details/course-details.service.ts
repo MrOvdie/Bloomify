@@ -1,7 +1,15 @@
 import { Injectable, inject } from '@angular/core';
 import { Observable, catchError, of } from 'rxjs';
 import { CourseService as ApiCourseService } from '../../core/api/api/course.service';
-import { CourseAggregateDto, ExamsService, LectureService, TopicService, CreateTopicDto} from '../../core/api';
+import {
+  CourseAggregateDto,
+  ExamsService,
+  LectureService,
+  TopicService,
+  CreateTopicDto,
+  UpdateCourseDto, CourseDto, UpdateTopicDto, TopicDto
+} from '../../core/api';
+import {observableToBeFn} from "rxjs/internal/testing/TestScheduler";
 
 @Injectable({
   providedIn: 'root'
@@ -21,6 +29,10 @@ export class CourseDetailsService {
     );
   }
 
+  updateCourse(courseId: string, payload: UpdateCourseDto): Observable<CourseDto>{
+    return this.apiCourseClient.apiCourseIdPut(courseId, payload);
+  }
+
   enrollStudent(courseId: string, userName: string){
     return this.apiCourseClient.apiCourseCourseIdEnrollUserNamePost(courseId, userName);
   }
@@ -35,6 +47,10 @@ export class CourseDetailsService {
 
   addTopic(courseId: string, payload: CreateTopicDto){
     return this.apiTopicClient.apiTopicCourseIdPost(courseId, payload)
+  }
+
+  updateTopic(topicId: string, payload: UpdateTopicDto): Observable<TopicDto>{
+    return this.apiTopicClient.apiTopicIdPut(topicId, payload);
   }
 
   deleteTopic(topicId: string) {

@@ -11,7 +11,7 @@ import { LectureDetailsDto } from '../../core/api/';
 })
 export class LectureDetails implements OnInit {
   private route = inject(ActivatedRoute);
-  private lectureService = inject(LectureService); // Використовуємо фасад
+  private lectureService = inject(LectureService);
 
   lecture: LectureDetailsDto | null = null;
   isLoading = true;

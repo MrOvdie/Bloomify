@@ -34,7 +34,7 @@ export class TeacherDashboardComponent implements OnInit {
           this.isLoading = false;
         },
         error: (err) => {
-          console.error('Помилка завантаження дашборду викладача:', err);
+          console.error('Teacher dashboard loading error:', err);
           this.isLoading = false;
         }
       });
@@ -54,7 +54,6 @@ export class TeacherDashboardComponent implements OnInit {
     let passedCount = 0;
 
     aggregatedAttempts.forEach(aggregate => {
-      // Звертаємося до вкладених сутностей агрегату
       const result = aggregate.attemptResult;
       const details = aggregate.bloomAnalytics;
 
@@ -62,7 +61,6 @@ export class TeacherDashboardComponent implements OnInit {
       totalMaxScore += result?.maxScore || 0;
       totalPercentage += result?.scorePercentage || 0;
 
-      // Тривалість беремо з деталей
       totalDuration += this.parseDurationToSeconds(aggregate.attemptResult?.duration);
 
       if (result?.passed) passedCount++;
@@ -81,7 +79,6 @@ export class TeacherDashboardComponent implements OnInit {
     let validAttemptsCount = 0;
 
     this.data.results.forEach(aggregate => {
-      // Тепер аналітика легально лежить в об'єкті агрегату
       const stats = aggregate.bloomAnalytics?.performanceByLevel;
 
       if (stats) {
@@ -141,7 +138,7 @@ export class TeacherDashboardComponent implements OnInit {
 
     const studentFullName = this.formatStudentName(aggregate);
 
-    await this.router.navigate(['/teacher/student-exam-dashboard', examId, userId], {
+    await this.router.navigate(['/owner/student-exam-dashboard', examId, userId], {
       state: { studentName: studentFullName }
     });
   }
@@ -156,9 +153,9 @@ export class TeacherDashboardComponent implements OnInit {
         const parts = val.split(':');
         let secs = 0;
         if (parts.length === 3) {
-          secs = (+parts[0]) * 3600 + (+parts[1]) * 60 + (+parts[2]); // Години:Хвилини:Секунди
+          secs = (+parts[0]) * 3600 + (+parts[1]) * 60 + (+parts[2]);
         } else if (parts.length === 2) {
-          secs = (+parts[0]) * 60 + (+parts[1]); // Хвилини:Секунди
+          secs = (+parts[0]) * 60 + (+parts[1]);
         }
         return isNaN(secs) ? 0 : secs;
       }

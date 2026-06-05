@@ -1,9 +1,12 @@
 import {Component, inject, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AttemptOverviewAggregateDto, AttemptStatus, TeacherEvaluationDto} from "../../core/api";
-import {AttemptOverviewService} from "./exam-overview.service";
+import {AttemptOverviewService} from "./attempt-overview.service";
 import { NgClass } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import {AuthService} from "../../core/services/auth.service";
+import {ExamDashboardService} from "../exam-dashboard/exam-dashboard.service";
+import {state} from "@angular/animations";
 
 export interface ViewOption {
   id: string;
@@ -40,6 +43,8 @@ export class AttemptOverviewComponent implements OnInit {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private overviewService = inject(AttemptOverviewService);
+  private testService = inject(ExamDashboardService);
+  private authService = inject(AuthService);
 
   aggregateData?: AttemptOverviewAggregateDto;
 
@@ -47,6 +52,12 @@ export class AttemptOverviewComponent implements OnInit {
   evaluationComments: Record<string, string> = {};
 
   isTeacherMode = false;
+  isAdminMode = false;
+  isAuthor = false;
+
+  studentId: string | null = null;
+  examId: string | null = null;
+  nameFromRoute: string | null = null;
 
   viewQuestions: ViewQuestion[] = [];
 
@@ -55,7 +66,19 @@ export class AttemptOverviewComponent implements OnInit {
   ngOnInit() {
     const attemptId = this.route.snapshot.paramMap.get('attemptId');
 
-    this.isTeacherMode = this.route.snapshot.data['isTeacherMode'] || false;
+    this.isAuthor = this.route.snapshot.data['isAuthor'] || false;
+
+    this.studentId = this.route.snapshot.paramMap.get('userId');
+
+    this.nameFromRoute = history.state?.studentName || null;
+    this.isTeacherMode = this.authService.isTeacher();
+    this.isAdminMode = this.authService.isAdmin();
+
+    if (this.nameFromRoute){
+      this.testService.displayStudentName = this.nameFromRoute;
+    } else if (this.studentId){
+      this.testService.loadStudentProfile(this.studentId);
+    }
 
     if (attemptId) {
       this.overviewService.getAttemptAggregate(attemptId).subscribe({
@@ -65,7 +88,7 @@ export class AttemptOverviewComponent implements OnInit {
           this.isLoading = false;
         },
         error: (err) => {
-          console.error('Помилка завантаження результатів', err);
+          console.error('Results loading error', err);
           this.isLoading = false;
         }
       });
@@ -74,8 +97,18 @@ export class AttemptOverviewComponent implements OnInit {
 
   async closeResult() {
     const examId = this.aggregateData?.attemptResult?.examId;
+    const studentId = this.route.snapshot.paramMap.get('userId');
+
     if (examId) {
-      await this.router.navigate(['/exam-dashboard', examId]);
+      if (this.isAuthor && studentId) {
+        console.log('-> Перехід на OWNER дашборд');
+        await this.router.navigate(['/owner/student-exam-dashboard', examId, studentId], {
+          state: { studentName: this.nameFromRoute }
+        });
+      } else {
+        console.warn('-> Перехід на загальний дашборд');
+        await this.router.navigate(['/exam-dashboard', examId]);
+      }
     } else {
       await this.router.navigate(['/']);
     }
@@ -113,6 +146,14 @@ export class AttemptOverviewComponent implements OnInit {
   }
 
   getOptionClass(option: ViewOption): string {
+    const showResults = this.aggregateData?.attemptDetails?.showResults ?? true;
+
+    const isStudent = !this.isAuthor && !this.isTeacherMode && !this.isAdminMode;
+
+    if (isStudent && !showResults) {
+      return option.isSelected ? 'selected-neutral' : '';
+    }
+
     if (option.isCorrect && option.isSelected) return 'correct-selected';
     if (option.isCorrect && !option.isSelected) return 'correct-unselected';
     if (!option.isCorrect && option.isSelected) return 'incorrect-selected';
@@ -130,13 +171,13 @@ export class AttemptOverviewComponent implements OnInit {
     const comment = this.evaluationComments[questionId] || '';
 
     if (score === undefined || score === null) {
-      alert('Будь ласка, введіть бал перед збереженням.');
+      alert('Please enter a score for this question.');
       return;
     }
 
     const question = this.viewQuestions.find(q => q.id === questionId);
     if (question && score > question.maxScore) {
-      alert(`Бал не може бути більшим за максимальний (${question.maxScore}).`);
+      alert(`Score cannot be greater than maximal (${question.maxScore}).`);
       return;
     }
 
@@ -151,7 +192,7 @@ export class AttemptOverviewComponent implements OnInit {
 
     this.overviewService.evaluateQuestion(attemptResultId, evaluationPayload).subscribe({
       next: () => {
-        console.log(`Питання ${questionId} успішно оцінено!`);
+        console.log(`Question ${questionId} evaluated successfully!`);
 
         if (question) {
           question.earnedScore = score;

@@ -1802,6 +1802,46 @@
         }
       }
     },
+    "/api/Exams/update-details/{id}": {
+      "get": {
+        "tags": [
+          "Exams"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamDetailsForUpdateDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamDetailsForUpdateDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExamDetailsForUpdateDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Exams/overview/{examId}": {
       "get": {
         "tags": [
@@ -3334,6 +3374,10 @@
             "type": "string",
             "format": "uuid"
           },
+          "userId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "attemptResultId": {
             "type": "string",
             "format": "uuid",
@@ -3349,6 +3393,15 @@
           "examDescription": {
             "type": "string",
             "nullable": true
+          },
+          "canSkip": {
+            "type": "boolean"
+          },
+          "showResults": {
+            "type": "boolean"
+          },
+          "isRandomOrder": {
+            "type": "boolean"
           },
           "attemptNumber": {
             "type": "integer",
@@ -3526,6 +3579,9 @@
       "AttemptResultWithStatsDto": {
         "type": "object",
         "properties": {
+          "hasUncheckedAttempts": {
+            "type": "boolean"
+          },
           "attemptResult": {
             "$ref": "#/components/schemas/AttemptResultRecordDto"
           },
@@ -4041,6 +4097,90 @@
           }
         }
       },
+      "ExamDetailsForUpdateDto": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string",
+            "nullable": true
+          },
+          "courseId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "authorId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "lastUpdaterId": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "topicId": {
+            "type": "string",
+            "format": "uuid",
+            "nullable": true
+          },
+          "duration": {
+            "pattern": "^-?(\\d+\\.)?\\d{2}:\\d{2}:\\d{2}(\\.\\d{1,7})?$",
+            "type": "string"
+          },
+          "startsAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finishesAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "minimalPassScore": {
+            "type": "number",
+            "format": "double"
+          },
+          "attemptsCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "evaluationStrategy": {
+            "$ref": "#/components/schemas/EvaluationStrategy"
+          },
+          "canSkip": {
+            "type": "boolean"
+          },
+          "showResults": {
+            "type": "boolean"
+          },
+          "canCheckAttempts": {
+            "type": "boolean"
+          },
+          "isRandomOrder": {
+            "type": "boolean"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionForUpdateDto"
+            }
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
       "ExamRecordDto": {
         "type": "object",
         "properties": {
@@ -4306,6 +4446,31 @@
           }
         }
       },
+      "OptionForUpdateDto": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "isCorrect": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
       "PredictBloomRequestDto": {
         "type": "object",
         "properties": {
@@ -4337,6 +4502,47 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/OptionDto"
+            }
+          },
+          "id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "createdOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "updatedOn": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        }
+      },
+      "QuestionForUpdateDto": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/QuestionType"
+          },
+          "level": {
+            "$ref": "#/components/schemas/BloomLevel"
+          },
+          "checkingType": {
+            "$ref": "#/components/schemas/CheckingType"
+          },
+          "scoreWeight": {
+            "type": "number",
+            "format": "double"
+          },
+          "options": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/OptionForUpdateDto"
             }
           },
           "id": {

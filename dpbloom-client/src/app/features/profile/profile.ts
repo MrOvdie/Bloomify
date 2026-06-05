@@ -2,7 +2,7 @@ import {Component, OnInit, inject, ViewChild, ElementRef, OnDestroy, ChangeDetec
 import {NgOptimizedImage, DatePipe} from '@angular/common';
 import Chart from 'chart.js/auto';
 import {CombinedProfileData, ProfileService} from './profile.service';
-import {UserProfileDto, GlobalUserDashboardDto, UpdateUserProfileDto} from '../../core/api';
+import {UserProfileDto, GlobalUserDashboardDto, UpdateUserProfileDto, ChangePasswordDto} from '../../core/api';
 import {AuthService} from "../../core/services/auth.service";
 import {Router} from "@angular/router";
 import {FormsModule} from "@angular/forms";
@@ -191,18 +191,17 @@ export class Profile implements OnInit, OnDestroy {
 
     this.isChangingPassword = true;
 
-    const payload = {
-      oldPassword: this.oldPassword,
+    const payload: ChangePasswordDto = {
+      currentPassword: this.oldPassword,
       newPassword: this.newPassword
     };
 
-    console.log('Sending password change to backend:', payload);
+    if (!this.userProfile?.id)
+      return;
 
-    setTimeout(() => {
-      this.isChangingPassword = false;
-      this.closeChangePasswordModal();
-      alert('Password successfully changed!');
-    }, 800);
+    this.authService.changeUserPassword(this.userProfile?.id, payload)
+    this.isChangingPassword = false;
+    this.closeChangePasswordModal();
   }
 
   async logout() {
@@ -228,7 +227,7 @@ export class Profile implements OnInit, OnDestroy {
       return;
     }
 
-    if(!this.userProfile?.id)
+    if (!this.userProfile?.id)
       return;
 
     this.isSavingInfo = true;

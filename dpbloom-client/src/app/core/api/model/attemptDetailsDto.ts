@@ -14,10 +14,14 @@ import { QuestionDto } from './questionDto';
 
 export interface AttemptDetailsDto { 
     id?: string;
+    userId?: string;
     attemptResultId?: string | null;
     examId?: string;
     examTitle?: string;
     examDescription?: string | null;
+    canSkip?: boolean;
+    showResults?: boolean;
+    isRandomOrder?: boolean;
     attemptNumber?: number;
     createdOn?: string;
     startedAt?: string;

@@ -1,15 +1,16 @@
 <div class="course-details-page">
-  <h1 class="main-title">{{ course?.title || 'Завантаження...' }}</h1>
+  <h1 class="main-title">{{ course?.title || 'Loading...' }}</h1>
 
   @if (!isLoading && course) {
     <div class="description-box">
-      {{ course.description || 'Опис відсутній.' }}
+      {{ course.description || 'Description not available.' }}
     </div>
 
-    @if (isAuthorMode) {
+    @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
       <div class="teacher-global-controls" style="display: flex; gap: 1rem; margin-bottom: 1.5rem;">
         <button class="teacher-btn enrol-btn" (click)="enrolStudents()">Enrol students</button>
         <button class="teacher-btn add-btn" (click)="openAddTopicModal()">+</button>
+        <button class="square-icon-btn edit-btn" (click)="openEditCourseModal()" title="Edit course">✎</button>
       </div>
     }
 
@@ -21,9 +22,6 @@
             <p class="topic-desc">General info materials and initial lectures for the course</p>
           </div>
           <div class="header-actions" style="display: flex; align-items: center; gap: 1rem;">
-            @if (isAuthorMode) {
-              <button class="teacher-icon-btn remove-btn" (click)="removeTopic('general',$event)">-</button>
-            }
             <div class="toggle-icon" [class.rotated]="expandedTopics['general']">
               <svg viewBox="0 0 24 24" width="24" height="24" fill="#a2d9ce">
                 <path d="M7 10l5 5 5-5H7z"/>
@@ -35,34 +33,42 @@
         @if (expandedTopics['general']) {
           <div class="topic-content">
             @for (lecture of getGeneralLectures(); track lecture.id) {
-              <div class="item-row" (click)="goToLecture(lecture.id)" style="display: flex; justify-content: space-between; align-items: center;">
+              <div class="item-row" (click)="goToLecture(lecture.id)"
+                   style="display: flex; justify-content: space-between; align-items: center;">
+
                 <div style="display: flex; align-items: center; gap: 10px;">
                   <div class="icon-box">T</div>
                   <span class="item-text">{{ lecture.title }}</span>
                 </div>
-                @if (isAuthorMode) {
-                  <button class="teacher-icon-btn remove-btn"
-                          (click)="removeActivity(lecture.id, 'lecture', $event)">-</button>
+
+                @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
+                  <div style="display: flex; gap: 8px; align-items: center;">
+                    <button class="square-icon-btn edit-btn"
+                            (click)="$event.stopPropagation(); goToEditActivity('lecture', lecture.id!)">✎</button>
+                    <button class="teacher-icon-btn remove-btn"
+                            (click)="removeActivity(lecture.id, 'lecture', $event)">-</button>
+                  </div>
                 }
               </div>
             }
 
             @for (exam of getGeneralExams(); track exam.id) {
-              <div class="item-row" (click)="goToExamDashboard(exam.id)" style="display: flex; justify-content: space-between; align-items: center;">
+              <div class="item-row" (click)="goToExamDashboard(exam.id)"
+                   style="display: flex; justify-content: space-between; align-items: center;">
+
                 <div style="display: flex; align-items: center; gap: 10px;">
                   <div class="icon-box test-icon">✓</div>
                   <span class="item-text">{{ exam.title }}</span>
                 </div>
-                @if (isAuthorMode) {
-                  <button class="teacher-icon-btn remove-btn"
-                          (click)="removeActivity(exam.id, 'exam', $event)">-</button>
-                }
-              </div>
-            }
 
-            @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
-              <div class="add-activity-row" style="text-align: right; padding: 0.5rem 1rem;">
-                <button class="teacher-icon-btn add-btn" (click)="addActivity(undefined)">+</button>
+                @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
+                  <div style="display: flex; gap: 8px; align-items: center;">
+                    <button class="square-icon-btn edit-btn"
+                            (click)="$event.stopPropagation(); goToEditActivity('test', exam.id!)">✎</button>
+                    <button class="teacher-icon-btn remove-btn"
+                            (click)="removeActivity(exam.id, 'exam', $event)">-</button>
+                  </div>
+                }
               </div>
             }
           </div>
@@ -79,7 +85,10 @@
               <p class="topic-desc">{{ topic.description }}</p>
             </div>
             <div class="header-actions" style="display: flex; align-items: center; gap: 1rem;">
-              @if (isAuthorMode) {
+              @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
+                <button class="square-icon-btn edit-btn" (click)="openEditTopicModal(topic, $event)" title="Edit Topic">
+                  ✎
+                </button>
                 <button class="teacher-icon-btn remove-btn" (click)="removeTopic(topic.id, $event)">-</button>
               }
               <div class="toggle-icon" [class.rotated]="expandedTopics[topic.id || '']">
@@ -98,9 +107,14 @@
                     <div class="icon-box">T</div>
                     <span class="item-text">{{ lecture.title }}</span>
                   </div>
+
                   @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
-                    <button class="teacher-icon-btn remove-btn"
-                            (click)="removeActivity(lecture.id, 'lecture', $event)">-</button>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                      <button class="square-icon-btn edit-btn"
+                              (click)="$event.stopPropagation(); goToEditActivity('lecture', lecture.id!, topic.id)">✎</button>
+                      <button class="teacher-icon-btn remove-btn"
+                              (click)="removeActivity(lecture.id, 'lecture', $event)">-</button>
+                    </div>
                   }
                 </div>
               }
@@ -111,40 +125,43 @@
                     <div class="icon-box test-icon">✓</div>
                     <span class="item-text">{{ exam.title }}</span>
                   </div>
+
                   @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
-                    <button class="teacher-icon-btn remove-btn"
-                            (click)="removeActivity(exam.id, 'exam', $event)">-</button>
+                    <div style="display: flex; gap: 8px; align-items: center;">
+                      <button class="square-icon-btn edit-btn"
+                              (click)="$event.stopPropagation(); goToEditActivity('test', exam.id!, topic.id)">✎</button>
+                      <button class="teacher-icon-btn remove-btn"
+                              (click)="removeActivity(exam.id, 'exam', $event)">-</button>
+                    </div>
                   }
                 </div>
               }
+            </div>
+          }
 
-              @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
-                <div class="add-activity-row" style="text-align: right; padding: 0.5rem 1rem;">
-                  <button class="teacher-icon-btn add-btn" (click)="addActivity(topic.id)">+</button>
-                </div>
-              }
+          @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
+            <div class="add-activity-row" style="text-align: right; padding: 0.5rem 1rem;">
+              <button class="teacher-icon-btn add-btn" (click)="addActivity(topic.id)">+</button>
             </div>
           }
         </div>
       }
     </div>
-
-    @if (isAuthorMode && (isTeacherMode || isAdminMode)) {
-      <div class="general-actions-wrapper">
-        <button class="create-general-btn" (click)="addActivity(undefined)">
-          + Create without topic
-        </button>
-      </div>
-    }
-
   }
 </div>
+
+@if (isAuthorMode && (isTeacherMode || isAdminMode)) {
+  <div class="general-actions-wrapper">
+    <button class="create-general-btn" (click)="addActivity(undefined)">
+      + Create without topic
+    </button>
+  </div>
+}
 
 @if (isRemoveModalOpen) {
   <div class="modal-backdrop">
     <div class="confirm-modal">
       <h2 class="modal-title">Are you sure?</h2>
-
       <div class="modal-actions">
         <button class="modal-btn btn-remove" (click)="confirmRemove()">Remove</button>
         <button class="modal-btn btn-back" (click)="closeRemoveModal()">Back</button>
@@ -157,19 +174,16 @@
   <div class="modal-overlay" (click)="closeAddTopicModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <h2 class="modal-title">Add New Topic</h2>
-
       <div class="form-container">
         <div class="form-group">
           <label class="input-label">Topic Title</label>
-          <input type="text" class="pill-input" [(ngModel)]="newTopicTitle" placeholder="E.g., Introduction to the course" />
+          <input type="text" class="pill-input" [(ngModel)]="newTopicTitle" placeholder="E.g., Introduction to the course"/>
         </div>
-
         <div class="form-group">
           <label class="input-label">Description (optional)</label>
           <textarea class="pill-input" [(ngModel)]="newTopicDescription" rows="3" placeholder="Briefly describe what students will learn..."></textarea>
         </div>
       </div>
-
       <div class="stacked-actions">
         <button class="modal-btn btn-coral" [disabled]="!newTopicTitle.trim()" (click)="confirmAddTopic()">Create Topic</button>
         <button class="modal-btn btn-grey" (click)="closeAddTopicModal()">Cancel</button>
@@ -182,27 +196,67 @@
   <div class="modal-overlay" (click)="closeEnrolModal()">
     <div class="modal-content" (click)="$event.stopPropagation()">
       <h2 class="modal-title">Enrol students</h2>
-
       <div class="form-container">
         <div class="form-group">
           <label class="input-label">Enrol by group</label>
           <input type="text" class="pill-input" [(ngModel)]="enrolGroup" placeholder="XX-XX">
         </div>
-
         <div class="form-group">
           <label class="input-label">Enrol by username</label>
           <input type="text" class="pill-input" [(ngModel)]="enrolUsername" placeholder="...">
         </div>
-
         <div class="form-group">
           <label class="input-label">List of usernames:</label>
           <textarea class="pill-input" [(ngModel)]="enrolUsernamesList" rows="4" placeholder="Enter usernames, divided by comma..."></textarea>
         </div>
       </div>
-
       <div class="stacked-actions">
         <button class="modal-btn btn-coral" [disabled]="isEnrolling" (click)="confirmEnrol()">Enrol</button>
         <button class="modal-btn btn-grey" (click)="closeEnrolModal()">Back</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (isEditCourseModalOpen) {
+  <div class="modal-overlay" (click)="closeEditCourseModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2 class="modal-title">Edit Course</h2>
+      <div class="form-container">
+        <div class="form-group">
+          <label class="input-label">Course Title</label>
+          <input type="text" class="pill-input" [(ngModel)]="editCourseName" placeholder="e.g. Advanced .NET Development">
+        </div>
+        <div class="form-group">
+          <label class="input-label">Description</label>
+          <textarea class="pill-input" rows="4" [(ngModel)]="editCourseDescription" placeholder="Briefly describe what students will learn..."></textarea>
+        </div>
+      </div>
+      <div class="stacked-actions">
+        <button class="modal-btn btn-coral" (click)="confirmEditCourse()" [disabled]="isUpdatingCourse">Save Changes</button>
+        <button class="modal-btn btn-grey" (click)="closeEditCourseModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+}
+
+@if (isEditTopicModalOpen) {
+  <div class="modal-overlay" (click)="closeEditTopicModal()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <h2 class="modal-title">Edit Topic</h2>
+      <div class="form-container">
+        <div class="form-group">
+          <label class="input-label">Topic Title</label>
+          <input type="text" class="pill-input" [(ngModel)]="editTopicName" placeholder="Enter topic title...">
+        </div>
+        <div class="form-group">
+          <label class="input-label">Description</label>
+          <textarea class="pill-input" rows="3" [(ngModel)]="editTopicDescription" placeholder="Enter topic description..."></textarea>
+        </div>
+      </div>
+      <div class="stacked-actions">
+        <button class="modal-btn btn-coral" (click)="confirmEditTopic()" [disabled]="isUpdatingTopic">Save Changes</button>
+        <button class="modal-btn btn-grey" (click)="closeEditTopicModal()">Cancel</button>
       </div>
     </div>
   </div>

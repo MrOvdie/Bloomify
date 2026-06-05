@@ -25,28 +25,28 @@ export const routes: Routes = [
       {path: 'courses', component: Courses},
       {path: 'course-details/:courseId', component: CourseDetails},
       {
-        path: 'teacher/course-details/:courseId',
+        path: 'owner/course-details/:courseId',
         component: CourseDetails,
-        data: {isTeacherMode: true}
+        data: {isAuthor: true}
       },
 
       {path: 'lecture-details/:lectureId', component: LectureDetails},
       {path: 'exam-dashboard/:examId', component: ExamDashboard},
       {
-        path: 'teacher/student-exam-dashboard/:examId/:userId',
+        path: 'owner/student-exam-dashboard/:examId/:userId',
         component: ExamDashboard,
-        data: {isTeacherMode: true}
+        data: {isAuthor: true}
       },
 
       {path: 'exam-attempt/:examId', component: ExamAttemptComponent},
       {path: 'attempt-overview/:attemptId', component: AttemptOverviewComponent},
       {
-        path: 'teacher/attempt-overview/:attemptId',
+        path: 'owner/attempt-overview/:attemptId/:userId',
         component: AttemptOverviewComponent,
-        data: {isTeacherMode: true}
+        data: {isAuthor: true}
       },
       {path: 'teacher-exam-dashboard/:examId', component: TeacherDashboardComponent},
-      {path: 'teacher/add-activity/:courseId', component: AddActivityComponent}
+      {path: 'owner/add-activity/:courseId', component: AddActivityComponent}
     ]
   },
 

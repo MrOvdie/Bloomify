@@ -42,7 +42,7 @@
           <span class="info-value">{{ data.exam.duration ?? 'Not set' }}</span>
         </div>
 
-        @if (!isTeacherMode) {
+        @if (!isAuthor) {
           @if (canStartNewAttempt()) {
             <button class="start-test-btn" (click)="startTest()">Start your attempt</button>
           } @else {
@@ -53,7 +53,7 @@
         }
       </div>
 
-      @if (!isTeacherMode) {
+      @if (!isAuthor) {
         <div class="academic-card recommendations-card">
           <h2 class="card-title">Recommendations:</h2>
           <div class="recommendations-list">
@@ -149,14 +149,19 @@
 
             @if (item.stats.attemptResult?.id) {
 
-              @if (isTeacherMode && item.stats.examAttempt?.status === 'PendingManualReview') {
+              @if (isAuthor && (isTeacherMode || isAdminMode) && item.stats.examAttempt?.status === 'PendingManualReview') {
                 <button class="check-attempt-btn evaluate-btn"
                         (click)="evaluateAttemptResult(item.stats.attemptResult!.attemptId!, data.attempts.length - i, item.durationInSeconds); $event.stopPropagation();">
                   Evaluate attempt
                 </button>
               }
-
-              @else if (data.exam.canCheckAttempts || isTeacherMode) {
+              @else if (isAuthor && (isTeacherMode || isAdminMode) && item.stats.examAttempt?.status === 'Checked') {
+                <button class="check-attempt-btn evaluate-btn"
+                        (click)="evaluateAttemptResult(item.stats.attemptResult!.attemptId!, data.attempts.length - i, item.durationInSeconds); $event.stopPropagation();">
+                  Evaluate attempt
+                </button>
+              }
+              @else if (data.exam.canCheckAttempts || (isAuthor && isTeacherMode || isAdminMode)) {
                 <button class="check-attempt-btn"
                         (click)="checkAttemptResult(item.stats.attemptResult!.attemptId!, data.attempts.length - i, item.durationInSeconds); $event.stopPropagation();">
                   Check attempt

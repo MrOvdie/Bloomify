@@ -9,9 +9,11 @@
  */
 
 
-export interface UpdateTopic { 
-    title?: string | null;
-    description?: string | null;
-    courseId?: string | null;
+export interface OptionForUpdateDto { 
+    text?: string;
+    isCorrect?: boolean;
+    id?: string;
+    createdOn?: string | null;
+    updatedOn?: string | null;
 }
 

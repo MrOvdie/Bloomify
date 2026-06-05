@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ExamDashboardService, ExamDashboardPageData } from './exam-dashboard.service';
 import {AttemptResultWithStatsDto, RecommendedMaterialDto} from '../../core/api';
 import {DatePipe} from '@angular/common';
+import {AuthService} from "../../core/services/auth.service";
 
 @Component({
   selector: 'app-test-details',
@@ -18,8 +19,12 @@ export class ExamDashboard implements OnInit {
   private route = inject(ActivatedRoute);
   private router = inject(Router);
   private testService = inject(ExamDashboardService);
+  private authService = inject(AuthService);
 
+  isAuthor = false;
   isTeacherMode = false;
+  isAdminMode = false;
+
   studentId: string | null = null;
   examId: string | null = null;
   nameFromRoute: string | null = null;
@@ -29,8 +34,13 @@ export class ExamDashboard implements OnInit {
 
   ngOnInit() {
     this.examId = this.route.snapshot.paramMap.get('examId');
+    this.isAuthor = this.route.snapshot.data['isAuthor'] || false;
+    this.isTeacherMode = this.authService.isTeacher();
+    this.isAdminMode = this.authService.isAdmin();
 
-    this.isTeacherMode = this.route.snapshot.data['isTeacherMode'] || false;
+    if (this.isAuthor && (this.isTeacherMode || this.isAdminMode)) {
+      this.studentId = this.route.snapshot.paramMap.get('userId');
+    }
 
     this.nameFromRoute = history.state.studentName;
 
@@ -38,10 +48,6 @@ export class ExamDashboard implements OnInit {
       this.testService.displayStudentName = this.nameFromRoute;
     } else if (this.studentId){
       this.testService.loadStudentProfile(this.studentId);
-    }
-
-    if (this.isTeacherMode) {
-      this.studentId = this.route.snapshot.paramMap.get('userId');
     }
 
     if (this.examId) {
@@ -134,10 +140,11 @@ export class ExamDashboard implements OnInit {
   async evaluateAttemptResult(attemptId: string, attemptNumber: number, durationInSeconds: number) {
     if (!attemptId) return;
 
-    await this.router.navigate(['teacher/attempt-overview', attemptId], {
+    await this.router.navigate(['/owner/attempt-overview', attemptId, this.studentId], {
       state: {
         attemptNumber: attemptNumber,
-        duration: durationInSeconds
+        duration: durationInSeconds,
+        studentName: this.nameFromRoute
       }
     });
   }

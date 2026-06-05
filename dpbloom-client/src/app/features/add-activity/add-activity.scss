@@ -400,3 +400,66 @@
     }
   }
 }
+
+.ai-status-wrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.5s ease-out, margin-top 0.5s ease-out; //TODO: adjust properly
+  width: 100%;
+  padding-left: 8px;
+  margin-top: 0;
+
+  &.show {
+    grid-template-rows: 1fr;
+    margin-top: 6px;
+  }
+}
+
+.ai-status-content {
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep {
+  .editor-container {
+    width: 100%;
+  }
+
+  quill-editor {
+    display: block;
+    width: 100%;
+    min-height: 300px;
+  }
+
+  .ql-container.ql-snow {
+    width: 100%;
+    min-height: 300px;
+    border: 2px solid #f5c6cb !important;
+    border-top: none !important;
+    border-bottom-left-radius: 12px;
+    border-bottom-right-radius: 12px;
+    background-color: #ffffff;
+    font-size: 1rem;
+    font-family: inherit;
+  }
+
+  .ql-toolbar.ql-snow {
+    width: 100%;
+    border: 2px solid #f5c6cb !important;
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    background-color: #fdf3f4;
+    padding: 12px !important;
+  }
+
+  .ql-editor {
+    min-height: 300px;
+    padding: 15px 20px;
+    color: #4a4a4a;
+  }
+
+  .ql-container.ql-snow.ql-focus {
+    border-color: #e3a6ad !important;
+  }
+}

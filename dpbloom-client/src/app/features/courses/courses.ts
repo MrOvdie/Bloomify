@@ -32,6 +32,14 @@ export class Courses implements OnInit {
   isCoursePublished = false;
   isSubmitting = false;
 
+  currentUserId: string | null = null;
+  isEditCourseModalOpen = false;
+  isUpdatingCourse = false;
+  editCourseName = '';
+  editCourseDescription = '';
+  editCoursePublishStatus = false;
+  currentEditingCourseId: string | null = null;
+
   isRegisterModalOpen = false;
   isRegistering = false;
   regName = '';
@@ -50,7 +58,7 @@ export class Courses implements OnInit {
   private authService = inject(AuthService);
 
   ngOnInit() {
-    const userId = localStorage.getItem('userId') ?? '';
+    this.currentUserId = localStorage.getItem('userId') ?? '';
 
     this.isTeacherMode = this.authService.isTeacher();
     this.isAdminMode = this.authService.isAdmin();
@@ -63,7 +71,7 @@ export class Courses implements OnInit {
           error: (err) => console.error('Error during admin courses loading', err)
         });
     } else {
-      this.coursesService.getDynamicCoursesData(userId)
+      this.coursesService.getDynamicCoursesData(this.currentUserId)
         .pipe(finalize(() => this.isLoading = false))
         .subscribe({
           next: (data) => this.coursesList = data,
@@ -204,6 +212,58 @@ export class Courses implements OnInit {
       },
       error: (err) => {
         console.error('Error during course deletion:', err);
+      }
+    });
+  }
+
+  openEditCourseModal(course: any, event: Event) {
+    event.stopPropagation(); // Блокуємо перехід на сторінку деталей курсу
+
+    this.currentEditingCourseId = course.id;
+    this.editCourseName = course.title || '';
+    this.editCourseDescription = course.description || '';
+    this.editCoursePublishStatus = course.isPublished || false;
+
+    this.isEditCourseModalOpen = true;
+  }
+
+  closeEditCourseModal() {
+    this.isEditCourseModalOpen = false;
+    this.currentEditingCourseId = null;
+  }
+
+  confirmEditCourse() {
+    if (!this.editCourseName.trim() || !this.currentEditingCourseId) {
+      alert('Course name is required!');
+      return;
+    }
+
+    this.isUpdatingCourse = true;
+
+    const payload = {
+      title: this.editCourseName.trim(),
+      description: this.editCourseDescription.trim(),
+      isPublished: this.editCoursePublishStatus
+    };
+
+    this.coursesService.updateCourse(this.currentEditingCourseId, payload).subscribe({
+      next: (updatedCourseDto) => {
+        const index = this.coursesList.findIndex(c => c.id === this.currentEditingCourseId);
+
+        if (index !== -1) {
+          this.coursesList[index] = {
+            ...this.coursesList[index],
+            ...updatedCourseDto
+          };
+        }
+
+        this.isUpdatingCourse = false;
+        this.closeEditCourseModal();
+      },
+      error: (err) => {
+        console.error('Updating course error:', err);
+        this.isUpdatingCourse = false;
+        alert('Failed to update course details.');
       }
     });
   }

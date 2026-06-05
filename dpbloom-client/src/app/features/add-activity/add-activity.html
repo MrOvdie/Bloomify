@@ -3,13 +3,22 @@
 
     <div class="settings-grid">
 
-      <div class="input-group">
-        <label class="input-label">Activity type</label>
-        <div class="type-switcher" style="margin-bottom: 0;">
-          <button [class.active]="activityType === 'lecture'" (click)="activityType = 'lecture'">Lecture</button>
-          <button [class.active]="activityType === 'test'" (click)="activityType = 'test'">Test</button>
+      @if (!isEditMode) {
+        <div class="input-group">
+          <label class="input-label">Activity type</label>
+          <div class="type-switcher" style="margin-bottom: 0;">
+            <button [class.active]="activityType === 'lecture'" (click)="activityType = 'lecture'">Lecture</button>
+            <button [class.active]="activityType === 'test'" (click)="activityType = 'test'">Test</button>
+          </div>
         </div>
-      </div>
+      } @else {
+        <div class="input-group">
+          <label class="input-label">Editing Mode</label>
+          <div style="padding: 10px 15px; background: #f0e4e5; color: #a32a3d; border-radius: 12px; font-weight: 500; display: inline-flex; align-items: center; border: 1px solid #e3d2d4;">
+            ✏️ Editing {{ activityType === 'lecture' ? 'Lecture' : 'Test' }}
+          </div>
+        </div>
+      }
 
       @if (activityType === 'lecture') {
         <div class="input-group">
@@ -82,7 +91,7 @@
           <div class="numeric-settings">
             <label>Amount of attempts: <input type="number" [(ngModel)]="testData.attemptsCount" min="1"
                                               class="small-num-input"></label>
-            <label>Minimal pass score: <input type="number" [(ngModel)]="testData.minimalPassScore" min="0"
+            <label>Minimal pass score: <input type="number" [(ngModel)]="testData.minimalPassScore" min="0" max="{{maxPassScore}}"
                                               class="small-num-input"></label>
           </div>
         </div>
@@ -96,10 +105,17 @@
           <label class="custom-toggle"><input type="checkbox" [(ngModel)]="testData.canSkip"> Allow skipping</label>
         </div>
       }
-    </div> @if (activityType === 'lecture') {
-    <textarea [(ngModel)]="lectureData.content" placeholder="Enter lecture text here..."
-              class="main-textarea"></textarea>
-  }
+    </div>
+
+    @if (activityType === 'lecture') {
+      <div class="editor-container" style="margin-top: 20px;">
+        <quill-editor
+          [(ngModel)]="lectureData.content"
+          [modules]="quillConfig"
+          placeholder="Enter lecture text here...">
+        </quill-editor>
+      </div>
+    }
 
     @if (activityType === 'test') {
       <div class="questions-list">
@@ -117,19 +133,20 @@
                 <button class="minus-btn square" (click)="removeQuestion(qIndex)" title="Remove question">-</button>
               </div>
 
-              <div style="width: 100%; min-height: 20px; margin-top: 6px; padding-left: 8px;">
-                @if (analyzingQuestions[qIndex]) {
-                  <span
-                    style="color: #999; font-size: 0.85rem; font-style: italic;">🤖 Analyzing cognitive level...</span>
-                } @else if (aiSuccessStatus[qIndex]) {
-                  <span [style.color]="isLevelManuallyOverridden[qIndex] ? '#1a1a1a' : '#aaa'"
-                        style="font-size: 0.85rem; transition: color 0.3s;"> {{
-                      isLevelManuallyOverridden[qIndex] ?
-                        '✏️ Cognitive level manually modified' :
-                        '✨ AI recommendation applied'
-                    }}
-                  </span>
-                }
+              <div class="ai-status-wrapper" [class.show]="analyzingQuestions[qIndex] || aiSuccessStatus[qIndex]">
+                <div class="ai-status-content">
+                  @if (analyzingQuestions[qIndex]) {
+                    <span style="color: #999; font-size: 0.85rem; font-style: italic;">🤖 Analyzing cognitive level...</span>
+                  } @else if (aiSuccessStatus[qIndex]) {
+                    <span [style.color]="isLevelManuallyOverridden[qIndex] ? '#1a1a1a' : '#aaa'"
+                          style="font-size: 0.85rem; transition: color 0.3s;"> {{
+                        isLevelManuallyOverridden[qIndex] ?
+                          '✏️ Cognitive level manually modified' :
+                          '✨ AI recommendation applied'
+                      }}
+                    </span>
+                  }
+                </div>
               </div>
             </div>
 
@@ -160,7 +177,7 @@
                          [style.color]="(aiSuccessStatus[qIndex] && !isLevelManuallyOverridden[qIndex]) ? '#aaa' : '#1a1a1a'"
                          style="transition: color 0.3s; font-weight: 500;">
                 </label>
-                <label>Question score: <input type="number" [(ngModel)]="q.scoreWeight"></label>
+                <label>Question score: <input type="number" [(ngModel)]="q.scoreWeight" min="0"></label>
               </div>
             </div>
 
@@ -199,6 +216,10 @@
   </div>
 
   <div class="footer-actions">
-    <button class="save-btn" (click)="saveAndCreate()">Save and create</button>
+    <button class="save-btn"
+            (click)="saveAndCreate()"
+            [disabled]="isLoadingData">
+      {{ isEditMode ? 'Save changes' : 'Save and create' }}
+    </button>
   </div>
 </div>

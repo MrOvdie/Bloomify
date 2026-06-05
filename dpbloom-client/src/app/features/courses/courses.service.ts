@@ -1,6 +1,6 @@
 import {Injectable, inject} from '@angular/core';
 import {map, Observable, of, switchMap} from 'rxjs';
-import {CourseService as ApiCourseService, AuthService as ApiAuthService} from '../../core/api';
+import {CourseService as ApiCourseService, AuthService as ApiAuthService, UpdateCourseDto} from '../../core/api';
 import {CourseDto, CreateCourseDto, RegisterUserDto} from "../../core/api";
 
 @Injectable({
@@ -45,6 +45,10 @@ export class CoursesService {
 
   createCourse(payload: CreateCourseDto) {
     return this.apiCourseClient.apiCoursePost(payload);
+  }
+
+  updateCourse(courseId: string, payload: UpdateCourseDto): Observable<CourseDto> {
+    return this.apiCourseClient.apiCourseIdPut(courseId, payload);
   }
 
   deleteCourse(courseId: string) {

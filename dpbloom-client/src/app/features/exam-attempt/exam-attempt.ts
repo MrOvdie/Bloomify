@@ -33,6 +33,11 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
   isSubmitting = false;
   attemptNumber: number | undefined;
 
+  canSkip = true;
+  isRandomOrder = false
+
+  currentActiveQuestionIndex = 0;
+
   ngOnInit() {
     this.examId = this.route.snapshot.paramMap.get('examId') ?? '';
     const resumeAttemptId = this.route.snapshot.queryParamMap.get('resumeId');
@@ -57,10 +62,17 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
       ).subscribe({
         next: (details: AttemptDetailsDto) => {
           this.initializeAttemptData(details);
+          this.canSkip = details.canSkip ?? true;
+          this.isRandomOrder = details.isRandomOrder ?? false;
+          if (details.isRandomOrder && details.questions) {
+            this.shuffleQuestions(details.questions);
+          }
+
           this.startTimer(details.startedAt, details.duration);
           this.isLoading = false;
         }
       });
+
       this.autoSaveSubject.pipe(
         debounceTime(50)
       ).subscribe(questionId => {
@@ -73,11 +85,13 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
     this.attemptService.continueAttempt(attemptId).subscribe({
       next: (details: AttemptDetailsDto) => {
         this.initializeAttemptData(details);
-        this.startTimer(details.startedAt, details.duration); // Передаємо час старту
+        this.startTimer(details.startedAt, details.duration);
+        this.canSkip = details.canSkip ?? true;
+        this.isRandomOrder = details.isRandomOrder ?? false;
         this.isLoading = false;
       },
       error: (err) => {
-        console.error('Помилка завантаження збереженої спроби:', err);
+        console.error('Saved attempt loading error:', err);
         this.isLoading = false;
       }
     });
@@ -143,7 +157,6 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
       this.answers[questionId] = currentAnswers.filter(id => id !== optionId);
     }
 
-    // Додаємо виклик збереження!
     this.onOptionChange(questionId);
   }
 
@@ -239,7 +252,6 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
     if (parts.length >= 3) {
       const hours = parseInt(parts[0], 10) || 0;
       const minutes = parseInt(parts[1], 10) || 0;
-      // Використовуємо parseFloat для секунд, бо C# може надіслати мілісекунди (напр. "00:20:00.0000000")
       const seconds = parseFloat(parts[2]) || 0;
 
       return (hours * 3600) + (minutes * 60) + Math.floor(seconds);
@@ -268,13 +280,12 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
       dto.freeTextAnswer = this.answers[questionId] || '';
     }
 
-    // Зверни увагу на правильну назву методу з NSwag (може бути apiAttemptsAttemptIdSubmitPost)
     this.attemptService.submitCurrentAnswer(this.attemptId, dto).subscribe({
       next: () => {
-        console.log(`Відповідь на питання ${questionId} автоматично збережена.`);
+        console.log(`Answer for the question ${questionId} saved automatically.`);
       },
       error: (err) => {
-        console.error(`Помилка автозбереження для ${questionId}:`, err);
+        console.error(`Autosave error for question ${questionId}:`, err);
       }
     });
   }
@@ -291,5 +302,18 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
     this.textSaveTimers[questionId] = setTimeout(() => {
       this.submitSingleAnswer(questionId);
     }, 500);
+  }
+
+  private shuffleQuestions(questions: any[]) {
+    for (let i = questions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [questions[i], questions[j]] = [questions[j], questions[i]];
+    }
+  }
+
+  confirmQuestion(index: number) {
+    if (index === this.currentActiveQuestionIndex && index < this.questions.length - 1) {
+      this.currentActiveQuestionIndex++;
+    }
   }
 }

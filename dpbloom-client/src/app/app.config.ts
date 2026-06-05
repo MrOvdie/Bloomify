@@ -5,12 +5,13 @@ import { routes } from './app.routes';
 import { authInterceptor } from './core/interceptors/auth-interceptor';
 import {Configuration} from "./core/api";
 import {environment} from "../environments/environment.development";
+import {tokenInterceptor} from "./core/interceptors/token-interceptor";
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
-    provideHttpClient(withInterceptors([authInterceptor])),
+    provideHttpClient(withInterceptors([authInterceptor, tokenInterceptor])),
     { provide: Configuration, useFactory: apiConfigFactory }
   ]
 };

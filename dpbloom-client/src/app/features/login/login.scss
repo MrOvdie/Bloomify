@@ -55,21 +55,21 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; // На всю висоту екрана
+  height: 100vh;
 
   background-image: url('/backgrounds/login.background.png');
-  background-size: cover;      // щоб картинка покривала весь екран
-  background-position: center; // щоб картинка була по центру
+  background-size: cover;
+  background-position: center;
   background-repeat: no-repeat;
 }
 
 .form-body {
   width: 100%;
-  max-width: 600px; // Обмежуємо ширину, як у макеті
+  max-width: 600px;
   padding: 40px;
   background-color: #FFEEEE;
   border-radius: 47px;
   display: flex;
   flex-direction: column;
-  gap: 10px; // Відступи між елементами
+  gap: 10px;
 }

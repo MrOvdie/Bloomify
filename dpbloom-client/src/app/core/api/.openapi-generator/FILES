@@ -40,6 +40,7 @@ model/createTopicDto.ts
 model/evaluationStrategy.ts
 model/examAttemptDto.ts
 model/examDetailsDto.ts
+model/examDetailsForUpdateDto.ts
 model/examRecordDto.ts
 model/globalUserDashboardDto.ts
 model/lectureDetailsDto.ts
@@ -51,8 +52,10 @@ model/nullableOfCheckingType.ts
 model/nullableOfEvaluationStrategy.ts
 model/nullableOfQuestionType.ts
 model/optionDto.ts
+model/optionForUpdateDto.ts
 model/predictBloomRequestDto.ts
 model/questionDto.ts
+model/questionForUpdateDto.ts
 model/questionResultDto.ts
 model/questionType.ts
 model/recommendationTemplateDto.ts

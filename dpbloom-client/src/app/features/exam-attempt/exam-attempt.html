@@ -11,8 +11,12 @@
     </div>
 
     <div class="questions-container">
+
       @for (q of questions; track q.id; let i = $index) {
-        <div class="academic-card question-card">
+
+        <div class="academic-card question-card"
+             [class.blurred]="!canSkip && i > currentActiveQuestionIndex"
+             [class.locked-past]="!canSkip && i < currentActiveQuestionIndex">
 
           <div class="question-header">
             <h2 class="question-title">{{ i + 1 }}. {{ q.text }}</h2>
@@ -21,7 +25,7 @@
 
           <div class="question-meta">
             <span class="question-type">
-              {{ q.type === 'SingleChoice' ? 'Single choice:' : (q.type === 'MultipleChoice' ? 'MultipleChoice:' : 'Open answer:') }}
+              {{ q.type === 'SingleChoice' ? 'Single choice:' : (q.type === 'MultipleChoice' ? 'Multiple choice:' : 'Open answer:') }}
             </span>
             <span class="bloom-level">{{ q.level }}</span>
           </div>
@@ -63,6 +67,13 @@
               </textarea>
             }
           </div>
+
+          @if (!canSkip && i === currentActiveQuestionIndex) {
+            <div class="confirm-action-wrapper" style="margin-top: 20px;">
+              <button class="save-btn" (click)="confirmQuestion(i)">Confirm & Next</button>
+            </div>
+          }
+
         </div>
       }
     </div>

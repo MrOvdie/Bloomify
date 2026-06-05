@@ -1,6 +1,6 @@
-import { Component, inject } from "@angular/core";
+import { Component, inject, OnInit } from "@angular/core";
 import { FormsModule } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 
 import { AuthService } from '../../core/services/auth.service';
 
@@ -11,16 +11,21 @@ import { AuthService } from '../../core/services/auth.service';
   styleUrls: ['./login.scss'],
   imports: [FormsModule]
 })
-
-export class Login {
+export class Login implements OnInit {
   username = '';
   password = '';
 
   errorMessage = '';
   isLoading = false;
+  returnUrl = '/courses';
 
   private authService = inject(AuthService);
   private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  ngOnInit() {
+    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/courses';
+  }
 
   onLogin() {
     if (!this.username || !this.password) {
@@ -39,7 +44,8 @@ export class Login {
     this.authService.login(credentials).subscribe({
       next: () => {
         this.isLoading = false;
-        this.router.navigate(['/courses']);
+
+        this.router.navigateByUrl(this.returnUrl);
       },
       error: (err) => {
         this.isLoading = false;

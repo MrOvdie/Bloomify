@@ -2,6 +2,7 @@ import {Component, OnInit, inject} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
+import { QuillEditorComponent } from 'ngx-quill';
 import {
   CreateLectureDto,
   CreateExamDto,
@@ -11,7 +12,7 @@ import {
   CheckingType,
   PredictBloomRequestDto,
   CreateOptionDto,
-  EvaluationStrategy
+  EvaluationStrategy, UpdateExamDto, UpdateLectureDto
 } from '../../core/api';
 import {ActivityService} from "./add-activity.service";
 import {catchError, debounceTime, filter, map, of, Subject, Subscription, switchMap, tap} from "rxjs";
@@ -19,7 +20,7 @@ import {catchError, debounceTime, filter, map, of, Subject, Subscription, switch
 @Component({
   selector: 'app-add-activity',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, QuillEditorComponent],
   templateUrl: './add-activity.html',
   styleUrls: ['./add-activity.scss']
 })
@@ -62,11 +63,26 @@ export class AddActivityComponent implements OnInit {
     ],
   };
 
+  quillConfig = {
+    toolbar: [
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+      [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+      [{ 'color': [] }, { 'background': [] }],
+      ['link', 'image', 'video'],
+      ['clean']
+    ]
+  };
+
   private questionInput$ = new Subject<{ index: number, text: string }>();
   private aiSubscription!: Subscription;
   analyzingQuestions: { [index: number]: boolean } = {};
   aiSuccessStatus: { [index: number]: boolean } = {};
   isLevelManuallyOverridden: { [index: number]: boolean } = {};
+
+  isEditMode = false;
+  activityId: string | null = null;
+  isLoadingData = false;
 
   ngOnInit() {
     const paramCourseId = this.route.snapshot.paramMap.get('courseId');
@@ -84,8 +100,19 @@ export class AddActivityComponent implements OnInit {
       this.topicId = queryTopicId;
     }
 
-    console.log('Initializing component. Course ID:', this.courseId, '| Topic ID:', this.topicId);
+    const mode = this.route.snapshot.queryParamMap.get('mode');
+    const type = this.route.snapshot.queryParamMap.get('type');
+    const aId = this.route.snapshot.queryParamMap.get('activityId');
 
+    if (mode === 'edit' && aId && (type === 'lecture' || type === 'test')) {
+      this.isEditMode = true;
+      this.activityId = aId;
+      this.activityType = type as 'lecture' | 'test';
+
+      this.loadActivityData();
+    }
+
+    console.log('Initializing component. Course ID:', this.courseId, '| Topic ID:', this.topicId);
 
     this.aiSubscription = this.questionInput$.pipe(
       debounceTime(800),
@@ -97,10 +124,10 @@ export class AddActivityComponent implements OnInit {
         };
 
         return this.activityService.evaluateQuestionBloomLevel(payload).pipe(
-          map(response => ({ index: data.index, level: response, success: true })),
+          map(response => ({index: data.index, level: response, success: true})),
           catchError(err => {
             console.error('ANN analysis error:', err);
-            return of({ index: data.index, level: null, success: false });
+            return of({index: data.index, level: null, success: false});
           })
         );
       })
@@ -128,7 +155,7 @@ export class AddActivityComponent implements OnInit {
   }
 
   onQuestionTextChanged(index: number, text: string) {
-    this.questionInput$.next({ index, text });
+    this.questionInput$.next({index, text});
   }
 
   private mapAnnLevelToEnum(aiLevel: string | number): number {
@@ -137,17 +164,24 @@ export class AddActivityComponent implements OnInit {
     const levelStr = String(aiLevel).replace(/['"]/g, '').toLowerCase().trim();
 
     switch (levelStr) {
-      case 'knowing': case '0': case '1':
+      case 'knowing':
+      case '0':
+      case '1':
         return 1;
-      case 'understanding': case '2':
+      case 'understanding':
+      case '2':
         return 2;
-      case 'applying': case '3':
+      case 'applying':
+      case '3':
         return 3;
-      case 'analyzing': case '4':
+      case 'analyzing':
+      case '4':
         return 4;
-      case 'creating': case '5':
+      case 'creating':
+      case '5':
         return 5;
-      case 'evaluating': case '6':
+      case 'evaluating':
+      case '6':
         return 6;
       default:
         console.warn('ШІ повернув невідомий рівень:', aiLevel);
@@ -197,10 +231,9 @@ export class AddActivityComponent implements OnInit {
     question.options.push(this.createEmptyOption());
   }
 
-
   saveAndCreate() {
     if (!this.courseId) {
-      console.error('Неможливо зберегти: Course ID відсутній!');
+      console.error('Cannot save: Course ID missing!');
       return;
     }
 
@@ -225,6 +258,15 @@ export class AddActivityComponent implements OnInit {
           if ((q.type === 'OpenAnswer' || q.type === 'openAnswer') &&
             (q.checkingType === 'Manual' || q.checkingType === 'manual')) {
             q.options = [];
+          }
+
+          if ((q.type === 'OpenAnswer' || q.type === 'openAnswer') &&
+            (q.checkingType === 'Automatic' || q.checkingType === 'automatic')) {
+            if (q.options) {
+              q.options.forEach((opt: any) => {
+                opt.isCorrect = true;
+              });
+            }
           }
 
           switch (q.type) {
@@ -260,29 +302,51 @@ export class AddActivityComponent implements OnInit {
       const padS = s.toString().padStart(2, '0');
       payload.duration = `${padH}:${padM}:${padS}`;
 
-      this.activityService.addExam(this.courseId, payload).subscribe({
-        next: async (res) => {
-          console.log('Тест успішно створено!', res);
-          await this.router.navigate(['/course-details', this.courseId]);
-        },
-        error: (err) => {
-          console.error('Помилка при створенні тесту', err, payload);
-        }
-      });
+      if (this.isEditMode && this.activityId) {
+        this.activityService.updateExam(this.activityId, payload).subscribe({
+          next: async (res) => {
+            console.log('Test updated successfully!', res);
+            await this.router.navigate(['/course-details', this.courseId]);
+          },
+          error: (err) => {
+            console.error('Error during test update', err, payload);
+          }
+        });
+      } else {
+        this.activityService.addExam(this.courseId, payload as unknown as CreateExamDto).subscribe({
+          next: async (res) => {
+            await this.router.navigate(['/course-details', this.courseId]);
+          },
+          error: (err) => {
+            console.error('Error during test creating', err, payload);
+          }
+        });
+      }
 
     } else if (this.activityType === 'lecture') {
 
       (this.lectureData as any).topicId = finalTopicId;
 
-      this.activityService.addLecture(this.courseId, this.lectureData).subscribe({
-        next: async (createdLecture) => {
-          console.log('Лекцію успішно створено!', createdLecture);
-          await this.router.navigate(['/course-details', this.courseId]);
-        },
-        error: (err) => {
-          console.error('Error during lecture creation:', err);
-        }
-      });
+      if (this.isEditMode && this.activityId) {
+        this.activityService.updateLecture(this.activityId, this.lectureData as unknown as UpdateLectureDto).subscribe({
+          next: async (updatedLecture) => {
+            console.log('Lecture updated successfully!', updatedLecture);
+            await this.router.navigate(['/course-details', this.courseId]);
+          },
+          error: (err) => {
+            console.error('Error during lecture update:', err);
+          }
+        });
+      } else {
+        this.activityService.addLecture(this.courseId, this.lectureData as unknown as CreateLectureDto).subscribe({
+          next: async (createdLecture) => {
+            await this.router.navigate(['/course-details', this.courseId]);
+          },
+          error: (err) => {
+            console.error('Error during lecture creation:', err);
+          }
+        });
+      }
     }
   }
 
@@ -313,9 +377,56 @@ export class AddActivityComponent implements OnInit {
 
     this.testData.questions[index].level = val as any;
 
-    // Якщо до цього тут успішно попрацював ШІ, помічаємо, що людина втрутилася
     if (this.aiSuccessStatus[index]) {
       this.isLevelManuallyOverridden[index] = true;
     }
+  }
+
+  private loadActivityData() {
+    if (!this.activityId) return;
+    this.isLoadingData = true;
+
+    if (this.activityType === 'lecture') {
+      this.activityService.getLecture(this.activityId).subscribe({
+        next: (lecture) => {
+          this.lectureData = lecture;
+          this.isLoadingData = false;
+        },
+        error: (err) => console.error(err)
+      });
+    } else if (this.activityType === 'test') {
+      this.activityService.getExam(this.activityId).subscribe({
+        next: (exam) => {
+          if (exam.questions) {
+            exam.questions.forEach((q: any) => {
+              if (q.level) {
+                q.level = this.mapAnnLevelToEnum(q.level);
+              }
+            });
+          }
+
+          this.testData = exam;
+
+          if (exam.duration) {
+            const timeParts = exam.duration.split(':');
+            this.durationHours = parseInt(timeParts[0], 10) || 0;
+            this.durationMinutes = parseInt(timeParts[1], 10) || 0;
+            this.durationSeconds = parseInt(timeParts[2], 10) || 0;
+          }
+          this.isLoadingData = false;
+        },
+        error: (err) => console.error(err)
+      });
+    }
+  }
+
+  get maxPassScore(): number {
+    if (!this.testData || !this.testData.questions) {
+      return 0;
+    }
+
+    return this.testData.questions.reduce((total, question) => {
+      return total + (question.scoreWeight || 0);
+    }, 0);
   }
 }

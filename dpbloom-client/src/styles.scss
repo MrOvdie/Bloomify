@@ -1,3 +1,5 @@
+@import 'quill/dist/quill.snow.css';
+
 html, body {
   margin: 0;
   padding: 0;
@@ -155,4 +157,99 @@ textarea.pill-input {
 @keyframes slideUp {
   from { opacity: 0; transform: translateY(20px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+.admin-card-actions, .item-actions {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  display: flex;
+  gap: 0.5rem;
+  z-index: 10;
+}
+
+.material-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+
+  .item-actions {
+    position: relative;
+    top: auto;
+    right: auto;
+  }
+}
+
+.admin-action-btn {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: none;
+  font-size: 1.1rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &.btn-edit-item {
+    background-color: #f0e4e5;
+    color: #554d4e;
+
+    &:hover {
+      background-color: #e3d2d4;
+    }
+  }
+
+  &.btn-remove-item {
+    background-color: #e57373;
+    color: white;
+
+    &:hover {
+      background-color: #d32f2f;
+    }
+  }
+}
+
+.square-icon-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+  box-sizing: border-box;
+
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: none;
+  }
+
+  &.edit-btn {
+    background-color: #f0e4e5;
+    color: #554d4e;
+
+    &:hover {
+      background-color: #e3d2d4;
+    }
+  }
 }
