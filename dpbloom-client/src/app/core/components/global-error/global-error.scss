@@ -1,0 +1,48 @@
+.global-error-overlay {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  min-width: 300px;
+  max-width: 450px;
+  animation: slideInRight 0.4s ease-out;
+}
+
+.error-banner {
+  background-color: #fdf3f4;
+  color: #a32a3d;
+  border: 2px solid #f5c6cb;
+  border-radius: 12px;
+  padding: 1.2rem 1.5rem;
+  box-shadow: 0 10px 25px rgba(163, 42, 61, 0.2);
+}
+
+.error-banner-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.8rem;
+  border-bottom: 1px solid rgba(245, 198, 203, 0.5);
+  padding-bottom: 0.5rem;
+}
+
+.error-title { font-weight: 600; font-size: 1.1rem; }
+
+.close-error-btn {
+  background: none; border: none; font-size: 1.8rem;
+  color: #a32a3d; cursor: pointer; line-height: 1;
+  padding: 0 5px; transition: 0.2s;
+}
+
+.close-error-btn:hover { background-color: rgba(163, 42, 61, 0.1); border-radius: 4px; }
+
+.error-list {
+  margin: 0; padding-left: 1.5rem; font-size: 1rem;
+}
+.error-list li { margin-bottom: 0.4rem; }
+.error-list li::marker { color: #e3a6ad; }
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(50px); }
+  to { opacity: 1; transform: translateX(0); }
+}

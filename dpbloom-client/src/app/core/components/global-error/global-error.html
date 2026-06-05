@@ -1,0 +1,15 @@
+@if (errorMessages.length > 0) {
+  <div class="global-error-overlay">
+    <div class="error-banner">
+      <div class="error-banner-header">
+        <span class="error-title">⚠️ Please fix the following errors:</span>
+        <button class="close-error-btn" (click)="close()" title="Close">×</button>
+      </div>
+      <ul class="error-list">
+        @for (msg of errorMessages; track $index) {
+          <li>{{ msg }}</li>
+        }
+      </ul>
+    </div>
+  </div>
+}
