@@ -68,7 +68,7 @@
             }
           </div>
 
-          @if (!canSkip && i === currentActiveQuestionIndex) {
+          @if (!canSkip && i === currentActiveQuestionIndex && i < questions.length - 1) {
             <div class="confirm-action-wrapper" style="margin-top: 20px;">
               <button class="save-btn" (click)="confirmQuestion(i)">Confirm & Next</button>
             </div>

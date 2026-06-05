@@ -61,12 +61,14 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
         })
       ).subscribe({
         next: (details: AttemptDetailsDto) => {
-          this.initializeAttemptData(details);
           this.canSkip = details.canSkip ?? true;
           this.isRandomOrder = details.isRandomOrder ?? false;
-          if (details.isRandomOrder && details.questions) {
-            this.shuffleQuestions(details.questions);
+
+          if (this.isRandomOrder && details.questions && details.id) {
+            this.shuffleQuestions(details.questions, details.id);
           }
+
+          this.initializeAttemptData(details);
 
           this.startTimer(details.startedAt, details.duration);
           this.isLoading = false;
@@ -124,6 +126,24 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
           this.answers[qId] = saved.freeTextAnswer || '';
         }
       });
+    }
+
+    if (!this.canSkip) {
+      const firstUnansweredIndex = this.questions.findIndex(q => {
+        const answer = this.answers[q.id!];
+
+        if (q.type === 'MultipleChoice') {
+          return !answer || answer.length === 0;
+        }
+
+        return !answer || answer === '';
+      });
+
+      if (firstUnansweredIndex !== -1) {
+        this.currentActiveQuestionIndex = firstUnansweredIndex;
+      } else {
+        this.currentActiveQuestionIndex = this.questions.length - 1;
+      }
     }
   }
 
@@ -304,9 +324,26 @@ export class ExamAttemptComponent implements OnInit, OnDestroy {
     }, 500);
   }
 
-  private shuffleQuestions(questions: any[]) {
+  private seededRandom(seedStr: string) {
+    let h = 0xdeadbeef;
+    for(let i = 0; i < seedStr.length; i++)
+      h = Math.imul(h ^ seedStr.charCodeAt(i), 2654435761);
+    h = Math.imul(h ^ (h >>> 16), 2246822507) ^ Math.imul(h ^ (h >>> 13), 3266489909);
+    let seed = (h ^= h >>> 16) >>> 0;
+
+    return function() {
+      seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+      let t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+      t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+      return ((t ^ t >>> 14) >>> 0) / 4294967296;
+    }
+  }
+
+  private shuffleQuestions(questions: any[], attemptId: string) {
+    const rng = this.seededRandom(attemptId);
+
     for (let i = questions.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      const j = Math.floor(rng() * (i + 1));
       [questions[i], questions[j]] = [questions[j], questions[i]];
     }
   }
