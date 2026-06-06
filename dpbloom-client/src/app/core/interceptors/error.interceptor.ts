@@ -9,23 +9,60 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
 
   return next(req).pipe(
     catchError((err: HttpErrorResponse) => {
+      let errorTitle = 'Error';
+      let errorMessage = 'Something went wrong. Please check your connection.';
 
-      if (err.status === 400 && err.error && err.error.errors) {
-        const validationErrors = err.error.errors;
-        for (const key in validationErrors) {
-          if (validationErrors.hasOwnProperty(key)) {
-            const errorMessage = validationErrors[key].join('\n');
-            toastr.error(errorMessage, 'Validation Error');
+      if (err.status === 400) {
+        errorTitle = 'Validation Error';
+
+        if (err.error && err.error.errors) {
+          const messages = [];
+          for (const key in err.error.errors) {
+            if (err.error.errors.hasOwnProperty(key)) {
+              messages.push(...err.error.errors[key]);
+            }
           }
+          errorMessage = messages.join('<br>');
+        }
+        else if (err.error && err.error.message) {
+          errorMessage = err.error.message;
+        }
+        else if (err.error && err.error.error) {
+          errorMessage = err.error.error;
+        }
+        else if (typeof err.error === 'string') {
+          errorMessage = err.error;
         }
       }
-      else if (err.status === 400 && typeof err.error === 'string') {
-        toastr.error(err.error, 'Error');
+      else if (err.status === 401 || err.status === 403) {
+        errorTitle = err.status === 401 ? 'Unauthorized' : 'Forbidden';
+
+        if (err.error && err.error.error) {
+          errorMessage = err.error.error;
+        } else if (err.error && err.error.message) {
+          errorMessage = err.error.message;
+        } else if (typeof err.error === 'string') {
+          errorMessage = err.error;
+        } else {
+          errorMessage = err.status === 401
+            ? 'Please log in to continue.'
+            : 'You do not have permission to perform this action.';
+        }
       }
-      else {
-        toastr.error(`Something went awfully wrong: ${err.statusText}`, 'Error');
+      else if (err.status === 404) {
+        errorTitle = 'Not Found';
+        errorMessage = 'The requested resource was not found.';
       }
-``
+      else if (err.status >= 500) {
+        errorTitle = 'Server Error';
+        errorMessage = 'An internal server error occurred.';
+      }
+      toastr.error(errorMessage, errorTitle, {
+        enableHtml: true,
+        timeOut: 6000,
+        progressBar: true
+      });
+
       return throwError(() => err);
     })
   );
