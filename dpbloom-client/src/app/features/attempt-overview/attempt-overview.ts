@@ -209,4 +209,22 @@ export class AttemptOverviewComponent implements OnInit {
       }
     });
   }
+
+  getOpenAnswerClass(q: any): string {
+    if (q.questionResultStatus === 'PendingManualReview') {
+      return 'pending-answer';
+    }
+
+    if (q.earnedScore != null) {
+      if (q.earnedScore === q.maxScore && q.maxScore > 0) {
+        return 'correct-answer';
+      } else if (q.earnedScore === 0) {
+        return 'incorrect-answer';
+      } else {
+        return 'partial-answer';
+      }
+    }
+
+    return 'default-answer';
+  }
 }

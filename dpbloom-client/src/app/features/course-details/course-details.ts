@@ -128,7 +128,7 @@ export class CourseDetails implements OnInit {
     }
 
     let success = false;
-    if (this.isAuthorMode && this.isTeacherMode) {
+    if ((this.isAuthorMode && this.isTeacherMode) || this.isAdminMode) {
       success = await this.router.navigate(['/teacher-exam-dashboard', examId]);
     } else {
       success = await this.router.navigate(['/exam-dashboard', examId]);

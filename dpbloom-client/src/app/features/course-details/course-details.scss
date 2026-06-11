@@ -440,3 +440,28 @@ $icon-text: #495057;
     }
   }
 }
+
+.open-answer-container {
+  border: 1px solid #ccc;
+  background-color: #fcfcfc;
+}
+
+.correct-answer {
+  border-color: #badbcc;
+  background-color: #d1e7dd;
+}
+
+.incorrect-answer {
+  border-color: #f5c6cb;
+  background-color: #fdf3f4;
+}
+
+.partial-answer {
+  border-color: #ffeeba;
+  background-color: #fff3cd;
+}
+
+.pending-answer {
+  border-color: #b8daff;
+  background-color: #cce5ff;
+}

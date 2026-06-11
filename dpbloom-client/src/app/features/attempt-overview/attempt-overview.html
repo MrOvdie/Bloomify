@@ -42,8 +42,9 @@
         }
 
         @if (q.type === 'OpenAnswer' || q.type === 'openAnswer') {
-          <div class="open-answer-container pink-input"
-               style="padding: 1rem; min-height: 80px; margin-bottom: 1rem; border: 1px solid #f5c6cb; border-radius: 8px;">
+          <div class="open-answer-container"
+               [ngClass]="getOpenAnswerClass(q)"
+               style="padding: 1rem; min-height: 80px; margin-bottom: 1rem; border-radius: 8px;">
             {{ q.userAnswer || 'No answer provided.' }}
           </div>
         }
